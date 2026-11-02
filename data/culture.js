@@ -1,16 +1,20 @@
-/* Brillion · muziek
-   Elk antwoord: NL|EN|alternatieve namen. Volgorde = van vaak gegeven naar zeldzaam. */
+/* ─────────────────────────────────────────────────────────────
+   Brillion · cultuur (klassiekers uit muziek, film, strips en schaken)
+   Elk antwoord: NL|EN|andere namen. Volgorde = van vaak genoemd naar
+   zeldzaam: de eerste 20% is Gewoon, de laatste 20% 1 in a Brillion.
+   lvl = moeilijkheid (1 makkelijk · 2 gemiddeld · 3 moeilijk).
+   ───────────────────────────────────────────────────────────── */
 'use strict';
 (function (global) {
   const B = global.Brillion;
-  B.addQuestions('music', [
-    { id: 'eurovision', nl: 'Noem een land dat het Eurovisiesongfestival won (t.e.m. 2025)', en: 'Name a country that has won the Eurovision Song Contest (up to 2025)', a: `
+  B.addQuestions('culture', [
+    { id: 'eurovision', lvl: 2, nl: 'Noem een land dat het Eurovisiesongfestival won (t.e.m. 2025)', en: 'Name a country that has won the Eurovision Song Contest (up to 2025)', a: `
       Zweden|Sweden; Ierland|Ireland; Nederland|Netherlands|Holland; Oekraïne|Ukraine; Italië|Italy;
       Verenigd Koninkrijk|United Kingdom|VK|UK|Engeland|England; Frankrijk|France; Noorwegen|Norway; Denemarken|Denmark;
       Israël|Israel; Zwitserland|Switzerland; Oostenrijk|Austria; Duitsland|Germany; België|Belgium; Finland; Portugal;
       Griekenland|Greece; Luxemburg|Luxembourg; Spanje|Spain; Rusland|Russia; Servië|Serbia; Azerbeidzjan|Azerbaijan;
       Estland|Estonia; Letland|Latvia; Turkije|Turkey; Monaco; Joegoslavië|Yugoslavia` },
-    { id: 'orchestra', nl: 'Noem een instrument uit een symfonieorkest', en: 'Name an instrument found in a symphony orchestra', a: `
+    { id: 'orchestra', lvl: 1, nl: 'Noem een instrument uit een symfonieorkest', en: 'Name an instrument found in a symphony orchestra', a: `
       Viool|Violin; Cello|Cello|Violoncel; Contrabas|Double bass|Contrabass; Dwarsfluit|Flute|Fluit; Trompet|Trumpet; Klarinet|Clarinet;
       Hobo|Oboe; Trombone|Trombone|Schuiftrompet; Hoorn|French horn|Horn|Waldhoorn; Pauken|Timpani|Pauk|Keteltrom; Harp;
       Altviool|Viola; Fagot|Bassoon; Tuba; Piano|Piano|Vleugel; Grote trom|Bass drum; Kleine trom|Snare drum|Trom; Bekkens|Cymbals|Cimbalen;
@@ -19,7 +23,7 @@
       Engelse hoorn|Cor anglais|English horn|Althobo; Basklarinet|Bass clarinet; Contrafagot|Contrabassoon; Bastrombone|Bass trombone;
       Saxofoon|Saxophone|Sax; Klavecimbel|Harpsichord; Es-klarinet|E-flat clarinet; Wagnertuba|Wagner tuba;
       Houtblok|Wood block|Woodblock; Zweep|Whip|Slapstick; Ratel|Ratchet; Windmachine|Wind machine; Crotales` },
-    { id: 'strings', nl: 'Noem een snaarinstrument', en: 'Name a string instrument', a: `
+    { id: 'strings', lvl: 1, nl: 'Noem een snaarinstrument', en: 'Name a string instrument', a: `
       Gitaar|Guitar; Viool|Violin; Cello; Harp; Basgitaar|Bass guitar|Bas; Contrabas|Double bass; Ukelele|Ukulele; Banjo;
       Mandoline|Mandolin; Elektrische gitaar|Electric guitar; Altviool|Viola; Piano; Luit|Lute; Sitar; Citer|Zither; Balalaika;
       Lier|Lyre; Klavecimbel|Harpsichord; Bouzouki; Akoestische gitaar|Acoustic guitar; Klassieke gitaar|Classical guitar|Spaanse gitaar;
@@ -29,7 +33,7 @@
       Theorbe|Theorbo; Cister|Cittern; Psalterium|Psaltery; Berimbau; Tres; Cuatro; Guitarrón|Guitarron;
       Viola da gamba|Viola da gamba|Gamba; Clavichord; Baglama|Baglama|Saz; Domra; Gusli; Tanpura; Esraj; Sarangi; Dombra;
       Komuz; Gayageum; Valiha; Ngoni; Bandura; Ektara; Dotara; Bajo sexto` },
-    { id: 'wind', nl: 'Noem een blaasinstrument', en: 'Name a wind instrument', a: `
+    { id: 'wind', lvl: 1, nl: 'Noem een blaasinstrument', en: 'Name a wind instrument', a: `
       Fluit|Flute|Dwarsfluit; Trompet|Trumpet; Saxofoon|Saxophone|Sax; Klarinet|Clarinet; Blokfluit|Recorder;
       Trombone|Trombone|Schuiftrompet; Tuba; Hobo|Oboe; Hoorn|French horn|Horn|Waldhoorn; Doedelzak|Bagpipes|Bagpipe;
       Mondharmonica|Harmonica; Fagot|Bassoon; Panfluit|Pan flute|Panpipes; Piccolo; Didgeridoo; Melodica;
@@ -40,15 +44,7 @@
       Bariton|Baritone horn; Natuurhoorn|Natural horn; Jachthoorn|Hunting horn|Posthoorn|Post horn; Schalmei|Shawm; Kromhoorn|Crumhorn;
       Serpent; Ofikleïde|Ophicleide; Zink|Cornett; Uilleann pipes; Bombarde; Ney|Ney|Nay; Quena; Siku; Xun; Hichiriki; Sho; Suona;
       Sheng; Hulusi; Khene|Khene|Khaen; Launeddas; Aulos; Fife; Schelphoorn|Conch|Conch shell` },
-    { id: 'taylor-swift', nl: 'Noem een studioalbum van Taylor Swift', en: 'Name a Taylor Swift studio album', a: `
-      1989; Midnights; Folklore; Red; Lover; Reputation; Fearless;
-      The Tortured Poets Department|The Tortured Poets Department|Tortured Poets Department|TTPD; Evermore;
-      The Life of a Showgirl|The Life of a Showgirl|Life of a Showgirl; Speak Now; Taylor Swift|Taylor Swift|Debut` },
-    { id: 'beatles', nl: 'Noem een studioalbum van The Beatles', en: 'Name a studio album by The Beatles', a: `
-      Abbey Road; Sgt. Pepper's Lonely Hearts Club Band|Sgt. Pepper's Lonely Hearts Club Band|Sgt Pepper|Sgt. Pepper; Let It Be;
-      Revolver; Het Witte Album|The White Album|White Album|The Beatles; Help!|Help!|Help; Rubber Soul; A Hard Day's Night;
-      Yellow Submarine; Magical Mystery Tour; Please Please Me; With the Beatles; Beatles for Sale` },
-    { id: 'genres', nl: 'Noem een muziekgenre', en: 'Name a music genre', a: `
+    { id: 'genres', lvl: 1, nl: 'Noem een muziekgenre', en: 'Name a music genre', a: `
       Pop; Rock; Hiphop|Hip hop|Hip-hop; Rap; Jazz; Klassiek|Classical|Klassieke muziek|Classical music; Techno; House;
       R&B|R&B|Rhythm and blues|RnB; Metal|Metal|Heavy metal; Reggae; Blues; Country; Dance; EDM|EDM|Electronic dance music;
       Elektronische muziek|Electronic music|Electronic|Elektro|Electro; Punk|Punk|Punkrock; Soul; Funk; Disco; Reggaeton;
@@ -78,7 +74,7 @@
       Zydeco; Cajun; Tejano|Tejano|Tex-Mex; Norteño|Norteno; Latin pop; Latin trap; Dembow; MPB; Forró|Forro; Axé|Axe; Sertanejo;
       Pagode; Choro; Tropicália|Tropicalia; Son cubano|Son cubano|Son; Rumba; Mambo; Cha-cha-cha; Bolero; Habanera; Morna; Semba;
       Kwaito; Taarab; Benga; Soukous; Ndombolo; Congolese rumba|Congolese rumba|Rumba congolaise; Afropop` },
-    { id: 'composers', nl: 'Noem een componist van klassieke muziek', en: 'Name a classical music composer', a: `
+    { id: 'composers', lvl: 2, nl: 'Noem een componist van klassieke muziek', en: 'Name a classical music composer', a: `
       Wolfgang Amadeus Mozart|Wolfgang Amadeus Mozart|Mozart; Ludwig van Beethoven|Ludwig van Beethoven|Beethoven;
       Johann Sebastian Bach|Johann Sebastian Bach|Bach; Antonio Vivaldi|Antonio Vivaldi|Vivaldi;
       Pjotr Iljitsj Tsjaikovski|Pyotr Ilyich Tchaikovsky|Tsjaikovski|Tchaikovsky; Frédéric Chopin|Frederic Chopin|Chopin;
@@ -124,7 +120,7 @@
       Ruggero Leoncavallo|Ruggero Leoncavallo|Leoncavallo; Engelbert Humperdinck|Engelbert Humperdinck|Humperdinck; Max Bruch|Max Bruch|Bruch;
       Johann Strauss I|Johann Strauss I|Johann Strauss senior; Franz von Suppé|Franz von Suppe|Suppé; Carl Nielsen|Carl Nielsen|Nielsen;
       Jan Pieterszoon Sweelinck|Jan Pieterszoon Sweelinck|Sweelinck; Louis Andriessen|Louis Andriessen|Andriessen` },
-    { id: 'dance', nl: 'Noem een dansstijl', en: 'Name a dance style', a: `
+    { id: 'dance', lvl: 1, nl: 'Noem een dansstijl', en: 'Name a dance style', a: `
       Salsa; Tango; Ballet; Breakdance|Breakdance|Breaking|Breakdancen; Hiphopdans|Hip-hop dance|Hiphop|Hip hop; Wals|Waltz; Flamenco;
       Samba; Cha-cha-cha|Cha-cha-cha|Cha-cha; Rumba; Tapdans|Tap dance|Tap|Tapdansen; Jazzdans|Jazz dance; Moderne dans|Modern dance;
       Hedendaagse dans|Contemporary dance|Contemporary; Bachata; Merengue; Kizomba; Zumba; Twerk|Twerking|Twerken;
@@ -141,23 +137,81 @@
       Kuchipudi; Kathakali; Butoh; Leeuwendans|Lion dance; Drakendans|Dragon dance; Sabar; Gumbootdans|Gumboot dance; Pantsula;
       Azonto; Ndombolo; Coupé-décalé|Coupe-decale; Ori Tahiti|Ori Tahiti|Tahitiaanse dans; Stijldansen|Ballroom dance|Ballroom;
       Latin|Latin dance|Latijns-Amerikaans dansen` },
-    { id: 'be-festivals', nl: 'Noem een muziekfestival in België', en: 'Name a music festival in Belgium', a: `
-      Tomorrowland; Rock Werchter|Rock Werchter|Werchter; Pukkelpop; Graspop Metal Meeting|Graspop Metal Meeting|Graspop;
-      Dour Festival|Dour Festival|Dour; Lokerse Feesten|Lokerse Feesten|Lokeren; Gentse Feesten; Les Ardentes|Les Ardentes|Ardentes;
-      Couleur Café|Couleur Cafe; Suikerrock; Cactusfestival|Cactus Festival|Cactus; Laundry Day;
-      Extrema Outdoor Belgium|Extrema Outdoor|Extrema; Paradise City; Reggae Geel|Reggae Geel|Reggae Festival Geel;
-      Folk Dranouter|Dranouter Festival|Dranouter; Sfinks|Sfinks Mixed|Sfinks Festival; Crammerock; Rock Herk; Rock Zottegem;
-      Fire is Gold; WECANDANCE|We Can Dance; Brussels Summer Festival|Brussels Summer Festival|BSF; Jazz Middelheim|Jazz Middelheim|Middelheim;
-      Gent Jazz|Gent Jazz|Gent Jazz Festival; Esperanzah!|Esperanzah|Esperanzah; Ronquières Festival|Ronquieres Festival|Ronquières;
-      Boomtown|Boomtown|Boomtown Festival; Leffingeleuren; Polé Polé|Pole Pole; Feest in het Park; Bear Rock; Nandrin Festival|Nandrin Festival|Nandrin;
-      TW Classic; Werchter Boutique; Groezrock; Alcatraz|Alcatraz|Alcatraz Metal Festival; Ieperfest|Ieperfest|Ieper Hardcore Fest;
-      Rampage|Rampage|Rampage Open Air; Summer Festival|Antwerp Summer Festival; Afro-Latino Festival|Afro-Latino Festival|Afro Latino;
-      Mano Mundo; Fiesta Europa; Antilliaanse Feesten; Fête de la Musique|Fete de la Musique; Marktrock; Rock Ternat; Bucolique;
-      Jazz à Liège|Jazz a Liege; Brosella; Inc'Rock|Incrock; Rock Olmen; Dunk! Festival|Dunk Festival|Dunk; Hear Hear; Linkerwoofer` },
-    { id: 'grammy-aoty', nl: 'Noem een artiest die de Grammy voor Album van het Jaar won (uitreikingen 2000-2025)', en: 'Name an artist who won the Grammy for Album of the Year (ceremonies 2000–2025)', a: `
-      Taylor Swift|Taylor Swift|Swift; Adele; Billie Eilish|Billie Eilish|Billie; Beyoncé|Beyonce; Bruno Mars; Harry Styles; Daft Punk;
-      U2; Ray Charles; Norah Jones; OutKast; Santana|Santana|Carlos Santana; Mumford & Sons|Mumford & Sons|Mumford and Sons; Beck;
-      Kacey Musgraves; Jon Batiste; Arcade Fire; The Chicks|The Chicks|Dixie Chicks|Chicks; Robert Plant; Alison Krauss;
-      Herbie Hancock|Herbie Hancock|Hancock; Steely Dan; O Brother, Where Art Thou?|O Brother, Where Art Thou?|O Brother` }
+    { id: 'bond', lvl: 2, nl: 'Noem een officiële James Bond-film', en: 'Name an official James Bond film', a: `
+      Skyfall; Casino Royale; Goldfinger; No Time to Die; Spectre; GoldenEye|GoldenEye|Golden Eye; Dr. No|Dr. No|Doctor No;
+      Quantum of Solace; Die Another Day; Tomorrow Never Dies; The World Is Not Enough; From Russia with Love; Thunderball;
+      Live and Let Die; You Only Live Twice; Moonraker; The Spy Who Loved Me; Octopussy; A View to a Kill;
+      Licence to Kill|Licence to Kill|License to Kill; The Man with the Golden Gun; Diamonds Are Forever; For Your Eyes Only;
+      The Living Daylights; On Her Majesty's Secret Service|On Her Majesty's Secret Service|OHMSS` },
+    { id: 'best-picture', lvl: 3, nl: 'Noem een film die de Oscar voor Beste Film won (uitreikingen 2001-2025)', en: 'Name a film that won the Oscar for Best Picture (ceremonies 2001–2025)', a: `
+      Oppenheimer; Parasite; The Lord of the Rings: The Return of the King|The Lord of the Rings: The Return of the King|Return of the King|Lord of the Rings;
+      Gladiator; Slumdog Millionaire; The Departed;
+      Everything Everywhere All at Once|Everything Everywhere All at Once|Everything Everywhere; A Beautiful Mind; The King's Speech;
+      Green Book; Argo; 12 Years a Slave|12 Years a Slave|Twelve Years a Slave; Birdman; The Shape of Water; Moonlight; Anora; Chicago;
+      Million Dollar Baby; No Country for Old Men; The Artist; Spotlight; CODA; Nomadland; Crash; The Hurt Locker` },
+    { id: 'star-wars', lvl: 2, nl: 'Noem een Star Wars-film die in de bioscoop uitkwam', en: 'Name a Star Wars film released in cinemas', a: `
+      A New Hope|A New Hope|Star Wars|Episode IV|Star Wars Episode IV; The Empire Strikes Back|The Empire Strikes Back|Empire Strikes Back|Episode V;
+      Return of the Jedi|Return of the Jedi|Episode VI; The Phantom Menace|The Phantom Menace|Phantom Menace|Episode I;
+      Attack of the Clones|Attack of the Clones|Episode II; Revenge of the Sith|Revenge of the Sith|Episode III;
+      The Force Awakens|The Force Awakens|Force Awakens|Episode VII; The Last Jedi|The Last Jedi|Last Jedi|Episode VIII;
+      The Rise of Skywalker|The Rise of Skywalker|Rise of Skywalker|Episode IX; Rogue One|Rogue One|Rogue One: A Star Wars Story;
+      Solo|Solo|Solo: A Star Wars Story; The Mandalorian & Grogu|The Mandalorian & Grogu|The Mandalorian and Grogu;
+      The Clone Wars|The Clone Wars|Clone Wars|Star Wars: The Clone Wars` },
+    { id: 'disney', lvl: 1, nl: 'Noem een tekenfilm van Walt Disney Animation Studios (dus geen Pixar)', en: 'Name a Walt Disney Animation Studios film (so not Pixar)', a: `
+      De Leeuwenkoning|The Lion King|Lion King; Frozen; Aladdin; Sneeuwwitje en de zeven dwergen|Snow White and the Seven Dwarfs|Sneeuwwitje|Snow White;
+      De Kleine Zeemeermin|The Little Mermaid|Little Mermaid; Belle en het Beest|Beauty and the Beast; Assepoester|Cinderella;
+      Rapunzel|Tangled; Vaiana|Moana; Mulan; Zootropolis|Zootopia; Frozen II|Frozen II|Frozen 2; Bambi; Dumbo; Pinokkio|Pinocchio;
+      Doornroosje|Sleeping Beauty; Peter Pan; Jungle Boek|The Jungle Book|Het Jungle Boek|Jungle Book; Pocahontas;
+      Lilo & Stitch|Lilo & Stitch|Lilo en Stitch; Tarzan; Hercules; Encanto; Big Hero 6; Wreck-It Ralph;
+      101 Dalmatiërs|One Hundred and One Dalmatians|101 Dalmatians; Alice in Wonderland; De Aristokatten|The Aristocats|Aristokatten|Aristocats;
+      Robin Hood; Lady en de Vagebond|Lady and the Tramp; Fantasia; De Prinses en de Kikker|The Princess and the Frog|Prinses en de kikker;
+      De Klokkenluider van de Notre Dame|The Hunchback of Notre Dame|De klokkenluider|Hunchback; Keizer Kuzco|The Emperor's New Groove|Kuzco;
+      Vaiana 2|Moana 2; Zootropolis 2|Zootopia 2; Raya en de Laatste Draak|Raya and the Last Dragon|Raya; Wish;
+      Ralph Breaks the Internet|Ralph Breaks the Internet|Wreck-It Ralph 2; Bolt; Atlantis: De Verzonken Stad|Atlantis: The Lost Empire|Atlantis;
+      Brother Bear|Brother Bear|Broeder Beer; Merlijn de Tovenaar|The Sword in the Stone|Merlijn; Frank en Frey|The Fox and the Hound;
+      De Reddertjes|The Rescuers|Reddertjes; De Reddertjes in Kangoeroeland|The Rescuers Down Under; Chicken Little;
+      Meet the Robinsons|Meet the Robinsons|De Robinsons; Piratenplaneet|Treasure Planet; Strange World;
+      Basil de Speurneus|The Great Mouse Detective|Basil; Oliver & Co.|Oliver & Company|Oliver en Co; Taran en de Toverketel|The Black Cauldron;
+      Winnie de Poeh|Winnie the Pooh; De Avonturen van Winnie de Poeh|The Many Adventures of Winnie the Pooh; Dinosaur|Dinosaur|Dinosaurus;
+      Paniek op de Prairie|Home on the Range; Fantasia 2000; Saludos Amigos; De Drie Caballeros|The Three Caballeros;
+      Make Mine Music; Fun and Fancy Free; Melody Time; De Avonturen van Ichabod en Meneer Pad|The Adventures of Ichabod and Mr. Toad|Ichabod` },
+    { id: 'tintin-albums', lvl: 3, nl: 'Noem een album van Kuifje', en: 'Name a Tintin album', a: `
+      Kuifje in Afrika|Tintin in the Congo|Kuifje in Congo; Kuifje in Tibet|Tintin in Tibet; Raket naar de maan|Destination Moon;
+      Mannen op de maan|Explorers on the Moon; De Zwarte Rotsen|The Black Island|Zwarte rotsen;
+      Het geheim van de Eenhoorn|The Secret of the Unicorn|Geheim van de Eenhoorn; De schat van Scharlaken Rackham|Red Rackham's Treasure;
+      Kuifje in Amerika|Tintin in America; De sigaren van de farao|Cigars of the Pharaoh; De Blauwe Lotus|The Blue Lotus|Blauwe lotus;
+      De krab met de gulden scharen|The Crab with the Golden Claws; Kuifje in het land van de Sovjets|Tintin in the Land of the Soviets|Land van de Sovjets;
+      De 7 kristallen bollen|The Seven Crystal Balls|De zeven kristallen bollen; De Zonnetempel|Prisoners of the Sun;
+      Het zwarte goud|Land of Black Gold; De geheimzinnige ster|The Shooting Star; De scepter van Ottokar|King Ottokar's Sceptre;
+      Het gebroken oor|The Broken Ear; De zaak Zonnebloem|The Calculus Affair; Cokes in voorraad|The Red Sea Sharks;
+      De juwelen van Bianca Castafiore|The Castafiore Emerald; Vlucht 714 naar Sydney|Flight 714 to Sydney|Vlucht 714;
+      Kuifje en de Picaro's|Tintin and the Picaros|Picaros; Kuifje en de Alfa-kunst|Tintin and Alph-Art|Alfa-kunst|Alph-Art` },
+    { id: 'chess-champions', lvl: 3, nl: 'Noem een wereldkampioen schaken (open toernooi, t.e.m. 2025)', en: 'Name a world chess champion (open title, up to 2025)', a: `
+      Magnus Carlsen|Magnus Carlsen|Carlsen; Garri Kasparov|Garry Kasparov|Kasparov; Bobby Fischer|Bobby Fischer|Fischer;
+      Anatoli Karpov|Anatoly Karpov|Karpov; Viswanathan Anand|Viswanathan Anand|Anand|Vishy Anand; Gukesh Dommaraju|Gukesh D|Gukesh|D. Gukesh;
+      Ding Liren|Ding Liren|Ding; Vladimir Kramnik|Vladimir Kramnik|Kramnik; Michail Tal|Mikhail Tal|Tal; Boris Spasski|Boris Spassky|Spasski|Spassky;
+      Max Euwe|Max Euwe|Euwe; José Raúl Capablanca|Jose Raul Capablanca|Capablanca; Emanuel Lasker|Emanuel Lasker|Lasker;
+      Aleksandr Aljechin|Alexander Alekhine|Aljechin|Alekhine; Michail Botvinnik|Mikhail Botvinnik|Botvinnik;
+      Tigran Petrosjan|Tigran Petrosian|Petrosjan|Petrosian; Vasili Smyslov|Vasily Smyslov|Smyslov; Wilhelm Steinitz|Wilhelm Steinitz|Steinitz;
+      Veselin Topalov|Veselin Topalov|Topalov; Roeslan Ponomarjov|Ruslan Ponomariov|Ponomarjov|Ponomariov;
+      Aleksandr Chalifman|Alexander Khalifman|Khalifman|Chalifman; Roestam Kasimdzjanov|Rustam Kasimdzhanov|Kasimdzhanov|Kasimdzjanov` },
+    { id: 'car-brands', lvl: 1, nl: 'Noem een automerk', en: 'Name a car brand', a: `
+      Volkswagen|Volkswagen|VW; BMW; Mercedes-Benz|Mercedes-Benz|Mercedes; Audi; Toyota; Ford; Tesla; Ferrari; Porsche; Peugeot; Renault;
+      Opel; Lamborghini; Fiat; Volvo; Citroën|Citroen; Honda; Nissan; Kia; Hyundai; Škoda|Skoda; Seat; Mazda; Jaguar; Land Rover;
+      Range Rover; Mini; Bugatti; Maserati; Alfa Romeo; Aston Martin; Bentley; Rolls-Royce|Rolls-Royce|Rolls Royce; McLaren; Dacia;
+      Suzuki; Mitsubishi; Subaru; Lexus; Jeep; Chevrolet|Chevrolet|Chevy; Cadillac; Dodge; Smart; Lotus; Chrysler; Lancia; Cupra;
+      Polestar; BYD; MG; DS|DS|DS Automobiles; Alpine; Lynk & Co|Lynk & Co|Lynk and Co; Genesis; Infiniti; Acura; Lincoln; Buick; GMC;
+      Ram; Hummer; Pontiac; Saab; Rover; Daewoo; Lada; Trabant; Wartburg; Daihatsu; Isuzu; SsangYong|SsangYong|Ssangyong|KGM; Tata;
+      Mahindra; Maruti Suzuki|Maruti Suzuki|Maruti; Proton; Perodua; Geely; Chery; Great Wall|Great Wall|Great Wall Motors|GWM; Haval;
+      Nio; Xpeng; Li Auto; Zeekr; Leapmotor; Ora; Hongqi; Wuling; Aiways; Seres; Omoda; Jaecoo; Xiaomi; Lucid; Rivian; Fisker;
+      Koenigsegg; Pagani; Rimac; Spyker; Donkervoort; DAF; Minerva; Imperia; FN; Gillet; Excelsior; Hispano-Suiza|Hispano Suiza;
+      Delahaye; Panhard; Simca; Talbot; Matra; Facel Vega; Venturi; Ligier; Aixam; Microcar; Morgan; Caterham; TVR; Ariel; Noble;
+      Ginetta; Vauxhall; Austin; Morris; Triumph; Sunbeam; Hillman; Riley; Wolseley; Jensen; Bristol; DeLorean|DeLorean|De Lorean;
+      Studebaker; Packard; Oldsmobile; Plymouth; Mercury; Saturn; AMC; Nash; Hudson; Tucker; Cord; Duesenberg; Auburn; Pierce-Arrow;
+      Shelby; SSC; Hennessey; Saleen; Karma; Faraday Future; Lordstown; Canoo; Borgward; NSU; DKW; Horch; Wanderer; Maybach; Artega;
+      Wiesmann; Apollo|Apollo|Gumpert; Melkus; Iso; Bizzarrini; De Tomaso; Autobianchi; Innocenti; Abarth; Dallara; Zenvo; Tatra;
+      Praga; Aro; Zastava; Yugo; Moskvitsj|Moskvich; GAZ|GAZ|Volga; UAZ; ZIL; Hindustan|Hindustan Motors|Hindustan Ambassador; Datsun;
+      Scion; Mitsuoka; Holden; JAC; Dongfeng; FAW; SAIC; Roewe; Maxus; Changan; Baojun; Ineos|Ineos|Ineos Grenadier; VinFast; Togg;
+      Iran Khodro; Saipa; Bufori; Pininfarina|Automobili Pininfarina; Alpina; Brabus; Ruf; Mansory; Polski Fiat; FSO; Avtovaz|AvtoVAZ` }
   ]);
 })(typeof window !== 'undefined' ? window : globalThis);

@@ -1,8 +1,8 @@
 /* ─────────────────────────────────────────────────────────────
    Brillion · de motor
    Alles wat geen scherm is: categorieën, vragen inlezen,
-   antwoorden nakijken, punten, niveaus, bergen en de planning
-   van de dagelijkse beklimming.
+   antwoorden nakijken, klassen, moeilijkheid, bergen en de
+   planning van de dagelijkse beklimming.
    ───────────────────────────────────────────────────────────── */
 'use strict';
 (function (global) {
@@ -10,42 +10,56 @@
 
   /* ── Instellingen van het spel ───────────────────────────── */
   B.CONFIG = {
-    version: '1.1.0',
+    version: '2.0.0',
     perRound: 8,            // vragen per ronde
     seconds: 20,            // seconden per vraag
     launch: '2026-11-02',   // dag van Beklimming #1
-    everestAt: 720,         // zoveel punten = top van de Everest
-    everestHeight: 8849
+    everestHeight: 8849     // de top van de Mount Everest (m)
   };
 
   /* ── Categorieën ─────────────────────────────────────────── */
   B.CATEGORIES = [
-    { id: 'geo',      icon: '🌍', nl: 'Aardrijkskunde',    en: 'Geography' },
-    { id: 'sport',    icon: '⚽', nl: 'Sport',             en: 'Sports' },
-    { id: 'film',     icon: '🎬', nl: 'Film & tv',         en: 'Film & TV' },
-    { id: 'music',    icon: '🎵', nl: 'Muziek',            en: 'Music' },
-    { id: 'games',    icon: '🎮', nl: 'Games & strips',    en: 'Games & comics' },
-    { id: 'science',  icon: '🔬', nl: 'Wetenschap',        en: 'Science' },
-    { id: 'food',     icon: '🍝', nl: 'Eten & drinken',    en: 'Food & drink' },
-    { id: 'nature',   icon: '🌲', nl: 'Natuur',            en: 'Nature' },
-    { id: 'belgium',  icon: '🇧🇪', nl: 'België',            en: 'Belgium' },
-    { id: 'business', icon: '💼', nl: 'Business & merken', en: 'Business & brands' },
-    { id: 'history',  icon: '🏛️', nl: 'Geschiedenis',      en: 'History' },
-    { id: 'language', icon: '🔤', nl: 'Taal',              en: 'Language' }
+    { id: 'geo',      icon: '🌍', nl: 'Landen & hoofdsteden',    en: 'Countries & capitals' },
+    { id: 'earth',    icon: '🗺️', nl: 'Aardrijkskunde',          en: 'Geography' },
+    { id: 'history',  icon: '🏛️', nl: 'Geschiedenis & politiek', en: 'History & politics' },
+    { id: 'science',  icon: '🔬', nl: 'Wetenschap & lichaam',    en: 'Science & the body' },
+    { id: 'nature',   icon: '🌲', nl: 'Natuur & eten',           en: 'Nature & food' },
+    { id: 'language', icon: '🔤', nl: 'Taal',                    en: 'Language' },
+    { id: 'sport',    icon: '⚽', nl: 'Sport',                   en: 'Sports' },
+    { id: 'culture',  icon: '🎭', nl: 'Cultuur',                 en: 'Culture' }
   ];
   B.catById = {};
   B.CATEGORIES.forEach(c => (B.catById[c.id] = c));
 
-  /* ── Zeldzaamheidsniveaus (zoals loot in games) ──────────── */
+  /* ── Moeilijkheid van een vraag ──────────────────────────── */
+  B.LEVELS = [
+    { id: 1, icon: '🟢', nl: 'Makkelijk', en: 'Easy' },
+    { id: 2, icon: '🟡', nl: 'Gemiddeld', en: 'Medium' },
+    { id: 3, icon: '🔴', nl: 'Moeilijk',  en: 'Hard' }
+  ];
+  /* De dagelijkse beklimming wordt moeilijker naarmate je hoger klimt */
+  B.DAILY_MIX = [1, 1, 1, 2, 2, 2, 3, 3];
+
+  /* ── De 5 klassen ────────────────────────────────────────────
+     De antwoorden van elke vraag staan van vaak genoemd naar
+     zeldzaam. Ze worden in 5 even grote delen verdeeld (elk 20%).
+     Elke klasse laat je een vast aantal meter klimmen. */
   B.TIERS = [
-    { id: 'common',    nl: 'Gewoon',       en: 'Common',    emoji: '⬜', max: 20 },
-    { id: 'uncommon',  nl: 'Ongewoon',     en: 'Uncommon',  emoji: '🟩', max: 40 },
-    { id: 'rare',      nl: 'Zeldzaam',     en: 'Rare',      emoji: '🟦', max: 60 },
-    { id: 'epic',      nl: 'Episch',       en: 'Epic',      emoji: '🟪', max: 80 },
-    { id: 'legendary', nl: 'Legendarisch', en: 'Legendary', emoji: '🟧', max: 100 }
+    { id: 'common',   nl: 'Gewoon',          en: 'Common',          emoji: '⬜', meters: 250 },
+    { id: 'uncommon', nl: 'Ongewoon',        en: 'Uncommon',        emoji: '🟩', meters: 500 },
+    { id: 'rare',     nl: 'Zeldzaam',        en: 'Rare',            emoji: '🟦', meters: 750 },
+    { id: 'epic',     nl: 'Episch',          en: 'Epic',            emoji: '🟪', meters: 1000 },
+    { id: 'brillion', nl: '1 in a Brillion', en: '1 in a Brillion', emoji: '💎', meters: 1250 }
   ];
   B.WRONG_EMOJI = '⬛';
-  B.tierOf = score => B.TIERS.findIndex(t => score <= t.max);
+  /* Klasse van het antwoord op plaats "rank" in een lijst van n antwoorden */
+  B.tierForRank = (rank, n) => Math.max(0, Math.min(4, Math.floor((rank * 5) / Math.max(1, n))));
+  /* Klasse uit bewaarde meters (oude rondes met punten 1-100 worden ook nog begrepen) */
+  B.tierOf = value => {
+    const byMeters = B.TIERS.findIndex(t => t.meters === value);
+    if (byMeters >= 0) return byMeters;
+    return Math.max(0, Math.min(4, Math.ceil(value / 20) - 1));
+  };
 
   /* ── Bergen: je eindscore wordt een top ──────────────────── */
   B.MOUNTAINS = [
@@ -69,8 +83,8 @@
   ];
   /* Naam zonder lidwoord ("de Mont Blanc" → "Mont Blanc") voor korte labels */
   B.peakName = (m, lang) => (lang === 'nl' ? m.nl.replace(/^(de|het) /, '') : m.en.replace(/^the /, ''));
-  B.altitudeFor = points =>
-    Math.min(B.CONFIG.everestHeight, Math.round((points / B.CONFIG.everestAt) * B.CONFIG.everestHeight));
+  /* Hoogte = alle geklommen meters samen (de Everest is het maximum) */
+  B.altitudeFor = meters => Math.min(B.CONFIG.everestHeight, Math.round(meters));
   B.mountainIndexFor = alt => {
     let idx = 0;
     B.MOUNTAINS.forEach((m, i) => { if (alt >= m.h) idx = i; });
@@ -164,7 +178,7 @@
     'verenigd verenigde united grote groot kleine klein great little island islands eiland eilanden city stad mount mont monte ' +
     'lake meer river rivier zee sea golf gulf nationaal national federale federal democratische democratic peoples volksrepubliek ' +
     'staat state states union unie centraal central kaap cape port puerto porto fort santa santo sao del della van von der den des ' +
-    'het the and with from voor met over part deel episode film movie spel game club').split(' '));
+    'het the and with from voor met over part deel episode film movie spel game club vitamine vitamin').split(' '));
   const wordsOf = text => String(text).split(/[\s\-–—\/,:;()'’.&+!?*]+/).map(w => B.normalize(w)).filter(w => w.length >= 4 && !STOP.has(w) && !/^\d+$/.test(w));
 
   /* ── Vragen inlezen ──────────────────────────────────────── */
@@ -182,12 +196,9 @@
       .map(s => s.split('|').map(x => x.trim()));
   };
 
-  /* Punten volgens de plaats in de lijst: eerste (meest gegeven) = 1, laatste = 100 */
-  B.scoreForRank = (rank, total) =>
-    total <= 1 ? 50 : Math.round(1 + 99 * Math.pow(rank / (total - 1), 0.7));
-
-  /* Vragen toevoegen. Elke vraag: { id, nl, en, a } waarbij a een tekst of
-     een lijst van [NL, EN, aliassen...] is, gesorteerd van gewoon naar zeldzaam. */
+  /* Vragen toevoegen. Elke vraag: { id, lvl, nl, en, a } waarbij lvl de moeilijkheid
+     is (1 = makkelijk, 2 = gemiddeld, 3 = moeilijk) en a een tekst of een lijst van
+     [NL, EN, aliassen...], gesorteerd van vaak genoemd naar zeldzaam. */
   B.addQuestions = function (cat, list) {
     list.forEach(def => {
       const raw = typeof def.a === 'string' ? B.parseAnswers(def.a) : def.a;
@@ -213,10 +224,11 @@
         answers.push(entry);
       });
       answers.forEach(e => {
-        e.score = B.scoreForRank(e.rank, answers.length);
-        e.tier = B.tierOf(e.score);
+        e.tier = B.tierForRank(e.rank, answers.length);
+        e.score = B.TIERS[e.tier].meters;   // "score" = zoveel meter klim je met dit antwoord
       });
-      const q = { id: cat + '-' + def.id, cat, nl: def.nl, en: def.en, answers, keyMap, tokenMap };
+      const lvl = [1, 2, 3].includes(def.lvl) ? def.lvl : 2;
+      const q = { id: cat + '-' + def.id, cat, lvl, lvlGiven: lvl === def.lvl, nl: def.nl, en: def.en, answers, keyMap, tokenMap };
       if (B.byId[q.id]) console.warn('Dubbele vraag-id:', q.id);
       B.questions.push(q);
       B.byId[q.id] = q;
@@ -351,42 +363,54 @@
   };
 
   /* ── Planning van de dagelijkse beklimming ───────────────── *
-     Alle vragen krijgen één vaste volgorde. Elke categorie wordt gelijkmatig
-     over die volgorde verspreid. Dag 1 krijgt plaats 1-8, dag 2 plaats 9-16, …
-     Zo komt een vraag pas terug als alle andere vragen geweest zijn
-     (bij 152 vragen: na 19 dagen). */
+     Per moeilijkheid krijgen alle vragen één vaste volgorde, waarin elke
+     categorie gelijkmatig verspreid zit. Elke dag neemt de volgende
+     vragen uit die volgordes: 3 makkelijke, 3 gemiddelde en 2 moeilijke.
+     Zo komt een vraag pas terug als alle andere vragen van dat niveau
+     geweest zijn (bij ±80 vragen per niveau: na 25 dagen of meer). */
   let orderCache = null;
-  B.dailyOrder = function () {
-    if (orderCache && orderCache.n === B.questions.length) return orderCache.ids;
+  B.levelOrder = function (lvl) {
+    if (!orderCache || orderCache.n !== B.questions.length) orderCache = { n: B.questions.length, byLvl: {} };
+    if (orderCache.byLvl[lvl]) return orderCache.byLvl[lvl];
     const placed = [];
     B.CATEGORIES.forEach((cat, ci) => {
-      const qs = B.questions.filter(q => q.cat === cat.id).sort((a, b) => (a.id < b.id ? -1 : 1));
-      const rand = B.rng('brillion-order-' + cat.id);
+      const qs = B.questions.filter(q => q.cat === cat.id && q.lvl === lvl).sort((a, b) => (a.id < b.id ? -1 : 1));
+      if (!qs.length) return;
+      const rand = B.rng('brillion-order-' + lvl + '-' + cat.id);
       const mixed = B.shuffle(qs, rand);
       const offset = rand();
       mixed.forEach((q, k) => placed.push({ id: q.id, pos: (k + offset) / mixed.length, ci }));
     });
     placed.sort((a, b) => a.pos - b.pos || a.ci - b.ci);
-    orderCache = { n: B.questions.length, ids: placed.map(p => p.id) };
-    return orderCache.ids;
+    orderCache.byLvl[lvl] = placed.map(p => p.id);
+    return orderCache.byLvl[lvl];
   };
   B.dailyQuestionIds = function (day) {
-    const order = B.dailyOrder();
-    const n = order.length, per = B.CONFIG.perRound;
-    const start = (((day - 1) * per) % n + n) % n;
-    return Array.from({ length: per }, (_, i) => order[(start + i) % n]);
+    const mix = B.DAILY_MIX;
+    const per = {}, used = {};
+    mix.forEach(l => (per[l] = (per[l] || 0) + 1));
+    return mix.map(l => {
+      const order = B.levelOrder(l);
+      const n = order.length;
+      if (!n) return null;
+      const k = used[l] = (used[l] || 0) + 1;
+      return order[((((day - 1) * per[l] + k - 1) % n) + n) % n];
+    }).filter(Boolean);
   };
 
   /* ── Vragen kiezen voor Onbeperkt en Per categorie ───────── *
      Eerst vragen die je nog nooit zag, dan de vragen die je het langst
      geleden zag. Vragen van de dagelijkse beklimming van vandaag en de
-     komende dagen schuiven achteraan, zodat je ze niet dubbel krijgt. */
-  B.pickQuestions = function ({ cat = null, seen = {}, count = B.CONFIG.perRound, today = B.dayNumber() } = {}) {
+     komende dagen schuiven achteraan, zodat je ze niet dubbel krijgt.
+     lvl = 1, 2 of 3 (Onbeperkt); zonder lvl: alle niveaus, van makkelijk
+     naar moeilijk (Per categorie). */
+  B.pickQuestions = function ({ cat = null, lvl = 0, seen = {}, count = B.CONFIG.perRound, today = B.dayNumber() } = {}) {
     const exclude = new Set(B.dailyQuestionIds(today));
     const upcoming = new Set();
     for (let d = today + 1; d <= today + 7; d++) B.dailyQuestionIds(d).forEach(id => upcoming.add(id));
-    let pool = B.questions.filter(q => (!cat || q.cat === cat) && !exclude.has(q.id));
-    if (pool.length < count) pool = B.questions.filter(q => !cat || q.cat === cat);
+    const fits = q => (!cat || q.cat === cat) && (!lvl || q.lvl === lvl);
+    let pool = B.questions.filter(q => fits(q) && !exclude.has(q.id));
+    if (pool.length < count) pool = B.questions.filter(fits);
     const now = Date.now();
     const keyed = pool.map(q => ({ q, k: Math.max(seen[q.id] || 0, upcoming.has(q.id) ? now : 0), r: Math.random() }));
     keyed.sort((a, b) => a.k - b.k || a.r - b.r);
@@ -401,6 +425,8 @@
       if (picked.length >= count) break;
       if (!picked.includes(x.q)) picked.push(x.q);
     }
-    return B.shuffle(picked, Math.random).map(q => q.id);
+    const mixed = B.shuffle(picked, Math.random);
+    if (!lvl) mixed.sort((a, b) => a.lvl - b.lvl);   // per categorie: steeds moeilijker
+    return mixed.map(q => q.id);
   };
 })(typeof window !== 'undefined' ? window : globalThis);

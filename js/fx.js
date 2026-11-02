@@ -926,7 +926,7 @@
       wake();
     },
 
-    /* Klimmen naar een nieuwe hoogte. Meer punten = langere klim; Legendarisch = slow-motion. */
+    /* Klimmen naar een nieuwe hoogte. Hogere klasse = langere klim; 1 in a Brillion = slow-motion. */
     climb(to, { score = 0, tier = 0, onAlt, onPeak, done } = {}) {
       to = clamp(to, 0, EVEREST);
       if (!S.g || reduced()) {

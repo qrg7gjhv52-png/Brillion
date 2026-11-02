@@ -49,6 +49,11 @@
   const tierName = i => (B.TIERS[i] ? B.TIERS[i][B.lang] : '');
   const mountainName = m => (B.lang === 'nl' ? m.nl : m.en);
   const tierClass = r => (r.ok ? 't' + r.tier : 'tw');
+  const levelOf = id => B.LEVELS.find(l => l.id === id);
+  const levelName = id => { const l = levelOf(id); return l ? l[B.lang] : ''; };
+  const levelTag = id => { const l = levelOf(id); return l ? `<span class="lvl-tag l${l.id}"><span aria-hidden="true">${l.icon}</span> ${esc(l[B.lang])}</span>` : ''; };
+  /* 5 balkjes, zoals bij signaalsterkte: hoe hoger de klasse, hoe meer balkjes */
+  const ladderHTML = tier => `<span class="ladder t${tier}" aria-hidden="true">${[0, 1, 2, 3, 4].map(i => `<span${i <= tier ? ' class="on"' : ''}></span>`).join('')}</span>`;
 
   function squaresHTML(results) {
     return `<div class="squares" role="img" aria-label="${esc(results.map(r => (r.ok ? tierName(r.tier) : t('wrongShort'))).join(', '))}">` +
@@ -194,7 +199,6 @@
       alt = played.alt;
       stops = stopsFor(unpackAll(played.res));
       body = `<div class="done-row">
-          <div class="stat"><span class="stat-val">${fmt(played.total)}</span><span class="stat-lbl">${t('total')}</span></div>
           <div class="stat"><span class="stat-val">${fmt(played.alt)}</span><span class="stat-lbl">${t('altitude')} (m)</span></div>
           <div class="stat"><span class="stat-val peak">${esc(B.peakName(m, B.lang))}</span><span class="stat-lbl">${t('peakLbl')}</span></div>
         </div>
@@ -283,7 +287,7 @@
         const m = B.MOUNTAINS[B.mountainIndexFor(res.alt)];
         rows.push(`<button class="row" type="button" data-act="view-day" data-day="${d}">
             <span class="row-main"><span class="row-title">${t('dailyNo', { n: d })}</span><span class="row-sub">${esc(date)} · ${esc(B.peakName(m, B.lang))}</span></span>
-            <span class="row-side">${fmt(res.total)} ${t('pts')}</span></button>`);
+            <span class="row-side">${fmt(res.alt)} m</span></button>`);
       } else {
         rows.push(`<button class="row" type="button" data-act="${prog ? 'resume-day' : 'play-day'}" data-day="${d}">
             <span class="row-main"><span class="row-title">${t('dailyNo', { n: d })}</span><span class="row-sub">${esc(date)}</span></span>
@@ -308,10 +312,14 @@
     if (mode === 'daily') { day = today; ids = B.dailyQuestionIds(day); }
     else if (mode === 'archive') { day = opts.day; ids = B.dailyQuestionIds(day); }
     else if (mode === 'category') { cat = opts.cat; ids = B.pickQuestions({ cat, seen: B.state.seen }); }
-    else ids = B.pickQuestions({ seen: B.state.seen });
+    let lvl = 0;
+    if (mode === 'unlimited') {
+      lvl = [1, 2, 3].includes(opts.lvl) ? opts.lvl : B.state.level;
+      ids = B.pickQuestions({ lvl, seen: B.state.seen });
+    }
     // de berg van die dag (onbeperkt en per categorie: de berg van vandaag)
     const seed = day || today;
-    G = { mode, day, cat, ids, idx: 0, results: [], total: 0, alt: 0, qStart: 0, answered: false, seed, pending: null };
+    G = { mode, day, cat, lvl, ids, idx: 0, results: [], total: 0, alt: 0, qStart: 0, answered: false, seed, pending: null };
     B.Sound.start();
     renderGame();
     showQuestion();
@@ -322,7 +330,7 @@
     B.Sound.unlock();
     const results = prog.results || [];
     const total = results.reduce((s, r) => s + r.score, 0);
-    G = { mode: prog.mode, day: prog.day, cat: '', ids: prog.ids, idx: prog.idx, results, total, alt: B.altitudeFor(total), qStart: prog.qStart, answered: prog.answered, seed: prog.day, pending: null };
+    G = { mode: prog.mode, day: prog.day, cat: '', lvl: 0, ids: prog.ids, idx: prog.idx, results, total, alt: B.altitudeFor(total), qStart: prog.qStart, answered: prog.answered, seed: prog.day, pending: null };
     if (G.answered) { G.idx++; G.qStart = 0; G.answered = false; }
     if (G.idx >= G.ids.length) { finish(); return; }
     renderGame();
@@ -348,7 +356,7 @@
       </div>
       <div class="stage game-stage" id="game-stage"></div>
       <div class="card qcard" id="g-card">
-        <div class="qmeta"><span class="cat-chip" id="g-cat"></span><span class="qnum" id="g-num"></span></div>
+        <div class="qmeta"><span class="cat-chip" id="g-cat"></span><span id="g-lvl"></span><span class="qnum" id="g-num"></span></div>
         <h2 class="qtext" id="g-q"></h2>
         <div id="g-play">
           <div class="timer"><div class="timer-track"><div class="timer-fill" id="g-timer"></div></div><span class="timer-secs" id="g-secs">${B.CONFIG.seconds}</span></div>
@@ -376,6 +384,7 @@
     if (!q) return;
     const c = B.catById[q.cat];
     $('g-cat').innerHTML = `<span aria-hidden="true">${c.icon}</span>${esc(c[B.lang])}`;
+    $('g-lvl').innerHTML = levelTag(q.lvl);
     $('g-num').textContent = t('question', { i: G.idx + 1, n: G.ids.length });
     $('g-q').textContent = qText(q);
     $('g-input').placeholder = t('placeholder');
@@ -520,7 +529,7 @@
       if (r.tier === 4) B.FX.snow(1);
       World.setStops(stopsFor(results).slice(0, -1));
       World.climb(G.alt, {
-        score: r.score, tier: r.tier,
+        score: (r.tier + 1) * 20, tier: r.tier,   // klimtijd volgens de klasse (20 = Gewoon … 100 = 1 in a Brillion)
         onAlt: updateHud, onPeak: peakPassed,
         done: () => World.setStops(stopsFor(results))
       });
@@ -552,18 +561,15 @@
       let note = '';
       if (r.typo) note = `${esc(t('corrected', { a: '' }))}<strong>${esc(ansText(e))}</strong> · ${esc(t('youTyped'))} “${esc(r.input)}”`;
       else if (r.translated) note = `${esc(t('translated', { a: '' }))}<strong>${esc(ansText(e))}</strong> · ${esc(t('youTyped'))} “${esc(r.input)}”`;
-      html = `<div class="result-top"><span class="tier-badge t${r.tier}">${esc(tierName(r.tier))}</span><span class="gain">+${fmt(gain)} m</span></div>
-        <div class="result-score">${r.score}<small>${r.score === 1 ? t('ptWord') : t('ptsWord')}</small></div>
+      html = `<div class="result-top"><span class="result-class"><span class="result-tier t${r.tier}">${esc(tierName(r.tier))}</span>${ladderHTML(r.tier)}</span><span class="gain">+${fmt(gain)} m</span></div>
         <div class="result-answer">${esc(ansText(e))}</div>
         ${note ? `<p class="result-note">${note}</p>` : ''}`;
     } else if (!r.input) {
-      html = `<div class="result-top"><span class="tier-badge tw">${t('timeUp')}</span></div>
-        <div class="result-score">0<small>${t('ptsWord')}</small></div>
+      html = `<div class="result-top"><span class="result-tier tw">${t('timeUp')}</span><span class="gain slip">${esc(t('slipped'))}</span></div>
         <p class="result-note">${t('noAnswer')}</p>`;
     } else {
       const late = r.lateRank >= 0 ? q.answers[r.lateRank] : null;
-      html = `<div class="result-top"><span class="tier-badge tw">${late ? t('timeUp') : t('notOnList')}</span><span class="gain slip">${esc(t('slipped'))}</span></div>
-        <div class="result-score">0<small>${t('ptsWord')}</small></div>
+      html = `<div class="result-top"><span class="result-tier tw">${late ? t('timeUp') : t('notOnList')}</span><span class="gain slip">${esc(t('slipped'))}</span></div>
         <div class="result-answer">“${esc(r.input)}”</div>
         <p class="result-note">${late ? esc(t('lateConfirm', { a: ansText(late) })) : t('notOnListSub')}</p>
         <div><button class="link-btn" type="button" data-act="report" id="g-report">${t('report')}</button></div>`;
@@ -595,7 +601,7 @@
 
   function finish() {
     stopTimer();
-    const round = { mode: G.mode, day: G.day, cat: G.cat, results: G.results, total: G.total, alt: G.alt, seed: G.seed };
+    const round = { mode: G.mode, day: G.day, cat: G.cat, lvl: G.lvl || 0, results: G.results, total: G.total, alt: G.alt, seed: G.seed };
     const earned = B.recordRound(round);
     lastRound = round;
     G = null;
@@ -607,7 +613,7 @@
   function roundTitle(round) {
     if (round.mode === 'daily' || round.mode === 'archive') return t('dailyNo', { n: round.day });
     if (round.mode === 'category') return catName(round.cat);
-    return t('unlimited');
+    return round.lvl ? `${t('unlimited')} · ${levelName(round.lvl)}` : t('unlimited');
   }
 
   function answersListHTML(results) {
@@ -617,7 +623,7 @@
       const e = r.ok ? q.answers[r.rank] : null;
       const shown = e ? esc(ansText(e)) : r.input ? `“${esc(r.input)}”` : '—';
       const badge = r.ok ? `<span class="tier-badge t${r.tier}">${esc(tierName(r.tier))}</span>` : `<span class="tier-badge tw">${r.input ? t('wrongShort') : t('timeUp')}</span>`;
-      return `<li><span class="al-q">${esc(qText(q))}</span><span class="al-a">${shown}</span><span class="al-pts">${badge}${r.score}</span></li>`;
+      return `<li><span class="al-q">${esc(qText(q))}</span><span class="al-a">${shown}</span><span class="al-pts">${badge}${r.ok ? `+${fmt(r.score)} m` : ''}</span></li>`;
     }).join('')}</ol>`;
   }
 
@@ -632,10 +638,7 @@
       <div class="card end-card">
         <span class="eyebrow">${t('roundDone')} · ${esc(roundTitle(round))}</span>
         <h1 class="end-peak">${esc(headline)}</h1>
-        <div class="end-nums">
-          <div class="stat"><span class="stat-val" id="end-total">0</span><span class="stat-lbl">${t('total')}</span></div>
-          <div class="stat"><span class="stat-val" id="end-alt">0</span><span class="stat-lbl">${t('altitude')} (m)</span></div>
-        </div>
+        <div class="end-alt"><span class="stat-val" id="end-alt">0</span><span class="end-unit">m</span></div>
         ${next ? `<p class="muted">${t('nextPeak', { name: B.peakName(next, B.lang), h: fmt(next.h) })}</p>` : ''}
         ${squaresHTML(round.results)}
         <div class="btn-row">
@@ -651,12 +654,10 @@
     show('end');
     if (animate) {
       World.show('end', { seed: round.seed || B.dayNumber(), alt: round.alt, stops: stopsFor(round.results) });
-      animateNumber($('end-total'), 0, round.total);
       animateNumber($('end-alt'), 0, round.alt);
       setTimeout(() => B.Sound.summit(), 650);
       if (round.alt >= EVEREST) setTimeout(() => B.FX.snow(1.4), 900);
     } else {
-      $('end-total').textContent = fmt(round.total);
       $('end-alt').textContent = fmt(round.alt);
     }
   }
@@ -665,7 +666,7 @@
   function shareText(round) {
     const m = B.MOUNTAINS[B.mountainIndexFor(round.alt)];
     const squares = round.results.map(r => (r.ok ? B.TIERS[r.tier].emoji : B.WRONG_EMOJI)).join('');
-    return `Brillion · ${roundTitle(round)} 🏔️\n${squares}\n${fmt(round.total)} ${t('pts')} · ${fmt(round.alt)} m · ${B.peakName(m, B.lang)}`;
+    return `Brillion · ${roundTitle(round)} 🏔️\n${squares}\n${fmt(round.alt)} m · ${B.peakName(m, B.lang)}`;
   }
   function share(round) {
     const text = shareText(round);
@@ -686,7 +687,7 @@
   function dayRound(day) {
     const d = B.state.daily[day];
     if (!d) return null;
-    return { mode: 'daily', day: Number(day), results: unpackAll(d.res), total: d.total, alt: d.alt };
+    return { mode: 'daily', day: Number(day), results: unpackAll(d.res), alt: d.alt };
   }
 
   /* ── Statistieken ────────────────────────────────────────── */
@@ -709,7 +710,7 @@
       const when = new Intl.DateTimeFormat(locale(), { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }).format(new Date(h.ts));
       return `<button class="row" type="button" data-act="hist" data-i="${i}">
           <span class="row-main"><span class="row-title">${esc(roundTitle(h))}</span><span class="row-sub">${esc(when)} · ${esc(B.peakName(m, B.lang))}</span></span>
-          <span class="row-side">${fmt(h.total)} ${t('pts')}</span></button>`;
+          <span class="row-side">${fmt(h.alt)} m</span></button>`;
     }).join('');
     $('screen-stats').innerHTML = `
       <button class="back-btn" type="button" data-act="home">${ICON.back}${t('back')}</button>
@@ -720,8 +721,8 @@
           ${tile(fmt(st.dailyCount), t('climbs'))}
           ${tile(fmt(B.currentStreak()), t('currentStreak'))}
           ${tile(fmt(s.streak.best), t('bestStreak'))}
-          ${tile(st.dailyCount ? fmt(avg) : '–', t('average'))}
-          ${tile(fmt(st.bestTotal), t('bestScore'))}
+          ${tile(st.dailyCount ? fmt(avg) + ' m' : '–', t('average'))}
+          ${tile(fmt(st.bestAlt) + ' m', t('bestScore'))}
           ${tile(esc(B.peakName(best, B.lang)), t('highestPeak'))}
         </div>
       </div>
@@ -751,20 +752,31 @@
   function closeDialog() { const dlg = $('dlg'); if (dlg.open) { try { dlg.close(); } catch (e) { dlg.removeAttribute('open'); } } }
 
   function openHelp() {
-    const legend = B.TIERS.map((tier, i) => {
-      const lo = i === 0 ? 1 : B.TIERS[i - 1].max + 1;
-      return `<div><span class="tier-badge t${i}">${esc(tier[B.lang])}</span><span class="num">${lo}–${tier.max} ${t('pts')}</span></div>`;
-    }).join('');
+    const legend = B.TIERS.map((tier, i) => `<div><span class="tier-badge t${i}">${esc(tier[B.lang])}</span>${ladderHTML(i)}<span class="num">+${fmt(tier.meters)} m</span></div>`).join('');
+    const levels = B.LEVELS.map(l => `<span>${l.icon} ${esc(l[B.lang])}</span><span>${esc(t('lvlEx' + l.id))}</span>`).join('');
     const peaks = B.MOUNTAINS.slice(1).map(m => `<span>${esc(B.peakName(m, B.lang))}</span><span>${fmt(m.h)} m</span>`).join('');
     const zones = B.ZONES.map((z, i) => `<span>${z.icon} ${esc(t(z.label))}</span><span>${i ? fmt(B.ZONES[i - 1].to) : 0}+ m</span>`).join('');
     openDialog(t('helpTitle'), `
       <div><h3>${t('help1t')}</h3><p>${t('help1')}</p></div>
-      <div><h3>${t('help2t')}</h3><p>${t('help2')}</p></div>
-      <div><h3>${t('help3t')}</h3><div class="tier-legend">${legend}</div></div>
+      <div><h3>${t('help2t')}</h3><p>${t('help2')}</p><div class="tier-legend" style="margin-top:10px">${legend}</div></div>
       <div><h3>${t('help4t')}</h3><p>${t('help4')}</p><div class="peaks" style="margin-top:10px">${peaks}</div></div>
+      <div><h3>${t('help8t')}</h3><p>${t('help8')}</p><div class="peaks levels" style="margin-top:10px">${levels}</div></div>
       <div><h3>${t('help7t')}</h3><p>${t('help7')}</p><div class="peaks" style="margin-top:10px">${zones}</div></div>
       <div><h3>${t('help5t')}</h3><p>${t('help5')}</p></div>
       <div><h3>${t('help6t')}</h3><p>${t('help6')}</p></div>`, 'help');
+  }
+
+  /* Onbeperkt: kies je moeilijkheid */
+  function openLevelPicker() {
+    const last = B.state.level;
+    const count = id => B.questions.filter(q => q.lvl === id).length;
+    openDialog(t('chooseLevel'), `<p>${t('chooseLevelSub')}</p><div class="level-list">${B.LEVELS.map(l => `
+        <button class="level-btn l${l.id}" type="button" data-act="start-unlimited" data-lvl="${l.id}">
+          <span class="lvl-icon" aria-hidden="true">${l.icon}</span>
+          <span class="lvl-text"><span class="lvl-name">${esc(l[B.lang])}</span><span class="lvl-sub">${esc(t('lvlSub' + l.id))}</span>
+            <span class="lvl-meta">${t('lvlCount', { n: fmt(count(l.id)) })}</span></span>
+          ${l.id === last ? `<span class="pill">${t('lastTime')}</span>` : ''}
+        </button>`).join('')}</div>`, 'level');
   }
 
   let installPrompt = null;
@@ -802,7 +814,7 @@
   }
 
   function openRoundDetail(round) {
-    openDialog(roundTitle(round), `${squaresHTML(round.results)}<p class="num">${fmt(round.total)} ${t('pts')} · ${fmt(round.alt)} m · ${esc(B.peakName(B.MOUNTAINS[B.mountainIndexFor(round.alt)], B.lang))}</p>${answersListHTML(round.results)}`);
+    openDialog(roundTitle(round), `${squaresHTML(round.results)}<p class="num">${fmt(round.alt)} m · ${esc(B.peakName(B.MOUNTAINS[B.mountainIndexFor(round.alt)], B.lang))}</p>${answersListHTML(round.results)}`);
   }
 
   /* ── Algemene acties ─────────────────────────────────────── */
@@ -831,6 +843,7 @@
     const dlg = $('dlg');
     if (dlg.open && $('dlg-inner').dataset.kind === 'settings') openSettings(false);
     else if (dlg.open && $('dlg-inner').dataset.kind === 'help') openHelp();
+    else if (dlg.open && $('dlg-inner').dataset.kind === 'level') openLevelPicker();
   }
 
   const hostTheme = doc.documentElement.getAttribute('data-theme');
@@ -863,7 +876,16 @@
         if (!B.state.daily[day]) startRound('archive', { day });
         break;
       }
-      case 'mode-unlimited': startRound('unlimited'); break;
+      case 'mode-unlimited': openLevelPicker(); break;
+      case 'start-unlimited': {
+        const lvl = Number(el.dataset.lvl);
+        if (![1, 2, 3].includes(lvl)) break;
+        B.state.level = lvl;
+        B.save();
+        closeDialog();
+        startRound('unlimited', { lvl });
+        break;
+      }
       case 'mode-cats': renderCats(); show('cats'); break;
       case 'mode-archive': renderArchive(); show('archive'); break;
       case 'cat': startRound('category', { cat: el.dataset.id }); break;
@@ -883,7 +905,7 @@
       case 'next': if (performance.now() - resultAt > 450) nextQuestion(); break;
       case 'quit': openConfirmQuit(); break;
       case 'quit-yes': closeDialog(); stopTimer(); G = null; goHome(); break;
-      case 'again': if (lastRound) startRound(lastRound.mode === 'category' ? 'category' : 'unlimited', { cat: lastRound.cat }); break;
+      case 'again': if (lastRound) startRound(lastRound.mode === 'category' ? 'category' : 'unlimited', { cat: lastRound.cat, lvl: lastRound.lvl }); break;
       case 'report': {
         if (!G || !G.answered) break;
         const r = G.results[G.results.length - 1];
@@ -899,7 +921,7 @@
       case 'view-day': { const r = dayRound(el.dataset.day); if (r) openRoundDetail(r); break; }
       case 'hist': {
         const h = B.state.history[Number(el.dataset.i)];
-        if (h) openRoundDetail({ mode: h.mode, day: h.day, cat: h.cat, results: unpackAll(h.res), total: h.total, alt: h.alt });
+        if (h) openRoundDetail({ mode: h.mode, day: h.day, cat: h.cat, lvl: h.lvl || 0, results: unpackAll(h.res), alt: h.alt });
         break;
       }
       case 'badge': {

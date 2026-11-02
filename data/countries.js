@@ -2,7 +2,7 @@
    Brillion · landen en aardrijkskunde
    Eén tabel met alle 197 landen voedt veel vragen tegelijk.
    Volgorde = hoe bekend een land is (bekendst eerst). Daaruit
-   volgt de zeldzaamheid: hoe verder in de lijst, hoe meer punten.
+   volgt de klasse: de eerste 20% is Gewoon, de laatste 20% 1 in a Brillion.
 
    Regel:  NL|EN|alternatieve namen # kenmerken @ hoofdstad(en)
    Kenmerken: eu as af na sa oc = werelddeel · L = geen kust
@@ -242,31 +242,103 @@ Tuvalu # oc I M K @ 1 Funafuti`;
   B.countryNames = pick;
 
   B.addQuestions('geo', [
-    { id: 'africa', nl: 'Noem een land in Afrika', en: 'Name a country in Africa', a: where('af') },
-    { id: 'asia', nl: 'Noem een land in Azië', en: 'Name a country in Asia', a: where('as') },
-    { id: 'europe', nl: 'Noem een land in Europa', en: 'Name a country in Europe', a: where('eu') },
-    { id: 'south-america', nl: 'Noem een land in Zuid-Amerika', en: 'Name a country in South America', a: where('sa') },
-    { id: 'north-america', nl: 'Noem een land in Noord- of Midden-Amerika (de Caraïben tellen mee)', en: 'Name a country in North or Central America (the Caribbean counts)', a: where('na') },
-    { id: 'oceania', nl: 'Noem een land in Oceanië', en: 'Name a country in Oceania', a: where('oc') },
-    { id: 'landlocked', nl: 'Noem een land zonder kust', en: 'Name a landlocked country', a: where('L') },
-    { id: 'island', nl: 'Noem een eilandstaat', en: 'Name an island country', a: where('I') },
-    { id: 'eu', nl: 'Noem een lidstaat van de Europese Unie', en: 'Name a member state of the European Union', a: where('E') },
-    { id: 'euro', nl: 'Noem een land dat de euro als munt gebruikt', en: 'Name a country that uses the euro', a: where('€') },
-    { id: 'monarchy', nl: 'Noem een land met een koning, koningin of andere vorst als staatshoofd', en: 'Name a country with a king, queen or other monarch as head of state', a: where('M') },
-    { id: 'spanish', nl: 'Noem een land waar Spaans een officiële taal is', en: 'Name a country where Spanish is an official language', a: where('S') },
-    { id: 'left', nl: 'Noem een land waar men links rijdt', en: 'Name a country that drives on the left', a: where('K') },
-    { id: 'big', nl: 'Noem een land met meer dan 100 miljoen inwoners', en: 'Name a country with more than 100 million inhabitants', a: where('P') },
-    { id: 'capital-europe', nl: 'Noem de hoofdstad van een Europees land', en: 'Name the capital of a European country', a: capitals('eu') },
-    { id: 'capital-africa', nl: 'Noem de hoofdstad van een Afrikaans land', en: 'Name the capital of an African country', a: capitals('af') },
-    { id: 'capital-asia', nl: 'Noem de hoofdstad van een Aziatisch land', en: 'Name the capital of an Asian country', a: capitals('as') },
-    { id: 'capital-americas', nl: 'Noem de hoofdstad van een land in Noord-, Midden- of Zuid-Amerika', en: 'Name the capital of a country in North, Central or South America', a: capitals('na', 'sa') },
-    { id: 'france-borders', nl: 'Noem een land dat een landsgrens heeft met Frankrijk (overzeese gebieden tellen mee)', en: 'Name a country that shares a land border with France (overseas territories count)',
+    { id: 'africa', lvl: 1, nl: 'Noem een land in Afrika', en: 'Name a country in Africa', a: where('af') },
+    { id: 'asia', lvl: 1, nl: 'Noem een land in Azië', en: 'Name a country in Asia', a: where('as') },
+    { id: 'europe', lvl: 1, nl: 'Noem een land in Europa', en: 'Name a country in Europe', a: where('eu') },
+    { id: 'south-america', lvl: 1, nl: 'Noem een land in Zuid-Amerika', en: 'Name a country in South America', a: where('sa') },
+    { id: 'north-america', lvl: 2, nl: 'Noem een land in Noord- of Midden-Amerika (de Caraïben tellen mee)', en: 'Name a country in North or Central America (the Caribbean counts)', a: where('na') },
+    { id: 'oceania', lvl: 3, nl: 'Noem een land in Oceanië', en: 'Name a country in Oceania', a: where('oc') },
+    { id: 'landlocked', lvl: 3, nl: 'Noem een land zonder kust', en: 'Name a landlocked country', a: where('L') },
+    { id: 'island', lvl: 2, nl: 'Noem een eilandstaat', en: 'Name an island country', a: where('I') },
+    { id: 'eu', lvl: 1, nl: 'Noem een lidstaat van de Europese Unie', en: 'Name a member state of the European Union', a: where('E') },
+    { id: 'euro', lvl: 2, nl: 'Noem een land dat de euro als munt gebruikt', en: 'Name a country that uses the euro', a: where('€') },
+    { id: 'monarchy', lvl: 3, nl: 'Noem een land met een koning, koningin of andere vorst als staatshoofd', en: 'Name a country with a king, queen or other monarch as head of state', a: where('M') },
+    { id: 'spanish', lvl: 1, nl: 'Noem een land waar Spaans een officiële taal is', en: 'Name a country where Spanish is an official language', a: where('S') },
+    { id: 'left', lvl: 3, nl: 'Noem een land waar men links rijdt', en: 'Name a country that drives on the left', a: where('K') },
+    { id: 'big', lvl: 2, nl: 'Noem een land met meer dan 100 miljoen inwoners', en: 'Name a country with more than 100 million inhabitants', a: where('P') },
+    { id: 'capital-europe', lvl: 1, nl: 'Noem de hoofdstad van een Europees land', en: 'Name the capital of a European country', a: capitals('eu') },
+    { id: 'capital-africa', lvl: 3, nl: 'Noem de hoofdstad van een Afrikaans land', en: 'Name the capital of an African country', a: capitals('af') },
+    { id: 'capital-asia', lvl: 2, nl: 'Noem de hoofdstad van een Aziatisch land', en: 'Name the capital of an Asian country', a: capitals('as') },
+    { id: 'capital-americas', lvl: 2, nl: 'Noem de hoofdstad van een land in Noord-, Midden- of Zuid-Amerika', en: 'Name the capital of a country in North, Central or South America', a: capitals('na', 'sa') },
+    { id: 'france-borders', lvl: 1, nl: 'Noem een land dat een landsgrens heeft met Frankrijk (overzeese gebieden tellen mee)', en: 'Name a country that shares a land border with France (overseas territories count)',
       a: pick(['België', 'Spanje', 'Duitsland', 'Italië', 'Zwitserland', 'Luxemburg', 'Monaco', 'Andorra', 'Brazilië', 'Suriname', 'Nederland']) },
-    { id: 'russia-borders', nl: 'Noem een land dat over land aan Rusland grenst', en: 'Name a country that shares a land border with Russia',
+    { id: 'russia-borders', lvl: 3, nl: 'Noem een land dat over land aan Rusland grenst', en: 'Name a country that shares a land border with Russia',
       a: pick(['Oekraïne', 'China', 'Wit-Rusland', 'Finland', 'Kazachstan', 'Mongolië', 'Georgië', 'Noorwegen', 'Estland', 'Letland', 'Polen', 'Litouwen', 'Azerbeidzjan', 'Noord-Korea']) },
-    { id: 'danube', nl: 'Noem een land waar de Donau door of langs stroomt', en: 'Name a country the Danube flows through or along',
+    { id: 'currencies', lvl: 1, nl: 'Noem een munteenheid (van nu of vroeger)', en: 'Name a currency (current or former)', a: `
+      Euro; Dollar|Dollar|US dollar|Amerikaanse dollar|USD; Pond|Pound|Pound sterling|Britse pond|Sterling|GBP; Yen|Yen|Japanse yen|JPY;
+      Belgische frank|Belgian franc|Frank|Franc|BEF; Yuan|Yuan|Renminbi|RMB|CNY; Roebel|Ruble|Rouble; Roepie|Rupee; Gulden|Guilder|Nederlandse gulden;
+      Duitse mark|Deutsche Mark|Mark|D-Mark|DM; Peseta; Lire|Italian lira|Italiaanse lire; Zwitserse frank|Swiss franc|CHF;
+      Kroon|Crown|Krone|Krona; Peso; Real|Brazilian real|Braziliaanse real; Won|South Korean won; Bitcoin; Dinar; Dirham;
+      Turkse lira|Turkish lira|Lira; Zloty|Zloty|Złoty; Forint; Rand; Sjekel|Shekel|Israeli shekel|New shekel; Baht; Ringgit; Rupiah; Dong;
+      Riyal|Riyal|Saudi riyal; Rial|Rial|Iranian rial; Canadese dollar|Canadian dollar; Australische dollar|Australian dollar;
+      Nieuw-Zeelandse dollar|New Zealand dollar; Hongkongse dollar|Hong Kong dollar; Singaporese dollar|Singapore dollar;
+      Mexicaanse peso|Mexican peso; Argentijnse peso|Argentine peso; Zweedse kroon|Swedish krona; Noorse kroon|Norwegian krone;
+      Deense kroon|Danish krone; Tsjechische kroon|Czech koruna|Koruna; IJslandse kroon|Icelandic krona; Franse frank|French franc; Escudo;
+      Drachme|Drachma; Schilling|Austrian schilling|Oostenrijkse schilling; Ierse pond|Irish pound|Punt; Markka|Finnish markka|Finse mark;
+      Luxemburgse frank|Luxembourg franc; Lev|Bulgarian lev; Leu|Romanian leu|Lei; Kuna; Hryvnja|Hryvnia|Grivna; Lari; Dram; Manat; Tenge;
+      Som; Somoni; Tugrik|Tugrik|Tögrög; Kyat; Kip; Riel; Taka; Rufiyaa; Afghani; Pula; Kwacha; Metical; Kwanza; Cedi; Birr; Nakfa;
+      Ouguiya; Dalasi; Leone; CFA-frank|CFA franc|Franc CFA; Ariary; Dobra; Lilangeni; Loti; Naira; Shilling|Kenyan shilling|Keniaanse shilling;
+      Colón|Colon; Córdoba|Cordoba; Lempira; Quetzal; Balboa; Bolívar|Bolivar; Sol|Sol|Peruvian sol; Guaraní|Guarani; Boliviano; Gourde;
+      Arubaanse florin|Aruban florin|Florin; Caribische gulden|Caribbean guilder|Antilliaanse gulden|Netherlands Antillean guilder;
+      Surinaamse dollar|Surinamese dollar; Vatu; Kina; Tala; Pa'anga|Paanga; Denar; Lek; Convertibele mark|Convertible mark|BAM; Pataca;
+      Ngultrum; Sucre; Austral; Cruzeiro; Inti; ECU|ECU|Ecu|European Currency Unit; Sestertie|Sestertius; Denarius; Dukaat|Ducat;
+      Daalder|Thaler|Taler; Ether|Ether|Ethereum` },
+    { id: 'capital-oceania', lvl: 3, nl: 'Noem de hoofdstad van een land in Oceanië', en: 'Name the capital of a country in Oceania', a: capitals('oc') },
+    { id: 'germany-borders', lvl: 1, nl: 'Noem een land dat aan Duitsland grenst', en: 'Name a country that borders Germany',
+      a: pick(['Nederland', 'België', 'Frankrijk', 'Oostenrijk', 'Zwitserland', 'Polen', 'Denemarken', 'Tsjechië', 'Luxemburg']) },
+    { id: 'spain-borders', lvl: 1, nl: 'Noem een land dat een landsgrens heeft met Spanje (Ceuta, Melilla en Gibraltar tellen mee)', en: 'Name a country that shares a land border with Spain (Ceuta, Melilla and Gibraltar count)',
+      a: pick(['Portugal', 'Frankrijk', 'Andorra', 'Marokko', 'Verenigd Koninkrijk']) },
+    { id: 'austria-borders', lvl: 1, nl: 'Noem een land dat aan Oostenrijk grenst', en: 'Name a country that borders Austria',
+      a: pick(['Duitsland', 'Zwitserland', 'Italië', 'Hongarije', 'Tsjechië', 'Slovenië', 'Slowakije', 'Liechtenstein']) },
+    { id: 'brazil-borders', lvl: 2, nl: 'Noem een land dat aan Brazilië grenst (overzeese gebieden tellen mee)', en: 'Name a country that borders Brazil (overseas territories count)',
+      a: pick(['Argentinië', 'Uruguay', 'Paraguay', 'Bolivia', 'Peru', 'Colombia', 'Venezuela', 'Guyana', 'Suriname', 'Frankrijk']) },
+    { id: 'china-borders', lvl: 3, nl: 'Noem een land dat over land aan China grenst', en: 'Name a country that shares a land border with China',
+      a: pick(['Rusland', 'India', 'Mongolië', 'Noord-Korea', 'Vietnam', 'Kazachstan', 'Pakistan', 'Nepal', 'Afghanistan', 'Myanmar', 'Laos', 'Bhutan', 'Kirgizië', 'Tadzjikistan']) },
+    { id: 'south-africa-borders', lvl: 3, nl: 'Noem een land dat aan Zuid-Afrika grenst', en: 'Name a country that borders South Africa',
+      a: pick(['Namibië', 'Botswana', 'Zimbabwe', 'Mozambique', 'Lesotho', 'Eswatini']) },
+    { id: 'india-borders', lvl: 3, nl: 'Noem een land dat aan India grenst', en: 'Name a country that borders India',
+      a: pick(['Pakistan', 'China', 'Nepal', 'Bangladesh', 'Bhutan', 'Myanmar', 'Afghanistan']) },
+    { id: 'mediterranean', lvl: 1, nl: 'Noem een land dat aan de Middellandse Zee ligt', en: 'Name a country on the Mediterranean Sea',
+      a: pick(['Italië', 'Spanje', 'Griekenland', 'Frankrijk', 'Turkije', 'Egypte', 'Kroatië', 'Malta', 'Cyprus', 'Marokko', 'Tunesië', 'Israël', 'Libanon', 'Algerije', 'Libië', 'Monaco', 'Albanië', 'Montenegro', 'Syrië', 'Slovenië', 'Bosnië en Herzegovina', 'Palestina']) },
+    { id: 'baltic', lvl: 1, nl: 'Noem een land dat aan de Oostzee ligt', en: 'Name a country on the Baltic Sea',
+      a: pick(['Zweden', 'Finland', 'Duitsland', 'Polen', 'Denemarken', 'Rusland', 'Estland', 'Letland', 'Litouwen']) },
+    { id: 'black-sea', lvl: 2, nl: 'Noem een land dat aan de Zwarte Zee ligt', en: 'Name a country on the Black Sea',
+      a: pick(['Turkije', 'Oekraïne', 'Rusland', 'Roemenië', 'Bulgarije', 'Georgië']) },
+    { id: 'caspian', lvl: 3, nl: 'Noem een land dat aan de Kaspische Zee ligt', en: 'Name a country on the Caspian Sea',
+      a: pick(['Rusland', 'Iran', 'Kazachstan', 'Azerbeidzjan', 'Turkmenistan']) },
+    { id: 'equator', lvl: 3, nl: 'Noem een land waar de evenaar door loopt (over land of door de territoriale wateren)', en: 'Name a country the equator passes through (over land or through its waters)',
+      a: pick(['Ecuador', 'Brazilië', 'Colombia', 'Kenia', 'Indonesië', 'Oeganda', 'Congo', 'Gabon', 'Somalië', 'Congo-Brazzaville', 'São Tomé en Principe', 'Kiribati', 'Maldiven']) },
+    { id: 'french', lvl: 2, nl: 'Noem een land waar Frans een officiële taal is', en: 'Name a country where French is an official language',
+      a: pick(['Frankrijk', 'België', 'Zwitserland', 'Canada', 'Luxemburg', 'Monaco', 'Haïti', 'Senegal', 'Ivoorkust', 'Kameroen', 'Congo', 'Madagaskar', 'Rwanda', 'Mali', 'Burkina Faso', 'Niger', 'Guinee', 'Tsjaad', 'Benin', 'Togo', 'Burundi', 'Congo-Brazzaville', 'Gabon', 'Centraal-Afrikaanse Republiek', 'Djibouti', 'Seychellen', 'Vanuatu', 'Comoren', 'Equatoriaal-Guinea']) },
+    { id: 'portuguese', lvl: 2, nl: 'Noem een land waar Portugees een officiële taal is', en: 'Name a country where Portuguese is an official language',
+      a: pick(['Portugal', 'Brazilië', 'Angola', 'Mozambique', 'Kaapverdië', 'Guinee-Bissau', 'Oost-Timor', 'São Tomé en Principe', 'Equatoriaal-Guinea']) },
+    { id: 'german', lvl: 1, nl: 'Noem een land waar Duits een officiële taal is', en: 'Name a country where German is an official language',
+      a: pick(['Duitsland', 'Oostenrijk', 'Zwitserland', 'Liechtenstein', 'Luxemburg', 'België']) },
+    { id: 'largest', lvl: 1, nl: 'Noem een van de 10 grootste landen ter wereld (in oppervlakte)', en: 'Name one of the 10 largest countries in the world (by area)',
+      a: pick(['Rusland', 'Canada', 'Verenigde Staten', 'China', 'Brazilië', 'Australië', 'India', 'Argentinië', 'Kazachstan', 'Algerije']) },
+    { id: 'microstates', lvl: 1, nl: 'Noem een dwergstaat (heel klein land) in Europa', en: 'Name a microstate (very small country) in Europe',
+      a: pick(['Vaticaanstad', 'Monaco', 'Luxemburg', 'Liechtenstein', 'San Marino', 'Andorra', 'Malta']) },
+    { id: 'nordic', lvl: 1, nl: 'Noem een Scandinavisch of Noords land', en: 'Name a Scandinavian or Nordic country',
+      a: pick(['Zweden', 'Noorwegen', 'Denemarken', 'Finland', 'IJsland']) },
+    { id: 'central-america', lvl: 2, nl: 'Noem een land in Centraal-Amerika (van Guatemala tot Panama)', en: 'Name a country in Central America (from Guatemala to Panama)',
+      a: pick(['Costa Rica', 'Panama', 'Guatemala', 'Honduras', 'El Salvador', 'Nicaragua', 'Belize']) },
+    { id: 'italy-borders', lvl: 2, nl: 'Noem een land dat aan Italië grenst', en: 'Name a country that borders Italy',
+      a: pick(['Frankrijk', 'Zwitserland', 'Oostenrijk', 'Slovenië', 'San Marino', 'Vaticaanstad']) },
+    { id: 'poland-borders', lvl: 2, nl: 'Noem een land dat aan Polen grenst', en: 'Name a country that borders Poland',
+      a: pick(['Duitsland', 'Tsjechië', 'Oekraïne', 'Slowakije', 'Wit-Rusland', 'Litouwen', 'Rusland']) },
+    { id: 'argentina-borders', lvl: 2, nl: 'Noem een land dat aan Argentinië grenst', en: 'Name a country that borders Argentina',
+      a: pick(['Chili', 'Brazilië', 'Uruguay', 'Bolivia', 'Paraguay']) },
+    { id: 'turkey-borders', lvl: 3, nl: 'Noem een land dat aan Turkije grenst', en: 'Name a country that borders Turkey',
+      a: pick(['Griekenland', 'Bulgarije', 'Syrië', 'Irak', 'Iran', 'Georgië', 'Armenië', 'Azerbeidzjan']) },
+    { id: 'iran-borders', lvl: 3, nl: 'Noem een land dat aan Iran grenst (over land)', en: 'Name a country that borders Iran (by land)',
+      a: pick(['Irak', 'Turkije', 'Afghanistan', 'Pakistan', 'Turkmenistan', 'Armenië', 'Azerbeidzjan']) }
+  ]);
+
+  /* Vragen uit andere categorieën die ook deze tabel gebruiken */
+  B.addQuestions('earth', [
+    { id: 'danube', lvl: 2, nl: 'Noem een land waar de Donau door of langs stroomt', en: 'Name a country the Danube flows through or along',
       a: pick(['Oostenrijk', 'Duitsland', 'Hongarije', 'Roemenië', 'Servië', 'Slowakije', 'Bulgarije', 'Kroatië', 'Oekraïne', 'Moldavië']) },
-    { id: 'seas', nl: 'Noem een zee (geen oceaan)', en: 'Name a sea (not an ocean)', a: `
+    { id: 'seas', lvl: 2, nl: 'Noem een zee (geen oceaan)', en: 'Name a sea (not an ocean)', a: `
       Noordzee|North Sea; Middellandse Zee|Mediterranean Sea|Mediterranean|Middellandse; Zwarte Zee|Black Sea; Rode Zee|Red Sea;
       Oostzee|Baltic Sea|Baltische Zee|Baltic; Dode Zee|Dead Sea; Kaspische Zee|Caspian Sea; Caraïbische Zee|Caribbean Sea|Caribische Zee|Caribbean;
       Waddenzee|Wadden Sea; Adriatische Zee|Adriatic Sea|Adriatic; Egeïsche Zee|Aegean Sea|Aegean; Ierse Zee|Irish Sea; Noorse Zee|Norwegian Sea;
@@ -285,11 +357,11 @@ Tuvalu # oc I M K @ 1 Funafuti`;
       Lakshadweepzee|Laccadive Sea|Lakkadivenzee; Japanse Binnenzee|Seto Inland Sea|Seto-binnenzee; Petsjorazee|Pechora Sea; Lincolnzee|Lincoln Sea;
       Wandelzee|Wandel Sea; Irmingerzee|Irminger Sea; Zee der Hebriden|Sea of the Hebrides|Hebridenzee; Saltonzee|Salton Sea; Bothnische Golf|Gulf of Bothnia|Botnische Golf;
       Kattegat; Skagerrak` },
-    { id: 'eight-thousanders', nl: 'Noem een berg die hoger is dan 8.000 meter', en: 'Name a mountain higher than 8,000 metres', a: `
+    { id: 'eight-thousanders', lvl: 3, nl: 'Noem een berg die hoger is dan 8.000 meter', en: 'Name a mountain higher than 8,000 metres', a: `
       Mount Everest|Mount Everest|Everest|Chomolungma|Sagarmatha; K2|K2|Godwin-Austen|Chogori; Kangchenjunga|Kangchenjunga|Kanchenjunga;
       Lhotse; Makalu; Annapurna|Annapurna|Annapurna I; Cho Oyu; Nanga Parbat; Dhaulagiri|Dhaulagiri|Dhaulagiri I; Manaslu;
       Broad Peak; Gasherbrum I|Gasherbrum I|Hidden Peak; Gasherbrum II; Shishapangma|Shishapangma|Xixabangma` },
-    { id: 'alps', nl: 'Noem een berg in de Alpen', en: 'Name a mountain in the Alps', a: `
+    { id: 'alps', lvl: 3, nl: 'Noem een berg in de Alpen', en: 'Name a mountain in the Alps', a: `
       Mont Blanc; Matterhorn|Matterhorn|Cervin|Cervino; Eiger; Jungfrau; Zugspitze; Mönch|Monch; Großglockner|Grossglockner|Glockner;
       Monte Rosa|Monte Rosa|Dufourspitze; Titlis; Pilatus; Rigi; Säntis|Santis; Dom; Weisshorn; Gran Paradiso; Piz Bernina|Piz Bernina|Bernina;
       Ortler; Wildspitze; Dachstein; Triglav; Marmolada; Drei Zinnen|Tre Cime di Lavaredo|Tre Cime; Watzmann; Großvenediger|Grossvenediger;
@@ -301,17 +373,55 @@ Tuvalu # oc I M K @ 1 Funafuti`;
       Hochkönig|Hochkonig; Großes Wiesbachhorn|Grosses Wiesbachhorn|Wiesbachhorn; Ankogel; Parseierspitze; Similaun; Weißkugel|Weisskugel;
       Hochalmspitze; Kitzsteinhorn; Hahnenkamm; Hoher Dachstein; Grigna; Monte Baldo; Cima Tosa; Civetta; Pelmo; Sassolungo|Langkofel;
       Piz Boè|Piz Boe; Sella; Rosengarten|Catinaccio; Mont Pourri; Grande Casse; Dent de Morcles; Les Diablerets|Diablerets; Wildstrubel;
-      Balmhorn; Blüemlisalp|Bluemlisalp; Schilthorn; Niesen; Stockhorn; Brienzer Rothorn; Mythen|Grosser Mythen; Uri Rotstock` }
+      Balmhorn; Blüemlisalp|Bluemlisalp; Schilthorn; Niesen; Stockhorn; Brienzer Rothorn; Mythen|Grosser Mythen; Uri Rotstock` },
+    { id: 'rhine', lvl: 1, nl: 'Noem een land waar de Rijn door of langs stroomt', en: 'Name a country the Rhine flows through or along',
+      a: pick(['Duitsland', 'Nederland', 'Zwitserland', 'Frankrijk', 'Oostenrijk', 'Liechtenstein']) },
+    { id: 'alps-countries', lvl: 1, nl: 'Noem een land waar een deel van de Alpen ligt', en: 'Name a country that has part of the Alps',
+      a: pick(['Zwitserland', 'Oostenrijk', 'Frankrijk', 'Italië', 'Duitsland', 'Slovenië', 'Liechtenstein', 'Monaco']) },
+    { id: 'himalaya', lvl: 2, nl: 'Noem een land waar een deel van de Himalaya ligt', en: 'Name a country that has part of the Himalayas',
+      a: pick(['Nepal', 'India', 'China', 'Bhutan', 'Pakistan']) },
+    { id: 'andes', lvl: 2, nl: 'Noem een land waar het Andesgebergte door loopt', en: 'Name a country the Andes run through',
+      a: pick(['Chili', 'Peru', 'Argentinië', 'Bolivia', 'Ecuador', 'Colombia', 'Venezuela']) },
+    { id: 'amazon', lvl: 3, nl: 'Noem een land waar een deel van het Amazoneregenwoud ligt (overzeese gebieden tellen mee)', en: 'Name a country that has part of the Amazon rainforest (overseas territories count)',
+      a: pick(['Brazilië', 'Peru', 'Colombia', 'Bolivia', 'Venezuela', 'Ecuador', 'Guyana', 'Suriname', 'Frankrijk']) },
+    { id: 'sahara', lvl: 3, nl: 'Noem een land waar een deel van de Sahara ligt', en: 'Name a country that has part of the Sahara',
+      a: pick(['Egypte', 'Marokko', 'Algerije', 'Libië', 'Tunesië', 'Mali', 'Niger', 'Tsjaad', 'Soedan', 'Mauritanië', 'Eritrea']).concat([['Westelijke Sahara', 'Western Sahara']]) },
+    { id: 'north-sea', lvl: 1, nl: 'Noem een land dat aan de Noordzee ligt', en: 'Name a country on the North Sea',
+      a: pick(['Nederland', 'België', 'Verenigd Koninkrijk', 'Duitsland', 'Frankrijk', 'Denemarken', 'Noorwegen']) },
+    { id: 'adriatic', lvl: 2, nl: 'Noem een land dat aan de Adriatische Zee ligt', en: 'Name a country on the Adriatic Sea',
+      a: pick(['Italië', 'Kroatië', 'Albanië', 'Montenegro', 'Slovenië', 'Bosnië en Herzegovina']) },
+    { id: 'red-sea', lvl: 3, nl: 'Noem een land dat aan de Rode Zee ligt (de Golf van Akaba telt mee)', en: 'Name a country on the Red Sea (the Gulf of Aqaba counts)',
+      a: pick(['Egypte', 'Saoedi-Arabië', 'Soedan', 'Jemen', 'Eritrea', 'Israël', 'Jordanië', 'Djibouti']) }
   ]);
-
-  /* Vragen uit andere categorieën die ook deze tabel gebruiken */
   B.addQuestions('history', [
-    { id: 'nato', nl: 'Noem een lidstaat van de NAVO', en: 'Name a member state of NATO', a: where('N') },
-    { id: 'eu-since-2004', nl: 'Noem een land dat in 2004 of later lid werd van de EU', en: 'Name a country that joined the EU in 2004 or later',
-      a: pick(['Polen', 'Tsjechië', 'Hongarije', 'Kroatië', 'Roemenië', 'Bulgarije', 'Malta', 'Cyprus', 'Slowakije', 'Slovenië', 'Estland', 'Letland', 'Litouwen']) }
+    { id: 'nato', lvl: 2, nl: 'Noem een lidstaat van de NAVO', en: 'Name a member state of NATO', a: where('N') },
+    { id: 'eu-since-2004', lvl: 3, nl: 'Noem een land dat in 2004 of later lid werd van de EU', en: 'Name a country that joined the EU in 2004 or later',
+      a: pick(['Polen', 'Tsjechië', 'Hongarije', 'Kroatië', 'Roemenië', 'Bulgarije', 'Malta', 'Cyprus', 'Slowakije', 'Slovenië', 'Estland', 'Letland', 'Litouwen']) },
+    { id: 'g20', lvl: 3, nl: 'Noem een lid van de G20', en: 'Name a member of the G20',
+      a: where('G').concat([['Europese Unie', 'European Union', 'EU'], ['Afrikaanse Unie', 'African Union', 'AU']]) },
+    { id: 'nuclear', lvl: 1, nl: 'Noem een land dat kernwapens heeft', en: 'Name a country that has nuclear weapons',
+      a: pick(['Verenigde Staten', 'Rusland', 'China', 'Noord-Korea', 'Frankrijk', 'Verenigd Koninkrijk', 'India', 'Pakistan', 'Israël']) },
+    { id: 'un-p5', lvl: 2, nl: 'Noem een permanent lid van de VN-Veiligheidsraad', en: 'Name a permanent member of the UN Security Council',
+      a: pick(['Verenigde Staten', 'Rusland', 'China', 'Verenigd Koninkrijk', 'Frankrijk']) },
+    { id: 'g7', lvl: 2, nl: 'Noem een land van de G7', en: 'Name a country in the G7',
+      a: pick(['Verenigde Staten', 'Duitsland', 'Japan', 'Verenigd Koninkrijk', 'Frankrijk', 'Italië', 'Canada']).concat([['Europese Unie', 'European Union', 'EU']]) },
+    { id: 'eec-founders', lvl: 2, nl: 'Noem een land dat in 1957 de EEG (de voorloper van de EU) mee oprichtte', en: 'Name a country that founded the EEC (the forerunner of the EU) in 1957',
+      a: pick(['Frankrijk', 'Duitsland', 'Italië', 'België', 'Nederland', 'Luxemburg']) },
+    { id: 'eu-monarchies', lvl: 2, nl: 'Noem een EU-land met een koning, koningin of groothertog', en: 'Name an EU country with a king, queen or grand duke',
+      a: pick(['België', 'Nederland', 'Spanje', 'Zweden', 'Denemarken', 'Luxemburg']) },
+    { id: 'ussr', lvl: 2, nl: 'Noem een land dat vroeger deel was van de Sovjet-Unie', en: 'Name a country that used to be part of the Soviet Union',
+      a: pick(['Rusland', 'Oekraïne', 'Wit-Rusland', 'Kazachstan', 'Georgië', 'Estland', 'Letland', 'Litouwen', 'Armenië', 'Azerbeidzjan', 'Oezbekistan', 'Moldavië', 'Turkmenistan', 'Kirgizië', 'Tadzjikistan']) },
+    { id: 'yugoslavia', lvl: 3, nl: 'Noem een land dat ontstond toen Joegoslavië uit elkaar viel', en: 'Name a country that emerged when Yugoslavia broke up',
+      a: pick(['Kroatië', 'Servië', 'Slovenië', 'Bosnië en Herzegovina', 'Montenegro', 'Noord-Macedonië', 'Kosovo']) },
+    { id: 'nato-founders', lvl: 3, nl: 'Noem een land dat in 1949 de NAVO mee oprichtte', en: 'Name a country that founded NATO in 1949',
+      a: pick(['Verenigde Staten', 'Verenigd Koninkrijk', 'Frankrijk', 'Canada', 'België', 'Nederland', 'Italië', 'Noorwegen', 'Denemarken', 'Luxemburg', 'Portugal', 'IJsland']) },
+    { id: 'euro-1999', lvl: 3, nl: 'Noem een van de 11 landen die in 1999 de euro invoerden', en: 'Name one of the 11 countries that introduced the euro in 1999',
+      a: pick(['Duitsland', 'Frankrijk', 'Italië', 'Spanje', 'Nederland', 'België', 'Oostenrijk', 'Portugal', 'Ierland', 'Finland', 'Luxemburg']) },
+    { id: 'arab-league', lvl: 3, nl: 'Noem een lid van de Arabische Liga', en: 'Name a member of the Arab League',
+      a: pick(['Saoedi-Arabië', 'Egypte', 'Marokko', 'Verenigde Arabische Emiraten', 'Irak', 'Syrië', 'Jordanië', 'Libanon', 'Qatar', 'Koeweit', 'Tunesië', 'Algerije', 'Libië', 'Oman', 'Bahrein', 'Jemen', 'Soedan', 'Palestina', 'Somalië', 'Mauritanië', 'Djibouti', 'Comoren']) }
   ]);
-  B.addQuestions('business', [
-    { id: 'g20', nl: 'Noem een lid van de G20', en: 'Name a member of the G20',
-      a: where('G').concat([['Europese Unie', 'European Union', 'EU'], ['Afrikaanse Unie', 'African Union', 'AU']]) }
+  B.addQuestions('sport', [
+    { id: 'winter-hosts', lvl: 2, nl: 'Noem een land dat ooit de Olympische Winterspelen organiseerde (t.e.m. 2026)', en: 'Name a country that has hosted the Winter Olympics (up to 2026)',
+      a: pick(['Frankrijk', 'Italië', 'Verenigde Staten', 'Zwitserland', 'Noorwegen', 'Oostenrijk', 'Duitsland', 'Canada', 'Japan', 'Rusland', 'Zuid-Korea', 'China']).concat([['Joegoslavië', 'Yugoslavia', 'Bosnië en Herzegovina', 'Bosnia and Herzegovina', 'Bosnië', 'Sarajevo']]) }
   ]);
 })(typeof window !== 'undefined' ? window : globalThis);
