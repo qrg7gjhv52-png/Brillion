@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- Brillion-icoon: besneeuwde berg met een briljant (geslepen diamant) boven de top -->
+  <rect width="512" height="512" fill="#1D6CB5"/>
+  <path d="M36 436 L212 174 L284 278 L334 212 L476 436 Z" fill="#F3F7FA"/>
+  <path d="M212 174 L284 278 L334 212 L476 436 L262 436 Z" fill="#D3E2EF"/>
+  <path d="M212 174 L246 224 L226 214 L204 238 L184 214 Z" fill="#FFFFFF"/>
+  <path d="M150 104 L184 60 L240 60 L274 104 L212 168 Z" fill="#E5694A"/>
+  <path d="M150 104 H274 M184 60 L198 104 L212 168 M240 60 L226 104 L212 168" stroke="#FFFFFF" stroke-width="7" fill="none" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

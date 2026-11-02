@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<!-- BUILD:HEAD-START -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Brillion</title>
+  <meta name="description" content="Brillion: het dagelijkse quizspel waarin je hoger klimt naarmate je antwoord zeldzamer is. In het Nederlands en het Engels.">
+  <meta name="theme-color" content="#F3F7FA" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0A1522" media="(prefers-color-scheme: dark)">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="Brillion">
+<!-- BUILD:HEAD-END -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Big+Shoulders+Display:wght@700;800;900&family=IBM+Plex+Mono:wght@500;600&display=swap">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<!-- BUILD:BODY-START -->
+  <div class="app" id="app">
+
+    <!-- Kopbalk met logo en knoppen -->
+    <header class="bar">
+      <button class="brand" type="button" data-act="home" aria-label="Brillion">
+        <svg viewBox="0 0 32 32" aria-hidden="true">
+          <path d="M1.5 29.5 L12.5 12.8 L17.2 19.6 L20.6 15.2 L30.5 29.5 Z" fill="var(--glacier)"/>
+          <path d="M12.5 12.8 L15.4 17 L13.7 16.1 L12.1 17.6 L10.6 15.6 Z" fill="var(--cap)"/>
+          <path d="M8.2 5.6 L10.6 2.6 L14.4 2.6 L16.8 5.6 L12.5 11 Z" fill="var(--alpenglow)"/>
+          <path d="M8.2 5.6 H16.8 M10.6 2.6 L11.6 5.6 L12.5 11 M14.4 2.6 L13.4 5.6 L12.5 11" stroke="var(--cap)" stroke-width="0.9" fill="none" stroke-linejoin="round"/>
+        </svg>
+        <span class="wordmark">BRILLION</span>
+      </button>
+      <div class="bar-actions">
+        <button class="lang-btn" type="button" data-act="lang" id="btn-lang">EN</button>
+        <button class="icon-btn" type="button" data-act="sound" id="btn-sound"></button>
+        <button class="icon-btn" type="button" data-act="stats" id="btn-stats"></button>
+        <button class="icon-btn" type="button" data-act="help" id="btn-help"></button>
+        <button class="icon-btn" type="button" data-act="settings" id="btn-settings"></button>
+      </div>
+    </header>
+
+    <!-- Schermen (JavaScript vult ze in) -->
+    <main>
+      <section class="screen" id="screen-home"></section>
+      <section class="screen" id="screen-cats" hidden></section>
+      <section class="screen" id="screen-archive" hidden></section>
+      <section class="screen" id="screen-game" hidden></section>
+      <section class="screen" id="screen-end" hidden></section>
+      <section class="screen" id="screen-stats" hidden></section>
+    </main>
+  </div>
+
+  <!-- Venstertjes -->
+  <dialog id="dlg"><div class="dlg" id="dlg-inner"></div></dialog>
+
+  <!-- Meldingen onderaan en confetti -->
+  <div class="toasts" id="toasts" aria-live="polite"></div>
+  <canvas id="fx" hidden aria-hidden="true"></canvas>
+
+  <noscript><p style="padding:24px">Brillion heeft JavaScript nodig. / Brillion needs JavaScript.</p></noscript>
+<!-- BUILD:BODY-END -->
+
+  <!-- BUILD:SCRIPTS-START -->
+  <script src="js/i18n.js"></script>
+  <script src="js/core.js"></script>
+  <script src="data/countries.js"></script>
+  <script src="data/sport.js"></script>
+  <script src="data/film.js"></script>
+  <script src="data/music.js"></script>
+  <script src="data/games.js"></script>
+  <script src="data/science.js"></script>
+  <script src="data/food.js"></script>
+  <script src="data/nature.js"></script>
+  <script src="data/belgium.js"></script>
+  <script src="data/business.js"></script>
+  <script src="data/history.js"></script>
+  <script src="data/language.js"></script>
+  <script src="js/store.js"></script>
+  <script src="js/audio.js"></script>
+  <script src="js/fx.js"></script>
+  <script src="js/app.js"></script>
+  <!-- BUILD:SCRIPTS-END -->
+</body>
+</html>
