@@ -4,7 +4,7 @@
    Werkwijze: eerst uit het geheugen tonen (snel), en op de achtergrond
    de nieuwste versie ophalen voor de volgende keer.
    ───────────────────────────────────────────────────────────── */
-const CACHE = 'brillion-app';
+const CACHE = 'brillion-app-2';   // nieuw nummer = alles opnieuw ophalen
 const FONTS = 'brillion-fonts';
 const FILES = [
   './', 'index.html', 'css/style.css', 'manifest.webmanifest',

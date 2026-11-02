@@ -1,6 +1,12 @@
 /* ─────────────────────────────────────────────────────────────
    Brillion · de schermen en het spelverloop
    Startscherm → vraag 1 t/m 8 → eindscherm met je berg.
+
+   De berg op de achtergrond (over het hele scherm) wordt getekend
+   door fx.js (B.World). Dit bestand vertelt de berg wat er moet
+   gebeuren: klimmen, uitglijden, vlag planten, uitzoomen …
+   Elk scherm heeft een leeg vak met de klasse "stage": daar staat
+   de klimmer, zodat hij nooit achter een kaart verdwijnt.
    ───────────────────────────────────────────────────────────── */
 'use strict';
 (function (global) {
@@ -10,6 +16,7 @@
   const $ = id => doc.getElementById(id);
   const PER = B.CONFIG.perRound;
   const EVEREST = B.CONFIG.everestHeight;
+  const World = B.World;
 
   /* Veilig tekst in HTML zetten (wat iemand typt, wordt nooit code) */
   const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[ch]);
@@ -35,26 +42,12 @@
     flame: '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12.6 2.3c.4 3-1.3 4.6-2.8 6.3-1.4 1.6-2.8 3.3-2.8 6.1A5.4 5.4 0 0 0 12.3 20a5.6 5.6 0 0 0 5.7-5.5c0-2.6-1.2-4-2.2-5.3-.2 1.3-.9 2.3-1.9 2.6.5-3.4-.3-7-1.3-9.5Z"/></svg>'
   };
 
-  /* De klimmer-mascotte */
-  const CLIMBER = id => `<div class="climber" id="${id}" aria-hidden="true"><svg viewBox="0 0 30 38">
-      <rect x="5.4" y="15" width="7" height="10.5" rx="2.6" fill="var(--glacier-2)"/>
-      <path d="M12.2 27.5 10.4 36M17.6 27.5 19.4 36" stroke="var(--ink)" stroke-width="3" stroke-linecap="round"/>
-      <rect x="9" y="14" width="12" height="15" rx="4.6" fill="var(--glacier)"/>
-      <circle cx="15" cy="21.4" r="3.1" fill="none" stroke="var(--alpenglow)" stroke-width="1.7"/>
-      <g class="arm"><path d="M20 17.2 25 22" stroke="var(--glacier)" stroke-width="3.2" stroke-linecap="round"/>
-        <path d="M25 22 26.4 11.8M23.9 12.4 28.6 13" stroke="var(--ink)" stroke-width="1.6" stroke-linecap="round"/></g>
-      <circle cx="15" cy="9.6" r="4.6" fill="var(--skin)"/>
-      <path d="M10.2 9.2a4.8 4.8 0 0 1 9.6 0Z" fill="var(--alpenglow)"/>
-      <circle cx="13.3" cy="10.6" r=".8" fill="var(--ink)"/><circle cx="16.7" cy="10.6" r=".8" fill="var(--ink)"/>
-    </svg></div>`;
-
   /* ── Hulpjes ─────────────────────────────────────────────── */
   const qText = q => (B.lang === 'en' ? q.en : q.nl);
   const ansText = e => (B.lang === 'en' ? e.en : e.nl);
   const catName = id => (B.catById[id] ? B.catById[id][B.lang] : id);
   const tierName = i => (B.TIERS[i] ? B.TIERS[i][B.lang] : '');
   const mountainName = m => (B.lang === 'nl' ? m.nl : m.en);
-  const pointsText = n => (n === 1 ? t('point1') : t('points', { n: fmt(n) }));
   const tierClass = r => (r.ok ? 't' + r.tier : 'tw');
 
   function squaresHTML(results) {
@@ -63,27 +56,115 @@
   }
   const unpackAll = res => (res || []).map(B.unpack);
 
+  /* Op welke hoogte stond je na elke vraag? (de stops op je route) */
+  function stopsFor(results) {
+    let total = 0;
+    return (results || []).map(r => {
+      total += r.score || 0;
+      return { alt: B.altitudeFor(total), ok: !!r.ok, tier: r.tier };
+    });
+  }
+
   function toast(html, icon) {
     const box = $('toasts');
     const el = doc.createElement('div');
     el.className = 'toast';
     el.innerHTML = (icon ? `<span class="t-icon">${icon}</span>` : '') + `<span>${html}</span>`;
     box.appendChild(el);
-    setTimeout(() => el.remove(), 3600);
+    setTimeout(() => el.remove(), 3100);
   }
   function badgeToast(b) {
     B.Sound.badge();
     toast(`${esc(t('badgeNew'))}: ${esc(b[B.lang])}<small>${esc(B.lang === 'nl' ? b.dnl : b.den)}</small>`, b.icon);
+  }
+  function pulse(el) {
+    if (!el) return;
+    el.classList.remove('pulse');
+    void el.offsetWidth;   // animatie opnieuw laten starten
+    el.classList.add('pulse');
+  }
+
+  /* ── Grote hoogtemeter ──────────────────────────────────────
+     In het spel staat hij bovenaan in de balk ("meter"), op het
+     startscherm klein linksboven in het klimvak ("compact"). */
+  let hudZone = null, hudPeak = -1, hudAlt = 0;
+  const zoneHTML = alt => { const z = B.zoneFor(alt); return `<span aria-hidden="true">${z.icon}</span> ${esc(t(z.label))}`; };
+  function nextHTML(alt, flag) {
+    const mi = B.mountainIndexFor(alt), m = B.MOUNTAINS[mi], next = B.MOUNTAINS[mi + 1];
+    if ((flag && mi > 0) || !next) return `🚩 ${esc(B.peakName(m, B.lang))}`;
+    return `→ ${esc(B.peakName(next, B.lang))} · ${fmt(next.h)} m`;
+  }
+  function hudHTML(alt, flag, variant) {
+    hudZone = B.zoneFor(alt);
+    hudPeak = B.mountainIndexFor(alt);
+    hudAlt = alt;
+    return `<div class="alt-hud ${variant}">
+        ${variant === 'compact' ? `<span class="hud-lbl">${t('altitude')}</span>` : ''}
+        <span class="hud-num" aria-label="${t('altitude')}"><span class="hud-val">${fmt(Math.round(alt))}</span><small>m</small></span>
+        <span class="hud-side">
+          <span class="hud-zone">${zoneHTML(alt)}</span>
+          <span class="hud-next">${nextHTML(alt, flag)}</span>
+        </span>
+        <span class="hud-pass" aria-live="polite"></span>
+      </div>`;
+  }
+  /* De hoogtemeter van het scherm dat nu open is */
+  const hudEl = (sel = '.alt-hud') => { const el = $('screen-' + current); return el ? el.querySelector(sel) : null; };
+  /* Wordt tijdens het klimmen elk beeldje aangeroepen */
+  function updateHud(alt) {
+    hudAlt = alt;
+    const hud = hudEl();
+    if (!hud) return;
+    hud.querySelector('.hud-val').textContent = fmt(Math.round(alt));
+    const z = B.zoneFor(alt);
+    if (z !== hudZone) {
+      hudZone = z;
+      const el = hud.querySelector('.hud-zone');
+      el.innerHTML = zoneHTML(alt);
+      pulse(el);
+    }
+    const mi = B.mountainIndexFor(alt);
+    if (mi !== hudPeak) { hudPeak = mi; hud.querySelector('.hud-next').innerHTML = nextHTML(alt, false); }
+  }
+  /* Je klimt voorbij een echte berg */
+  function peakPassed(m) {
+    B.Sound.peak();
+    const hud = hudEl();
+    if (!hud) return;
+    pulse(hud);
+    const el = hud.querySelector('.hud-pass');
+    el.textContent = '✓ ' + B.peakName(m, B.lang);
+    pulse(el);
   }
 
   /* ── Schermen wisselen ───────────────────────────────────── */
   const SCREENS = ['home', 'cats', 'archive', 'game', 'end', 'stats'];
   let current = 'home';
   function show(name) {
+    const changed = current !== name;
     SCREENS.forEach(s => { $('screen-' + s).hidden = s !== name; });
     current = name;
-    global.scrollTo(0, 0);
+    if (changed) global.scrollTo(0, 0);
+    World.dim(!stageEl());   // lijsten (categorieën, archief, statistieken): berg zacht op de achtergrond
+    syncStage(false);
   }
+  const stageEl = () => { const el = $('screen-' + current); return el ? el.querySelector('.stage') : null; };
+  /* Vertel de berg waar het klimvak op het scherm staat */
+  function syncStage(instant) {
+    const el = stageEl();
+    if (!el) return;
+    const r = el.getBoundingClientRect();
+    World.frame({ x: r.left, y: r.top, w: r.width, h: r.height }, instant);
+  }
+  let syncRAF = 0;
+  function queueSync(instant) {
+    if (syncRAF) return;
+    syncRAF = global.requestAnimationFrame(() => { syncRAF = 0; syncStage(instant); });
+  }
+  global.addEventListener('scroll', () => queueSync(true), { passive: true });
+  global.addEventListener('resize', () => queueSync(false));
+  if (global.ResizeObserver) new ResizeObserver(() => queueSync(false)).observe($('app'));
+  if (doc.fonts && doc.fonts.ready) doc.fonts.ready.then(() => queueSync(false));
 
   /* ── Kopbalk ─────────────────────────────────────────────── */
   function renderBar() {
@@ -107,15 +188,15 @@
     const played = B.state.daily[today];
     const prog = B.state.prog[today] || null;
     const date = cap(new Intl.DateTimeFormat(locale(), { weekday: 'long', day: 'numeric', month: 'long' }).format(new Date()));
-    let body, tag, progress = 0;
+    let body, alt = 0, stops = [];
     if (played) {
       const m = B.MOUNTAINS[B.mountainIndexFor(played.alt)];
-      progress = played.alt / EVEREST;
-      tag = `${fmt(played.alt)} m`;
+      alt = played.alt;
+      stops = stopsFor(unpackAll(played.res));
       body = `<div class="done-row">
           <div class="stat"><span class="stat-val">${fmt(played.total)}</span><span class="stat-lbl">${t('total')}</span></div>
           <div class="stat"><span class="stat-val">${fmt(played.alt)}</span><span class="stat-lbl">${t('altitude')} (m)</span></div>
-          <div class="stat"><span class="stat-val">${esc(B.peakName(m, B.lang))}</span><span class="stat-lbl">${t('peakLbl')}</span></div>
+          <div class="stat"><span class="stat-val peak">${esc(B.peakName(m, B.lang))}</span><span class="stat-lbl">${t('peakLbl')}</span></div>
         </div>
         ${played.res ? squaresHTML(unpackAll(played.res)) : ''}
         <div class="btn-row">
@@ -124,24 +205,18 @@
         </div>
         <p class="next-in" id="next-in"></p>`;
     } else if (prog) {
-      const total = prog.results.reduce((s, r) => s + r.score, 0);
-      progress = B.altitudeFor(total) / EVEREST;
-      tag = `${fmt(B.altitudeFor(total))} m`;
+      alt = B.altitudeFor(prog.results.reduce((s, r) => s + r.score, 0));
+      stops = stopsFor(prog.results);
       body = `<p class="daily-intro">${t('dailyIntro')}</p>
         <button class="btn primary big" type="button" data-act="resume">${t('resume', { i: Math.min(PER, prog.results.length + 1), n: PER })}</button>`;
     } else {
-      tag = '0 m';
       body = `<p class="daily-intro">${t('dailyIntro')}</p>
         <button class="btn primary big" type="button" data-act="start-daily">${t('start')}</button>`;
     }
     const streak = B.currentStreak();
     const streakText = streak === 0 ? t('streak0') : streak === 1 ? t('streak1') : t('streakN', { n: streak });
     $('screen-home').innerHTML = `
-      <div class="scene-wrap hero">
-        <canvas id="home-scene" aria-hidden="true"></canvas>
-        ${CLIMBER('home-climber')}
-        <span class="scene-tag">${tag}</span>
-      </div>
+      <div class="stage home-stage" id="home-stage">${hudHTML(alt, !!played, 'compact')}</div>
       <div class="card daily-card">
         <div class="daily-head">
           <span class="eyebrow">${t('daily')}</span>
@@ -156,29 +231,21 @@
         ${modeButton('mode-cats', ICON.grid, t('byCategory'), t('byCategorySub'))}
         ${modeButton('mode-archive', ICON.calendar, t('archive'), t('archiveSub'))}
       </div>
-      <p class="foot">${t('aboutText', { q: fmt(B.questions.length), a: fmt(B.totalAnswers()), v: B.CONFIG.version })}</p>`;
-    homeProgress = progress;
-    drawHome();
+      <p class="foot"><span>${t('aboutText', { q: fmt(B.questions.length), a: fmt(B.totalAnswers()), v: B.CONFIG.version })}</span></p>`;
+    show('home');
+    World.show('home', { seed: today, alt, stops, flag: !!played });
     clearInterval(countdownTimer);
     if (played) { updateCountdown(); countdownTimer = setInterval(updateCountdown, 1000); }
   }
   const modeButton = (act, icon, title, sub) =>
     `<button class="mode" type="button" data-act="${act}"><span class="mode-icon">${icon}</span><span><span class="mode-title">${title}</span><span class="mode-sub">${sub}</span></span>${ICON.chev}</button>`;
 
-  let homeProgress = 0;
-  function drawHome() {
-    const canvas = $('home-scene');
-    if (!canvas || $('screen-home').hidden) return;
-    const scene = B.Scene.draw(canvas, { seed: B.dayNumber(), progress: homeProgress });
-    B.Scene.placeClimber($('home-climber'), scene, homeProgress);
-  }
-
   function updateCountdown() {
     const el = $('next-in');
     if (!el) { clearInterval(countdownTimer); return; }
-    const now = new Date();
-    const midnight = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
-    const s = Math.max(0, Math.floor((midnight - now) / 1000));
+    const nowDate = new Date();
+    const midnight = new Date(nowDate.getFullYear(), nowDate.getMonth(), nowDate.getDate() + 1);
+    const s = Math.max(0, Math.floor((midnight - nowDate) / 1000));
     const hh = String(Math.floor(s / 3600)).padStart(2, '0');
     const mm = String(Math.floor((s % 3600) / 60)).padStart(2, '0');
     const ss = String(s % 60).padStart(2, '0');
@@ -242,8 +309,9 @@
     else if (mode === 'archive') { day = opts.day; ids = B.dailyQuestionIds(day); }
     else if (mode === 'category') { cat = opts.cat; ids = B.pickQuestions({ cat, seen: B.state.seen }); }
     else ids = B.pickQuestions({ seen: B.state.seen });
-    const seed = mode === 'daily' || mode === 'archive' ? day : Math.floor(Math.random() * 1e6);
-    G = { mode, day, cat, ids, idx: 0, results: [], total: 0, alt: 0, qStart: 0, answered: false, seed };
+    // de berg van die dag (onbeperkt en per categorie: de berg van vandaag)
+    const seed = day || today;
+    G = { mode, day, cat, ids, idx: 0, results: [], total: 0, alt: 0, qStart: 0, answered: false, seed, pending: null };
     B.Sound.start();
     renderGame();
     showQuestion();
@@ -254,7 +322,7 @@
     B.Sound.unlock();
     const results = prog.results || [];
     const total = results.reduce((s, r) => s + r.score, 0);
-    G = { mode: prog.mode, day: prog.day, cat: '', ids: prog.ids, idx: prog.idx, results, total, alt: B.altitudeFor(total), qStart: prog.qStart, answered: prog.answered, seed: prog.day };
+    G = { mode: prog.mode, day: prog.day, cat: '', ids: prog.ids, idx: prog.idx, results, total, alt: B.altitudeFor(total), qStart: prog.qStart, answered: prog.answered, seed: prog.day, pending: null };
     if (G.answered) { G.idx++; G.qStart = 0; G.answered = false; }
     if (G.idx >= G.ids.length) { finish(); return; }
     renderGame();
@@ -269,19 +337,16 @@
   }
 
   function renderGame() {
-    show('game');
     const quitLabel = G.mode === 'daily' || G.mode === 'archive' ? t('pause') : t('quit');
     $('screen-game').innerHTML = `
       <div class="game-top">
-        <button class="text-btn" type="button" data-act="quit">${quitLabel}</button>
-        <div class="dots" id="g-dots" aria-hidden="true"></div>
-        <div class="altimeter" aria-label="${t('altitude')}"><span id="g-alt" class="num">${fmt(G.alt)}</span><small>m</small></div>
+        <div class="game-row">
+          <button class="text-btn" type="button" data-act="quit">${quitLabel}</button>
+          <div class="dots" id="g-dots" aria-hidden="true"></div>
+        </div>
+        <div id="g-hud">${hudHTML(G.alt, false, 'meter')}</div>
       </div>
-      <div class="scene-wrap strip">
-        <canvas id="game-scene" aria-hidden="true"></canvas>
-        ${CLIMBER('game-climber')}
-        <span class="scene-tag" id="g-peak"></span>
-      </div>
+      <div class="stage game-stage" id="game-stage"></div>
       <div class="card qcard" id="g-card">
         <div class="qmeta"><span class="cat-chip" id="g-cat"></span><span class="qnum" id="g-num"></span></div>
         <h2 class="qtext" id="g-q"></h2>
@@ -292,16 +357,17 @@
               autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" maxlength="60">
             <button class="btn primary" type="submit" id="g-submit"></button>
           </form>
+          <div class="suggest" id="g-suggest" hidden></div>
         </div>
         <div id="g-result" hidden></div>
       </div>`;
     $('g-form').addEventListener('submit', e => { e.preventDefault(); submit(false); });
-    drawGameScene(G.alt / EVEREST);
-  }
-
-  function drawGameScene(progress) {
-    const scene = B.Scene.draw($('game-scene'), { seed: G ? G.seed : 1, progress, compact: true });
-    B.Scene.placeClimber($('game-climber'), scene, progress);
+    const input = $('g-input');
+    // verder typen = het voorstel verdwijnt (je past het zelf aan)
+    input.addEventListener('input', () => { if (G && G.pending) hideSuggest(); });
+    input.addEventListener('keydown', e => { if (e.key === 'Escape' && G && G.pending) { e.preventDefault(); hideSuggest(); } });
+    show('game');
+    World.show('game', { seed: G.seed, alt: G.alt, stops: stopsFor(G.results) });
   }
 
   function updateGameTexts() {
@@ -315,9 +381,6 @@
     $('g-input').placeholder = t('placeholder');
     $('g-input').setAttribute('aria-label', qText(q));
     $('g-submit').textContent = t('submit');
-    const mi = B.mountainIndexFor(G.alt);
-    const next = B.MOUNTAINS[mi + 1];
-    $('g-peak').textContent = next ? t('nextPeak', { name: B.peakName(next, B.lang), h: fmt(next.h) }) : B.peakName(B.MOUNTAINS[mi], B.lang);
     $('g-dots').innerHTML = G.ids.map((id, i) => {
       const r = G.results[i];
       return `<span class="dot ${r ? tierClass(r) : i === G.idx ? 'now' : ''}"></span>`;
@@ -335,12 +398,13 @@
     persist();
     $('g-play').hidden = false;
     $('g-result').hidden = true;
+    hideSuggest();
     $('g-card').classList.remove('hurry');
     $('g-input').value = '';
     updateGameTexts();
     if (remainingMs() <= 0) { submit(true); return; }
     startTimer();
-    setTimeout(() => { const i = $('g-input'); if (i && !G.answered) i.focus({ preventScroll: true }); }, 60);
+    setTimeout(() => { const i = $('g-input'); if (i && G && !G.answered) i.focus({ preventScroll: true }); }, 60);
   }
 
   function startTimer() {
@@ -365,46 +429,114 @@
   }
   function stopTimer() { if (timerRAF) global.cancelAnimationFrame(timerRAF); timerRAF = null; }
 
+  function shake(el) {
+    if (el && el.animate) el.animate([{ transform: 'translateX(0)' }, { transform: 'translateX(-6px)' }, { transform: 'translateX(6px)' }, { transform: 'none' }], { duration: 260 });
+  }
+  const okResult = (q, input, e, flags, timeLeft) =>
+    ({ q: q.id, input, ok: true, rank: e.rank, score: e.score, tier: e.tier, translated: !!flags.translated, typo: !!flags.typo, timeLeft });
+
+  /* Antwoord nakijken. auto = de tijd is op. */
   function submit(auto) {
     if (!G || G.answered) return;
     const q = B.byId[G.ids[G.idx]];
     const inputEl = $('g-input');
     const input = (inputEl.value || '').trim();
-    if (!input && !auto) { inputEl.focus(); inputEl.animate && inputEl.animate([{ transform: 'translateX(0)' }, { transform: 'translateX(-6px)' }, { transform: 'translateX(6px)' }, { transform: 'none' }], { duration: 260 }); return; }
-    stopTimer();
+    if (!input && !auto) { inputEl.focus(); shake(inputEl); return; }
+    // Enter terwijl "Bedoelde je…?" openstaat (met dezelfde tekst) = het eerste voorstel kiezen
+    if (!auto && G.pending && G.pending.input === input) { pick(0); return; }
     const timeLeft = Math.max(0, remainingMs() / 1000);
-    let r;
-    if (!input) r = { q: q.id, input: '', ok: false, rank: -1, score: 0, tier: -1, timeUp: true, timeLeft: 0 };
-    else {
-      const res = B.check(q, input, B.lang);
-      r = res.ok
-        ? { q: q.id, input, ok: true, rank: res.entry.rank, score: res.entry.score, tier: res.entry.tier, translated: res.translated, typo: res.typo, timeLeft }
-        : { q: q.id, input, ok: false, rank: -1, score: 0, tier: -1, timeLeft };
+    if (!input) { commit(q, { q: q.id, input: '', ok: false, rank: -1, score: 0, tier: -1, timeUp: true, timeLeft: 0 }); return; }
+    const res = B.check(q, input, B.lang);
+    // 1. juist (of juist in de andere taal)
+    if (res.ok) { commit(q, okResult(q, input, res.entry, { translated: res.translated }, timeLeft)); return; }
+    // 2. lijkt op een juist antwoord: vragen "Bedoelde je…?" (de klok loopt door)
+    if (!auto && res.suggestions.length) { openSuggest(input, res.suggestions, false); return; }
+    // 3. fout (of de tijd was op voor je een voorstel koos)
+    const late = res.suggestions[0] || null;
+    commit(q, { q: q.id, input, ok: false, rank: -1, score: 0, tier: -1, timeLeft, lateRank: late ? late.rank : -1 });
+  }
+
+  /* De naam tonen in de taal die het best lijkt op wat je typte */
+  function bestName(e, key) {
+    const mine = ansText(e), other = B.lang === 'en' ? e.nl : e.en;
+    if (!other || other === mine) return mine;
+    const d1 = B.editDistance(B.normalize(mine), key, 99);
+    const d2 = B.editDistance(B.normalize(other), key, 99);
+    return d2 < d1 ? other : mine;
+  }
+
+  function openSuggest(input, list, quiet) {
+    G.pending = { input, list };
+    const key = B.normalize(input);
+    const box = $('g-suggest');
+    box.innerHTML = `
+      <p class="suggest-q"><span aria-hidden="true">🤔</span> ${esc(t('suggestQ'))}</p>
+      <div class="suggest-list">${list.map((e, i) =>
+        `<button class="suggest-btn" type="button" data-act="pick" data-i="${i}">${esc(bestName(e, key))}</button>`).join('')}</div>
+      <div class="suggest-no">
+        <button class="link-btn" type="button" data-act="suggest-edit">${esc(t('suggestEdit'))}</button>
+        <button class="link-btn subtle" type="button" data-act="suggest-keep">${esc(t('suggestKeep', { a: input }))}</button>
+      </div>`;
+    box.hidden = false;
+    if (quiet) return;
+    B.Sound.suggest();
+    // Gsm/tablet: toetsenbord dicht, zodat het voorstel niet achter het toetsenbord valt.
+    // Computer: je blijft in het vak (Enter = eerste voorstel kiezen, verder typen = zelf aanpassen).
+    const touch = global.matchMedia && global.matchMedia('(pointer: coarse)').matches;
+    if (touch) {
+      $('g-input').blur();
+      setTimeout(() => { if (!box.hidden) box.scrollIntoView({ block: 'nearest', behavior: 'smooth' }); }, 250);
     }
+  }
+  function hideSuggest() {
+    if (G) G.pending = null;
+    const box = $('g-suggest');
+    if (box && !box.hidden) { box.hidden = true; box.innerHTML = ''; }
+  }
+  /* Je koos een voorstel: dat telt als juist */
+  function pick(i) {
+    if (!G || G.answered || !G.pending) return;
+    const e = G.pending.list[i];
+    if (!e) return;
+    const q = B.byId[G.ids[G.idx]];
+    commit(q, okResult(q, G.pending.input, e, { typo: true }, Math.max(0, remainingMs() / 1000)));
+  }
+
+  /* Het antwoord is definitief: punten, klimmen of uitglijden */
+  function commit(q, r) {
+    stopTimer();
+    G.pending = null;
     G.results.push(r);
-    const from = G.alt / EVEREST;
     G.total += r.score;
     G.alt = B.altitudeFor(G.total);
     G.answered = true;
     persist();
-    inputEl.blur();
+    const inputEl = $('g-input');
+    if (inputEl) inputEl.blur();
     showResult(q, r);
-    // Klimmer laten bewegen en reageren
-    const climber = $('game-climber');
-    climber.classList.remove('hop', 'slip', 'cheer');
-    void climber.offsetWidth;
-    climber.classList.add(!r.ok ? 'slip' : r.tier >= 3 ? 'cheer' : 'hop');
-    B.Scene.climb($('game-scene'), climber, G.seed, from, G.alt / EVEREST, true);
-    animateNumber($('g-alt'), Math.round(from * EVEREST), G.alt);
-    if (r.ok) B.Sound.tier(r.tier); else B.Sound.wrong();
-    if (r.ok && r.tier === 4) B.FX.snow(1);
+    const results = G.results;
+    if (r.ok) {
+      B.Sound.tier(r.tier);
+      if (r.tier === 4) B.FX.snow(1);
+      World.setStops(stopsFor(results).slice(0, -1));
+      World.climb(G.alt, {
+        score: r.score, tier: r.tier,
+        onAlt: updateHud, onPeak: peakPassed,
+        done: () => World.setStops(stopsFor(results))
+      });
+    } else {
+      B.Sound.wrong();
+      World.slip();
+      World.setStops(stopsFor(results));
+      updateHud(G.alt);
+    }
   }
 
   function animateNumber(el, from, to) {
     if (!el) return;
     const dur = 800, t0 = performance.now();
-    const step = now => {
-      const k = Math.min(1, (now - t0) / dur);
+    const step = nowT => {
+      const k = Math.min(1, (nowT - t0) / dur);
       el.textContent = fmt(Math.round(from + (to - from) * (1 - Math.pow(1 - k, 3))));
       if (k < 1) global.requestAnimationFrame(step);
     };
@@ -429,23 +561,27 @@
         <div class="result-score">0<small>${t('ptsWord')}</small></div>
         <p class="result-note">${t('noAnswer')}</p>`;
     } else {
-      html = `<div class="result-top"><span class="tier-badge tw">${t('notOnList')}</span></div>
+      const late = r.lateRank >= 0 ? q.answers[r.lateRank] : null;
+      html = `<div class="result-top"><span class="tier-badge tw">${late ? t('timeUp') : t('notOnList')}</span><span class="gain slip">${esc(t('slipped'))}</span></div>
         <div class="result-score">0<small>${t('ptsWord')}</small></div>
         <div class="result-answer">“${esc(r.input)}”</div>
-        <p class="result-note">${t('notOnListSub')}</p>
+        <p class="result-note">${late ? esc(t('lateConfirm', { a: ansText(late) })) : t('notOnListSub')}</p>
         <div><button class="link-btn" type="button" data-act="report" id="g-report">${t('report')}</button></div>`;
     }
     return `<div class="result">${html}
       <button class="btn primary big" type="button" data-act="next" id="g-next">${last ? t('finish') : t('next')}</button></div>`;
   }
 
+  let resultAt = 0;
   function showResult(q, r) {
     $('g-play').hidden = true;
     const box = $('g-result');
     box.innerHTML = resultHTML(q, r);
     box.hidden = false;
+    resultAt = performance.now();
     updateGameTexts();
-    setTimeout(() => { const n = $('g-next'); if (n) n.focus({ preventScroll: true }); }, 80);
+    // pas na even op "Volgende" zetten: zo sla je de uitslag niet over met een dubbele Enter
+    setTimeout(() => { const n = $('g-next'); if (n && G && G.answered) n.focus({ preventScroll: true }); }, 650);
   }
 
   function nextQuestion() {
@@ -463,10 +599,8 @@
     const earned = B.recordRound(round);
     lastRound = round;
     G = null;
-    renderEnd(round);
-    B.Sound.summit();
-    if (round.alt >= EVEREST) B.FX.snow(1.4);
-    earned.forEach((b, i) => setTimeout(() => badgeToast(b), 700 + i * 1100));
+    renderEnd(round, true);
+    earned.forEach((b, i) => setTimeout(() => badgeToast(b), 1600 + i * 3300));
   }
 
   /* ── Eindscherm ──────────────────────────────────────────── */
@@ -487,14 +621,14 @@
     }).join('')}</ol>`;
   }
 
-  function renderEnd(round) {
-    show('end');
+  /* animate = net klaar met klimmen: vlag planten en uitzoomen */
+  function renderEnd(round, animate) {
     const mi = B.mountainIndexFor(round.alt);
     const m = B.MOUNTAINS[mi], next = B.MOUNTAINS[mi + 1];
     const headline = round.alt >= EVEREST ? t('everestDone') : mi === 0 ? t('valley') : t('topReached', { name: mountainName(m) });
     const again = round.mode === 'unlimited' || round.mode === 'category';
     $('screen-end').innerHTML = `
-      <div class="scene-wrap hero"><canvas id="end-scene" aria-hidden="true"></canvas>${CLIMBER('end-climber')}<span class="scene-tag">${esc(B.peakName(m, B.lang))} · ${fmt(m.h)} m</span></div>
+      <div class="stage end-stage" id="end-stage" aria-hidden="true"></div>
       <div class="card end-card">
         <span class="eyebrow">${t('roundDone')} · ${esc(roundTitle(round))}</span>
         <h1 class="end-peak">${esc(headline)}</h1>
@@ -514,10 +648,17 @@
         ${answersListHTML(round.results)}
       </div>
       <button class="btn full" type="button" data-act="home">${t('home')}</button>`;
-    animateNumber($('end-total'), 0, round.total);
-    animateNumber($('end-alt'), 0, round.alt);
-    const climber = $('end-climber');
-    B.Scene.climb($('end-scene'), climber, round.seed || 1, 0, round.alt / EVEREST, false, () => climber.classList.add('cheer'));
+    show('end');
+    if (animate) {
+      World.show('end', { seed: round.seed || B.dayNumber(), alt: round.alt, stops: stopsFor(round.results) });
+      animateNumber($('end-total'), 0, round.total);
+      animateNumber($('end-alt'), 0, round.alt);
+      setTimeout(() => B.Sound.summit(), 650);
+      if (round.alt >= EVEREST) setTimeout(() => B.FX.snow(1.4), 900);
+    } else {
+      $('end-total').textContent = fmt(round.total);
+      $('end-alt').textContent = fmt(round.alt);
+    }
   }
 
   /* ── Delen ───────────────────────────────────────────────── */
@@ -615,11 +756,13 @@
       return `<div><span class="tier-badge t${i}">${esc(tier[B.lang])}</span><span class="num">${lo}–${tier.max} ${t('pts')}</span></div>`;
     }).join('');
     const peaks = B.MOUNTAINS.slice(1).map(m => `<span>${esc(B.peakName(m, B.lang))}</span><span>${fmt(m.h)} m</span>`).join('');
+    const zones = B.ZONES.map((z, i) => `<span>${z.icon} ${esc(t(z.label))}</span><span>${i ? fmt(B.ZONES[i - 1].to) : 0}+ m</span>`).join('');
     openDialog(t('helpTitle'), `
       <div><h3>${t('help1t')}</h3><p>${t('help1')}</p></div>
       <div><h3>${t('help2t')}</h3><p>${t('help2')}</p></div>
       <div><h3>${t('help3t')}</h3><div class="tier-legend">${legend}</div></div>
       <div><h3>${t('help4t')}</h3><p>${t('help4')}</p><div class="peaks" style="margin-top:10px">${peaks}</div></div>
+      <div><h3>${t('help7t')}</h3><p>${t('help7')}</p><div class="peaks" style="margin-top:10px">${zones}</div></div>
       <div><h3>${t('help5t')}</h3><p>${t('help5')}</p></div>
       <div><h3>${t('help6t')}</h3><p>${t('help6')}</p></div>`, 'help');
   }
@@ -663,7 +806,7 @@
   }
 
   /* ── Algemene acties ─────────────────────────────────────── */
-  function goHome() { stopTimer(); renderHome(); show('home'); drawHome(); }
+  function goHome() { stopTimer(); renderHome(); }
 
   function setLang(lang) {
     if (lang !== 'nl' && lang !== 'en') return;
@@ -678,10 +821,12 @@
     else if (current === 'cats') renderCats();
     else if (current === 'archive') renderArchive();
     else if (current === 'stats') renderStats();
-    else if (current === 'end' && lastRound) renderEnd(lastRound);
+    else if (current === 'end' && lastRound) renderEnd(lastRound, false);
     else if (current === 'game' && G) {
       updateGameTexts();
+      $('g-hud').innerHTML = hudHTML(hudAlt, false, 'meter');
       if (G.answered) { const q = B.byId[G.ids[G.idx]]; $('g-result').innerHTML = resultHTML(q, G.results[G.results.length - 1]); }
+      else if (G.pending) openSuggest(G.pending.input, G.pending.list, true);
     }
     const dlg = $('dlg');
     if (dlg.open && $('dlg-inner').dataset.kind === 'settings') openSettings(false);
@@ -694,15 +839,7 @@
     if (th === 'light' || th === 'dark') doc.documentElement.setAttribute('data-theme', th);
     else if (hostTheme) doc.documentElement.setAttribute('data-theme', hostTheme);
     else doc.documentElement.removeAttribute('data-theme');
-    redraw();
-  }
-  function redraw() {
-    if (current === 'home') drawHome();
-    if (current === 'game' && G) drawGameScene(G.alt / EVEREST);
-    if (current === 'end' && lastRound) {
-      const scene = B.Scene.draw($('end-scene'), { seed: lastRound.seed || 1, progress: lastRound.alt / EVEREST });
-      B.Scene.placeClimber($('end-climber'), scene, lastRound.alt / EVEREST);
-    }
+    World.refresh();
   }
 
   /* Eén klik-luisteraar voor alle knoppen met data-act */
@@ -730,7 +867,20 @@
       case 'mode-cats': renderCats(); show('cats'); break;
       case 'mode-archive': renderArchive(); show('archive'); break;
       case 'cat': startRound('category', { cat: el.dataset.id }); break;
-      case 'next': nextQuestion(); break;
+      case 'pick': pick(Number(el.dataset.i)); break;
+      case 'suggest-edit': {
+        hideSuggest();
+        const i = $('g-input');
+        if (i) { i.focus(); i.select(); }
+        break;
+      }
+      case 'suggest-keep': {
+        if (!G || G.answered || !G.pending) break;
+        const q = B.byId[G.ids[G.idx]];
+        commit(q, { q: q.id, input: G.pending.input, ok: false, rank: -1, score: 0, tier: -1, timeLeft: Math.max(0, remainingMs() / 1000) });
+        break;
+      }
+      case 'next': if (performance.now() - resultAt > 450) nextQuestion(); break;
       case 'quit': openConfirmQuit(); break;
       case 'quit-yes': closeDialog(); stopTimer(); G = null; goHome(); break;
       case 'again': if (lastRound) startRound(lastRound.mode === 'category' ? 'category' : 'unlimited', { cat: lastRound.cat }); break;
@@ -778,14 +928,12 @@
   /* Klik buiten het venster = sluiten */
   $('dlg').addEventListener('click', e => { if (e.target === $('dlg')) closeDialog(); });
 
-  /* Thema of schermgrootte verandert → bergen opnieuw tekenen */
-  let resizeTimer = null;
-  global.addEventListener('resize', () => { clearTimeout(resizeTimer); resizeTimer = setTimeout(redraw, 120); });
+  /* Thema verandert → de berg krijgt nieuwe kleuren */
   if (global.matchMedia) {
     const mq = global.matchMedia('(prefers-color-scheme: dark)');
-    if (mq.addEventListener) mq.addEventListener('change', redraw);
+    if (mq.addEventListener) mq.addEventListener('change', () => World.refresh());
   }
-  if (global.MutationObserver) new MutationObserver(() => redraw()).observe(doc.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+  if (global.MutationObserver) new MutationObserver(() => World.refresh()).observe(doc.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
 
   /* Als je terugkomt na middernacht: nieuwe dag tonen */
   let shownDay = B.dayNumber();
@@ -817,8 +965,9 @@
     });
     renderBar();
     applyTheme();
+    World.init($('world'));
     if (hotData && hotData.G && hotData.G.ids) {
-      G = hotData.G;
+      G = Object.assign({ pending: null }, hotData.G);
       renderGame();
       if (G.answered) { showResult(B.byId[G.ids[G.idx]], G.results[G.results.length - 1]); }
       else showQuestion();
@@ -829,7 +978,7 @@
 
   const hot = global.claude && global.claude.hot;
   if (hot && typeof hot.snapshot === 'function') {
-    try { hot.snapshot(() => ({ G: G && G.mode !== 'daily' && G.mode !== 'archive' ? G : null })); } catch (e) { /* niet beschikbaar */ }
+    try { hot.snapshot(() => ({ G: G && G.mode !== 'daily' && G.mode !== 'archive' ? Object.assign({}, G, { pending: null }) : null })); } catch (e) { /* niet beschikbaar */ }
   }
   if (hot && typeof hot.ready === 'function') hot.ready(start);
   else start((hot && hot.data) || {});

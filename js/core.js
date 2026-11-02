@@ -10,7 +10,7 @@
 
   /* ── Instellingen van het spel ───────────────────────────── */
   B.CONFIG = {
-    version: '1.0.0',
+    version: '1.1.0',
     perRound: 8,            // vragen per ronde
     seconds: 20,            // seconden per vraag
     launch: '2026-11-02',   // dag van Beklimming #1
@@ -97,7 +97,14 @@
     s = s.replace(/&/g, ' and ').replace(/\+/g, ' plus ').replace(/['’`´]/g, '');
     let words = s.split(/[^a-z0-9]+/).filter(Boolean);
     while (words.length > 1 && ARTICLES.has(words[0])) words.shift();
-    words = words.map(w => (SAINTS.has(w) ? 'saint' : ROMAN[w] || w));
+    // Romeinse cijfers → gewone cijfers ("Rocky IV" = "Rocky 4"), maar niet als eerste woord
+    // ("X-ray", "I Will Survive") en een losse letter (i, v, x) enkel als laatste woord ("Karel V")
+    const last = words.length - 1;
+    words = words.map((w, i) => {
+      if (SAINTS.has(w)) return 'saint';
+      if (ROMAN[w] && i > 0 && (w.length > 1 || i === last)) return ROMAN[w];
+      return w;
+    });
     words = words.filter((w, i) => !(i > 0 && i < words.length - 1 && CONNECTORS.has(w)));
     return words.join('');
   };
@@ -126,20 +133,39 @@
   }
   B.editDistance = editDistance;
 
-  /* Hoeveel tikfouten mogen er zijn voor een woord van deze lengte? */
+  /* Hoeveel tikfouten mogen er zijn om nog een voorstel te doen? */
   function allowedTypos(len) {
-    if (len <= 4) return 0;
-    if (len <= 7) return 1;
-    if (len <= 11) return 2;
-    return 3;
+    if (len <= 2) return 0;
+    if (len <= 5) return 1;
+    if (len <= 8) return 2;
+    if (len <= 12) return 3;
+    return 4;
   }
   const digitsOf = s => s.replace(/[^0-9]/g, '');
-  const isSwap = (a, b) => {
-    if (a.length !== b.length) return false;
-    const diff = [];
-    for (let i = 0; i < a.length; i++) if (a[i] !== b[i]) diff.push(i);
-    return diff.length === 2 && diff[1] === diff[0] + 1 && a[diff[0]] === b[diff[1]] && a[diff[1]] === b[diff[0]];
+
+  /* Klanksleutel: woorden die hetzelfde klinken krijgen dezelfde sleutel.
+     "Tsjaikofski" en "Tsjaikovski" → "tjaikofski", "Philippijnen" = "Filipijnen". */
+  B.phonetic = function (key) {
+    return String(key)
+      .replace(/tsch|tsj|tch/g, 'tj').replace(/sch/g, 'sk').replace(/ph/g, 'f')
+      .replace(/sh|sj/g, 'sj').replace(/ck|qu|q/g, 'k')
+      .replace(/c(?=[eiy])/g, 's').replace(/c/g, 'k')
+      .replace(/x/g, 'ks').replace(/z/g, 's')
+      .replace(/ij|ei|ey|ie|y/g, 'i').replace(/ae/g, 'e')
+      .replace(/oe|oo/g, 'u').replace(/ou/g, 'au')
+      .replace(/w/g, 'v').replace(/v/g, 'f')
+      .replace(/(.)h/g, '$1')
+      .replace(/dt$|d$/g, 't')
+      .replace(/(.)\1+/g, '$1');
   };
+
+  /* Woorden die te algemeen zijn om op te zoeken ("Noord", "Republiek", ...) */
+  const STOP = new Set(('saint sint noord zuid oost west north south east nieuw nieuwe new republiek republic koninkrijk kingdom ' +
+    'verenigd verenigde united grote groot kleine klein great little island islands eiland eilanden city stad mount mont monte ' +
+    'lake meer river rivier zee sea golf gulf nationaal national federale federal democratische democratic peoples volksrepubliek ' +
+    'staat state states union unie centraal central kaap cape port puerto porto fort santa santo sao del della van von der den des ' +
+    'het the and with from voor met over part deel episode film movie spel game club').split(' '));
+  const wordsOf = text => String(text).split(/[\s\-–—\/,:;()'’.&+!?*]+/).map(w => B.normalize(w)).filter(w => w.length >= 4 && !STOP.has(w) && !/^\d+$/.test(w));
 
   /* ── Vragen inlezen ──────────────────────────────────────── */
   B.questions = [];
@@ -167,6 +193,7 @@
       const raw = typeof def.a === 'string' ? B.parseAnswers(def.a) : def.a;
       const answers = [];
       const keyMap = new Map();
+      const tokenMap = new Map(); // los woord → antwoorden waarin het voorkomt
       raw.forEach(names => {
         const nl = names[0];
         const en = names[1] ? names[1] : nl;
@@ -177,7 +204,11 @@
           const key = B.normalize(name);
           if (!key) return;
           if (!entry.keys.includes(key)) entry.keys.push(key);
-          if (!keyMap.has(key)) keyMap.set(key, { entry, via: i === 0 ? 'nl' : i === 1 ? 'en' : 'alias' });
+          if (!keyMap.has(key)) keyMap.set(key, { entry, via: i === 0 ? 'nl' : i === 1 ? 'en' : 'alias', phon: B.phonetic(key) });
+          wordsOf(name).forEach(w => {
+            if (!tokenMap.has(w)) tokenMap.set(w, new Set());
+            tokenMap.get(w).add(entry);
+          });
         });
         answers.push(entry);
       });
@@ -185,7 +216,7 @@
         e.score = B.scoreForRank(e.rank, answers.length);
         e.tier = B.tierOf(e.score);
       });
-      const q = { id: cat + '-' + def.id, cat, nl: def.nl, en: def.en, answers, keyMap };
+      const q = { id: cat + '-' + def.id, cat, nl: def.nl, en: def.en, answers, keyMap, tokenMap };
       if (B.byId[q.id]) console.warn('Dubbele vraag-id:', q.id);
       B.questions.push(q);
       B.byId[q.id] = q;
@@ -195,17 +226,18 @@
 
   B.totalAnswers = () => B.questions.reduce((s, q) => s + q.answers.length, 0);
 
-  /* ── Een antwoord nakijken ───────────────────────────────── */
+  /* ── Een antwoord nakijken ───────────────────────────────── *
+     Juist (ook in de andere taal, of enkelvoud/meervoud) → meteen goed.
+     Bijna juist → tot 3 voorstellen ("Bedoelde je …?"), de speler kiest. */
   B.check = function (q, input, lang) {
     const key = B.normalize(input);
-    if (!key) return { ok: false, empty: true };
+    if (!key) return { ok: false, empty: true, suggestions: [] };
 
     const result = hit => {
       const shownIn = lang === 'en' ? 'en' : 'nl';
       const other = shownIn === 'nl' ? 'en' : 'nl';
-      const translated = hit.typo ? false :
-        hit.via === other && B.normalize(hit.entry[other]) !== B.normalize(hit.entry[shownIn]);
-      return { ok: true, entry: hit.entry, typo: !!hit.typo, translated };
+      const translated = hit.via === other && B.normalize(hit.entry[other]) !== B.normalize(hit.entry[shownIn]);
+      return { ok: true, entry: hit.entry, typo: false, translated, suggestions: [] };
     };
 
     // 1. precies juist (of een gekende alternatieve naam)
@@ -225,26 +257,56 @@
     }
 
     // 3. is het een echt bestaand antwoord van een ándere vraag? Dan is het fout,
-    //    en verbeteren we het niet naar iets dat er toevallig op lijkt.
-    if (B.globalKeys.has(key)) return { ok: false };
+    //    en stellen we niets voor dat er toevallig op lijkt.
+    if (B.globalKeys.has(key)) return { ok: false, suggestions: [] };
 
-    // 4. tikfouten verbeteren
-    let best = null, bestD = Infinity;
+    // 4. voorstellen zoeken
+    return { ok: false, suggestions: B.suggest(q, input, key) };
+  };
+
+  /* Zoekt de antwoorden die het dichtst bij de invoer liggen. Lager cijfer = beter. */
+  B.suggest = function (q, input, key = B.normalize(input)) {
+    const found = new Map();
+    const add = (entry, quality) => {
+      const prev = found.get(entry);
+      if (prev === undefined || quality < prev) found.set(entry, quality);
+    };
+    const digits = digitsOf(key);
+    const phon = B.phonetic(key);
     for (const [k, hit] of q.keyMap) {
-      const minLen = Math.min(k.length, key.length);
-      const max = allowedTypos(minLen);
-      if (digitsOf(k) !== digitsOf(key)) continue;
-      let d;
-      if (max === 0) {
-        if (minLen === 4 && isSwap(key, k)) d = 1; else continue;
-      } else {
-        d = editDistance(key, k, max);
-        if (d > max) continue;
+      if (digitsOf(k) !== digits) continue;
+      // a. tikfouten (letters vergeten, te veel, verkeerd of omgewisseld)
+      const max = allowedTypos(Math.min(k.length, key.length));
+      if (max > 0) {
+        const d = editDistance(key, k, max);
+        if (d <= max) add(hit.entry, d);
       }
-      if (d < bestD || (d === bestD && hit.entry.rank < best.entry.rank)) { best = hit; bestD = d; }
+      // b. klankfouten (schrijven zoals je het hoort)
+      if (key.length >= 4) {
+        if (hit.phon === phon) add(hit.entry, 0.5);
+        else if (phon.length >= 5 && Math.abs(hit.phon.length - phon.length) <= 1 && editDistance(phon, hit.phon, 1) <= 1) add(hit.entry, 1.5);
+      }
     }
-    if (best) return result({ entry: best.entry, via: best.via, typo: true });
-    return { ok: false };
+    // c. een deel van de naam ("Bosnië" → Bosnië en Herzegovina, "Hazard" → Eden Hazard)
+    const words = wordsOf(input);
+    if (words.length) {
+      const sets = words.map(w => {
+        const set = new Set(q.tokenMap.get(w) || []);
+        if (w.length >= 6) {
+          for (const [t, entries] of q.tokenMap) {
+            if (Math.abs(t.length - w.length) <= 1 && editDistance(w, t, 1) <= 1) entries.forEach(e => set.add(e));
+          }
+        }
+        return set;
+      });
+      let common = sets[0];
+      sets.slice(1).forEach(set => { common = new Set([...common].filter(e => set.has(e))); });
+      common.forEach(e => add(e, 1));
+    }
+    return [...found.entries()]
+      .sort((a, b) => a[1] - b[1] || a[0].rank - b[0].rank)
+      .slice(0, 3)
+      .map(x => x[0]);
   };
 
   /* ── Toevalsgetallen met een vast zaadje (voor de dagplanning) ── */

@@ -67,20 +67,24 @@ console.log(`Dagelijkse beklimming: een vraag komt ten vroegste na ${minGap} dag
 const cats = new Set(B.dailyQuestionIds(1).map(id => B.byId[id].cat));
 console.log(`Dag 1 heeft vragen uit ${cats.size} verschillende categorieën`);
 
-// Een paar nakijk-tests
+// Een paar nakijk-tests: ok = meteen juist, suggest = "Bedoelde je …?", wrong = fout
 const tests = [
-  ['geo-europe', 'Duitsladn', true], ['geo-europe', 'germany', true], ['geo-europe', 'belgie', true],
-  ['geo-landlocked', 'Australia', false], ['geo-landlocked', 'Oostenryk', true], ['geo-capital-europe', 'brussels', true],
-  ['geo-africa', 'congo', true], ['geo-asia', 'Laos', true], ['geo-europe', 'Engeland', true], ['geo-north-america', 'St. Lucia', true],
-  ['geo-euro', 'Trinidad', false], ['geo-north-america', 'trinidad & tobago', true]
+  ['geo-europe', 'germany', 'ok'], ['geo-europe', 'belgie', 'ok'], ['geo-europe', 'Engeland', 'ok'],
+  ['geo-capital-europe', 'brussels', 'ok'], ['geo-africa', 'congo', 'ok'], ['geo-north-america', 'trinidad & tobago', 'ok'],
+  ['geo-north-america', 'St. Lucia', 'ok'], ['belgium-red-devils-2018', 'de bruyne', 'ok'],
+  ['geo-europe', 'Duitsladn', 'suggest'], ['geo-landlocked', 'Oostenryk', 'suggest'], ['geo-asia', 'Filippijnen', 'suggest'],
+  ['geo-south-america', 'Pru', 'suggest'], ['music-composers', 'Tsjaikofski', 'suggest'], ['geo-africa', 'Mozambiek', 'suggest'],
+  ['business-musk', 'xcom', 'ok'], ['language-nato-alphabet', 'xray', 'ok'], ['music-be-festivals', 'Feest in het Prak', 'suggest'],
+  ['geo-landlocked', 'Australia', 'wrong'], ['geo-euro', 'Trinidad', 'wrong'], ['geo-europe', 'Noord', 'wrong'], ['geo-europe', 'xyz', 'wrong']
 ];
 for (const [id, input, expect] of tests) {
   const q = B.byId[id];
   if (!q) continue;
   const r = B.check(q, input, 'nl');
-  const mark = r.ok === expect ? '✓' : '✗';
-  if (r.ok !== expect) problems++;
-  console.log(`${mark} ${id}: "${input}" → ${r.ok ? r.entry.nl + ' (' + r.entry.score + ' pt' + (r.typo ? ', verbeterd' : '') + (r.translated ? ', vertaald' : '') + ')' : 'fout'}`);
+  const got = r.ok ? 'ok' : r.suggestions.length ? 'suggest' : 'wrong';
+  if (got !== expect) problems++;
+  const detail = r.ok ? `${r.entry.nl} (${r.entry.score} pt${r.translated ? ', vertaald' : ''})` : r.suggestions.length ? 'Bedoelde je: ' + r.suggestions.map(e => e.nl).join(' / ') : 'fout';
+  console.log(`${got === expect ? '✓' : '✗'} ${id}: "${input}" → ${detail}`);
 }
 console.log(problems ? `\n${problems} probleem/problemen gevonden.` : '\nAlles in orde ✓');
 process.exitCode = problems ? 1 : 0;
