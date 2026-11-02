@@ -339,6 +339,13 @@ p { margin: 0; }
   background: var(--frost); color: var(--glacier);
 }
 .mode-icon svg { width: 24px; height: 24px; }
+.level-bar {
+  display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap;
+  padding: 10px 14px; border-radius: var(--radius); border: 1px solid var(--line); background: var(--card);
+}
+.level-bar-name { font-weight: 700; }
+.seg.level-seg { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); width: 100%; flex-wrap: nowrap; }
+.seg.level-seg button { padding: 9px 4px; font-size: 14px; white-space: nowrap; }
 .mode-title { display: block; font-weight: 700; font-size: 17px; }
 .mode-sub { display: block; font-size: 14px; color: var(--ink-2); }
 .mode .chev { width: 20px; height: 20px; color: var(--ink-2); }

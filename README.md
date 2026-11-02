@@ -9,7 +9,7 @@ In het Nederlands én het Engels (taalknop rechtsboven).
 |---|---|
 | Ronde | 8 vragen, 20 seconden per vraag, 1 antwoord per vraag |
 | Klassen | Gewoon → Ongewoon → Zeldzaam → Episch → **1 in a Brillion**. Elke klasse is 20% van de lijst (van vaak genoemd naar zeldzaam) en laat je +250 / +500 / +750 / +1.000 / +1.250 m klimmen |
-| Moeilijkheid | elke vraag is makkelijk, gemiddeld of moeilijk. Bij **Onbeperkt** kies je zelf; de **dagelijkse beklimming** wordt moeilijker naarmate je hoger klimt (vraag 1–3 makkelijk, 4–6 gemiddeld, 7–8 moeilijk); **Per categorie** gaat ook van makkelijk naar moeilijk |
+| Moeilijkheid | elke vraag is makkelijk, gemiddeld of moeilijk. Bij **Onbeperkt** kies je zelf; de **dagelijkse beklimming** wordt moeilijker naarmate je hoger klimt (vraag 1–4 makkelijk, 5–7 gemiddeld, 8 moeilijk); **Per categorie** gaat ook van makkelijk naar moeilijk |
 | Einde | je hoogte in meter + de berg die je haalde (Kemmelberg … Mount Everest op 8.849 m: haal je met vooral Episch en 1 in a Brillion) |
 | Nakijken | tikfout, klankfout of maar een deel van de naam? → **Bedoelde je…?** en jij kiest (de klok loopt door). Engels ↔ Nederlands wordt vertaald |
 | Klimmen | de berg vult het hele scherm en de camera klimt live mee: bos → alpenweide → rotsen → gletsjer → eeuwige sneeuw → death zone, door de wolken, langs bordjes van echte bergen. Hoe zeldzamer je antwoord, hoe langer de klim (Legendarisch = slow-motion) |
@@ -66,7 +66,7 @@ brillion/
 │   ├── audio.js          ← geluidjes, voetstappen, ijsbijl en wind
 │   ├── fx.js             ← de klimwereld (berg, camera, weer) en de sneeuw-confetti
 │   └── app.js            ← de schermen en het spelverloop
-├── data/                 ← 241 vragen in 8 categorieën (vooral algemene kennis)
+├── data/                 ← 283 vragen in 9 categorieën (algemene kennis + open alledaagse vragen)
 ├── sw.js + manifest      ← werkt als app en offline
 ├── icons/                ← app-icoontjes
 └── tools/                ← validate · make-icons · build-artifact

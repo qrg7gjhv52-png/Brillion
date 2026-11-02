@@ -232,6 +232,7 @@
       <div class="streak">${ICON.flame}<span>${streakText}</span><span class="muted">${t('bestStreak')}: ${B.state.streak.best}</span></div>
       <div class="modes">
         ${modeButton('mode-unlimited', ICON.infinity, t('unlimited'), t('unlimitedSub'))}
+        <div class="level-bar"><span class="level-bar-name">${t('levelFor')}</span>${levelSeg()}</div>
         ${modeButton('mode-cats', ICON.grid, t('byCategory'), t('byCategorySub'))}
         ${modeButton('mode-archive', ICON.calendar, t('archive'), t('archiveSub'))}
       </div>
@@ -241,6 +242,9 @@
     clearInterval(countdownTimer);
     if (played) { updateCountdown(); countdownTimer = setInterval(updateCountdown, 1000); }
   }
+  /* De drie niveauknoppen (startscherm en instellingen) */
+  const levelSeg = () => `<div class="seg level-seg" role="group" aria-label="${t('levelFor')}">${B.LEVELS.map(l =>
+    `<button type="button" data-act="set-level" data-v="${l.id}" aria-pressed="${l.id === B.state.level}"><span aria-hidden="true">${l.icon}</span> ${esc(l[B.lang])}</button>`).join('')}</div>`;
   const modeButton = (act, icon, title, sub) =>
     `<button class="mode" type="button" data-act="${act}"><span class="mode-icon">${icon}</span><span><span class="mode-title">${title}</span><span class="mode-sub">${sub}</span></span>${ICON.chev}</button>`;
 
@@ -791,6 +795,7 @@
     openDialog(t('settings'), `
       <div class="setting"><span class="setting-name">${t('language')}</span>${seg('set-lang', [['nl', 'Nederlands'], ['en', 'English']], B.lang)}</div>
       <div class="setting"><span class="setting-name">${t('sound')}</span>${seg('set-sound', [['1', t('on')], ['0', t('off')]], B.state.sound ? '1' : '0')}</div>
+      <div class="setting"><span class="setting-name">${t('levelFor')}</span>${levelSeg()}</div>
       <div class="setting"><span class="setting-name">${t('theme')}</span>${seg('set-theme', [['auto', t('themeAuto')], ['light', t('themeLight')], ['dark', t('themeDark')]], B.state.theme)}</div>
       <div><h3>${t('reports')} (${reps.length})</h3><p>${t('reportsInfo')}</p>${B.Cloud.isActive() ? `<p style="margin-top:6px">${t('reportsSynced')}</p>` : ''}<div style="margin-top:10px;display:flex;flex-direction:column;gap:10px">${repList}</div></div>
       ${installPrompt ? `<div><button class="btn full" type="button" data-act="install">${t('install')}</button><p style="margin-top:6px">${t('offline')}</p></div>` : ''}
@@ -876,7 +881,17 @@
         if (!B.state.daily[day]) startRound('archive', { day });
         break;
       }
-      case 'mode-unlimited': openLevelPicker(); break;
+      case 'mode-unlimited': startRound('unlimited', { lvl: B.state.level }); break;
+      case 'set-level': {
+        const lvl = Number(el.dataset.v);
+        if (![1, 2, 3].includes(lvl)) break;
+        B.state.level = lvl;
+        B.save();
+        doc.querySelectorAll('[data-act="set-level"]').forEach(b => b.setAttribute('aria-pressed', String(Number(b.dataset.v) === lvl)));
+        const sub = doc.querySelector('[data-act="mode-unlimited"] .mode-sub');
+        if (sub) sub.textContent = t('unlimitedSub');
+        break;
+      }
       case 'start-unlimited': {
         const lvl = Number(el.dataset.lvl);
         if (![1, 2, 3].includes(lvl)) break;
@@ -968,6 +983,14 @@
   global.addEventListener('beforeinstallprompt', e => { e.preventDefault(); installPrompt = e; });
   if (!embedded && 'serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost')) {
     global.addEventListener('load', () => navigator.serviceWorker.register('sw.js').catch(() => {}));
+    // Nieuwe versie geïnstalleerd? Dan meteen één keer herladen (niet pas de volgende keer)
+    const hadController = !!navigator.serviceWorker.controller;
+    let reloaded = false;
+    navigator.serviceWorker.addEventListener('controllerchange', () => {
+      if (!hadController || reloaded || G) return;
+      reloaded = true;
+      global.location.reload();
+    });
   }
 
   /* ── Opstarten ───────────────────────────────────────────── */

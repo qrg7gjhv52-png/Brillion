@@ -80,7 +80,7 @@ for (let d = 1; d <= 160; d++) {
 }
 console.log(`Dagelijkse beklimming: een vraag komt ten vroegste na ${minGap} dagen terug`);
 if (minGap < 18) { console.log('⚠️  een vraag komt binnen 2,5 week terug'); problems++; }
-if (!mixOk) { console.log('⚠️  de dagelijkse mix (3 makkelijk, 3 gemiddeld, 2 moeilijk) klopt niet'); problems++; }
+if (!mixOk) { console.log('⚠️  de dagelijkse mix (4 makkelijk, 3 gemiddeld, 1 moeilijk) klopt niet'); problems++; }
 const cats = new Set(B.dailyQuestionIds(1).map(id => B.byId[id].cat));
 console.log(`Dag 1 heeft vragen uit ${cats.size} verschillende categorieën: ` + B.dailyQuestionIds(1).map(id => B.byId[id].id).join(', '));
 

@@ -18,7 +18,8 @@
       nextIn: 'Nieuwe beklimming over {t}',
       dailyIntro: '8 vragen · steeds moeilijker · 20 seconden per vraag · 1 poging',
       unlimited: 'Onbeperkt',
-      unlimitedSub: 'Kies makkelijk, gemiddeld of moeilijk',
+      unlimitedSub: 'Zoveel rondes als je wil, op jouw niveau',
+      levelFor: 'Niveau',
       byCategory: 'Per categorie',
       byCategorySub: 'Kies je onderwerp',
       archive: 'Archief',
@@ -145,7 +146,7 @@
       lvlCount: '{n} vragen',
       lastTime: 'Vorige keer',
       help8t: 'Moeilijkheid',
-      help8: 'Bij Onbeperkt kies je zelf: makkelijk, gemiddeld of moeilijk. De dagelijkse beklimming wordt moeilijker naarmate je hoger klimt: vraag 1 tot 3 zijn makkelijk, 4 tot 6 gemiddeld en 7 en 8 moeilijk. Per categorie gaat ook van makkelijk naar moeilijk.'
+      help8: 'Bij Onbeperkt kies je zelf: makkelijk, gemiddeld of moeilijk. De dagelijkse beklimming wordt moeilijker naarmate je hoger klimt: vraag 1 tot 4 zijn makkelijk, 5 tot 7 gemiddeld en vraag 8 is moeilijk. Per categorie gaat ook van makkelijk naar moeilijk.'
     },
 
     en: {
@@ -158,7 +159,8 @@
       nextIn: 'New climb in {t}',
       dailyIntro: '8 questions · getting harder · 20 seconds each · 1 attempt',
       unlimited: 'Endless',
-      unlimitedSub: 'Pick easy, medium or hard',
+      unlimitedSub: 'As many rounds as you like, at your level',
+      levelFor: 'Level',
       byCategory: 'By category',
       byCategorySub: 'Pick your topic',
       archive: 'Archive',
@@ -285,7 +287,7 @@
       lvlCount: '{n} questions',
       lastTime: 'Last time',
       help8t: 'Difficulty',
-      help8: 'In Endless you choose: easy, medium or hard. The daily climb gets harder as you go up: questions 1 to 3 are easy, 4 to 6 medium and 7 and 8 hard. By category also goes from easy to hard.'
+      help8: 'In Endless you choose: easy, medium or hard. The daily climb gets harder as you go up: questions 1 to 4 are easy, 5 to 7 medium and question 8 is hard. By category also goes from easy to hard.'
     }
   };
 

@@ -212,6 +212,37 @@
       Wiesmann; Apollo|Apollo|Gumpert; Melkus; Iso; Bizzarrini; De Tomaso; Autobianchi; Innocenti; Abarth; Dallara; Zenvo; Tatra;
       Praga; Aro; Zastava; Yugo; Moskvitsj|Moskvich; GAZ|GAZ|Volga; UAZ; ZIL; Hindustan|Hindustan Motors|Hindustan Ambassador; Datsun;
       Scion; Mitsuoka; Holden; JAC; Dongfeng; FAW; SAIC; Roewe; Maxus; Changan; Baojun; Ineos|Ineos|Ineos Grenadier; VinFast; Togg;
-      Iran Khodro; Saipa; Bufori; Pininfarina|Automobili Pininfarina; Alpina; Brabus; Ruf; Mansory; Polski Fiat; FSO; Avtovaz|AvtoVAZ` }
+      Iran Khodro; Saipa; Bufori; Pininfarina|Automobili Pininfarina; Alpina; Brabus; Ruf; Mansory; Polski Fiat; FSO; Avtovaz|AvtoVAZ` },
+    { id: 'board-games', lvl: 1, nl: 'Noem een bordspel', en: 'Name a board game', a: `
+      Monopoly; Schaken|Chess; Dammen|Draughts|Checkers; Mens erger je niet|Ludo|Mens-erger-je-niet; Scrabble; Risk|Risk|Risico;
+      Cluedo|Cluedo|Clue; Stratego; Ganzenbord|Game of the Goose; De Kolonisten van Catan|Catan|Kolonisten van Catan|Settlers of Catan;
+      Trivial Pursuit; Wie is het?|Guess Who?|Wie is het; Vier op een rij|Connect Four|Connect 4; Zeeslag|Battleship; Rummikub;
+      Pictionary; Carcassonne; Ticket to Ride|Ticket to Ride|Les Aventuriers du Rail; Pandemic; Backgammon|Backgammon|Triktrak; Go;
+      Mahjong|Mahjong|Mahjongg; Othello|Othello|Reversi; Mastermind; Operatie|Operation; Levensweg|The Game of Life|Game of Life;
+      Halma|Halma|Chinees dambord|Chinese checkers; Mancala|Mancala|Bao|Oware; Azul; 7 Wonders; Dixit; Codenames; Splendor;
+      Hotel; 30 Seconds; Party & Co|Party en Co; Qwirkle; Agricola; Puerto Rico; Terraforming Mars; Gloomhaven; Wingspan;
+      Scythe; Twilight Struggle; Hoogspanning|Power Grid; El Grande; Tikal; Small World; King of Tokyo; Machi Koro; Patchwork;
+      Cascadia; Everdell; Root; Spirit Island; Brass; Concordia; Great Western Trail; Viticulture; Lords of Waterdeep;
+      Arkham Horror; Betrayal at House on the Hill; Mysterium; Just One; Keezen; Pim Pam Pet; Blokus; Quarto; Quoridor; Abalone;
+      Hive; Santorini; Onitama; Tsuro; Kingdomino; Takenoko; Camel Up; Istanbul; Five Tribes; Alhambra; Dead of Winter; Zombicide;
+      Descent; HeroQuest; Diplomacy; Axis & Allies|Axis and Allies; Twilight Imperium; Eclipse; Through the Ages; Le Havre; Caylus;
+      Stone Age; Ra; Modern Art; Acquire; Cranium; Boggle; Yahtzee|Yahtzee|Yathzee; Triominos; Sorry!|Sorry; Parcheesi; Pachisi;
+      Kerplunk|Kerplunk|Ker-Plunk; Jenga; Twister; Sagrada; Lost Ruins of Arnak|Lost Ruins of Arnak|Arnak;
+      Ark Nova; Dune: Imperium|Dune: Imperium|Dune Imperium; Heat; Clank!|Clank; Flamme Rouge; Kingsburg; Tzolk'in|Tzolkin; Gaia Project;
+      Mage Knight; Robinson Crusoe; Too Many Bones; Nemesis; Cthulhu Wars` },
+    { id: 'card-games', lvl: 1, nl: 'Noem een kaartspel', en: 'Name a card game', a: `
+      Poker; Blackjack|Blackjack|Eenentwintigen|21; Pesten; Patience|Solitaire; UNO|Uno; Bridge; Klaverjassen|Klaverjas;
+      Hartenjagen|Hearts|Harten; Rummy; Canasta; Whist|Whist|Wiezen; Manillen|Manille; Kingen|King; Boerenbridge;
+      Eenendertigen|31|Eenendertig; Pandoeren; Rikken; Toepen; Bonken; Jokeren; President|President|Keizer; Oorlogje|War|Oorlog;
+      Liegen|Cheat|Bluffen|Ik twijfel|I doubt it; Kwartet|Happy Families|Kwartetten; Go Fish|Go Fish|Vissen; Crazy Eights; Mau-mau;
+      Speed; Spit; Gin rummy; Cribbage; Euchre; Piquet; Belote|Belote|Belotte; Tarot|Tarot|Franse tarot; Skat; Schafkopf; Doppelkopf;
+      Jass|Jass|Jassen; Briscola; Scopa; Tressette; Mus; Brisca; Chinchón|Chinchon; Durak; Tute; Baccarat|Baccarat|Baccara;
+      Texas Hold'em|Texas Hold'em|Texas Holdem|Hold'em; Magic: The Gathering|Magic: The Gathering|Magic|MTG;
+      Pokémon TCG|Pokemon TCG|Pokémonkaarten|Pokemon kaarten|Pokémon Trading Card Game; Yu-Gi-Oh!|Yu-Gi-Oh|Yugioh; Hearthstone;
+      Exploding Kittens; Dobble|Dobble|Spot It; Skip-Bo|Skip-Bo|Skipbo; Phase 10; Set; Halli Galli; Hanabi; Love Letter; The Mind;
+      Coup; Bang!|Bang; Sushi Go!|Sushi Go; Dominion; Gwent; Pinochle; Spades; Bezique; Zevenen|Sevens|Fan Tan; Snap; Slapjack;
+      Egyptian Ratscrew; Bohnanza|Bohnanza|Boonanza; Citadels|Citadels|Machiavelli; Saboteur; Wizard; Ligretto;
+      6 nimmt!|6 nimmt|Take 5|Hornochsen; Fluxx; Munchkin; Cards Against Humanity; Uno Flip; Spider Solitaire|Spider Solitaire|Spider;
+      FreeCell|Freecell; Klondike` }
   ]);
 })(typeof window !== 'undefined' ? window : globalThis);

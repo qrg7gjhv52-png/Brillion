@@ -10,7 +10,7 @@
 
   /* ── Instellingen van het spel ───────────────────────────── */
   B.CONFIG = {
-    version: '2.0.0',
+    version: '2.1.0',
     perRound: 8,            // vragen per ronde
     seconds: 20,            // seconden per vraag
     launch: '2026-11-02',   // dag van Beklimming #1
@@ -26,7 +26,8 @@
     { id: 'nature',   icon: '🌲', nl: 'Natuur & eten',           en: 'Nature & food' },
     { id: 'language', icon: '🔤', nl: 'Taal',                    en: 'Language' },
     { id: 'sport',    icon: '⚽', nl: 'Sport',                   en: 'Sports' },
-    { id: 'culture',  icon: '🎭', nl: 'Cultuur',                 en: 'Culture' }
+    { id: 'culture',  icon: '🎭', nl: 'Cultuur',                 en: 'Culture' },
+    { id: 'life',     icon: '🏠', nl: 'Alledaags',               en: 'Everyday life' }
   ];
   B.catById = {};
   B.CATEGORIES.forEach(c => (B.catById[c.id] = c));
@@ -38,7 +39,7 @@
     { id: 3, icon: '🔴', nl: 'Moeilijk',  en: 'Hard' }
   ];
   /* De dagelijkse beklimming wordt moeilijker naarmate je hoger klimt */
-  B.DAILY_MIX = [1, 1, 1, 2, 2, 2, 3, 3];
+  B.DAILY_MIX = [1, 1, 1, 1, 2, 2, 2, 3];
 
   /* ── De 5 klassen ────────────────────────────────────────────
      De antwoorden van elke vraag staan van vaak genoemd naar
@@ -108,6 +109,7 @@
          .replace(/ł/g, 'l').replace(/đ/g, 'd').replace(/ð/g, 'd').replace(/þ/g, 'th').replace(/ı/g, 'i');
     s = s.replace(/♀/g, ' female ').replace(/♂/g, ' male ');
     s = s.replace(/c\+\+/g, ' cplusplus ').replace(/c#/g, ' csharp ').replace(/f#/g, ' fsharp ').replace(/\.net\b/g, ' dotnet ');
+    s = s.replace(/\b([a-z])-(?=[a-z])/g, '$1');   // T-shirt, e-mail, X-ray: de letter hoort bij het woord
     s = s.replace(/&/g, ' and ').replace(/\+/g, ' plus ').replace(/['’`´]/g, '');
     let words = s.split(/[^a-z0-9]+/).filter(Boolean);
     while (words.length > 1 && ARTICLES.has(words[0])) words.shift();
