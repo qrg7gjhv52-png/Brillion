@@ -95,7 +95,7 @@
       Grote Victoriawoestijn|Great Victoria Desert; Grote Zandwoestijn|Great Sandy Desert; Simpsonwoestijn|Simpson Desert;
       Gibsonwoestijn|Gibson Desert; Tanami|Tanami Desert; Libische Woestijn|Libyan Desert|Westelijke Woestijn|Western Desert;
       Nubische Woestijn|Nubian Desert; Danakil|Danakil|Danakilwoestijn; Ténéré|Tenere; Lut|Dasht-e Lut|Lutwoestijn;
-      Dasht-e Kavir|Dasht-e Kavir|Kavir|Grote Zoutwoestijn; Ordos; Badain Jaran; Karoo; Painted Desert; Colorado Desert|Coloradowoestijn;
+      Dasht-e Kavir|Dasht-e Kavir|Kavir|Grote Zoutwoestijn; Ordos; Badain Jaran; Karoo; Painted Desert; Coloradowoestijn|Colorado Desert;
       Black Rock Desert; Sechura; Monte Desert; Registan; Cholistan; Death Valley` },
 
     { id: 'mountain-ranges', lvl: 1, nl: 'Noem een gebergte', en: 'Name a mountain range', a: `

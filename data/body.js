@@ -77,11 +77,11 @@
       Insuline|Insulin; Adrenaline|Adrenaline|Epinefrine|Epinephrine; Testosteron|Testosterone; Oestrogeen|Oestrogen|Estrogen|Oestradiol|Estradiol;
       Melatonine|Melatonin; Cortisol; Dopamine; Serotonine|Serotonin; Groeihormoon|Growth hormone|HGH|Somatotropine; Oxytocine|Oxytocin;
       Endorfine|Endorphin|Endorfines; Progesteron|Progesterone; Thyroxine|Thyroxine|T4|Schildklierhormoon; Glucagon; Noradrenaline|Noradrenaline|Norepinefrine|Norepinephrine;
-      Leptine|Leptin; Ghreline|Ghrelin|Hongerhormoon; Aldosteron|Aldosterone; EPO|Erytropoëtine|Erythropoietin|Erytropoietine;
+      Leptine|Leptin; Ghreline|Ghrelin|Hongerhormoon; Aldosteron|Aldosterone; EPO|EPO|Erytropoëtine|Erythropoietin|Erytropoietine;
       Prolactine|Prolactin; FSH|Follikelstimulerend hormoon|Follicle-stimulating hormone; LH|Luteïniserend hormoon|Luteinizing hormone;
-      Vasopressine|Vasopressin|ADH|Antidiuretisch hormoon; hCG|Zwangerschapshormoon; Calcitonine|Calcitonin; Parathormoon|Parathyroid hormone|PTH;
+      Vasopressine|Vasopressin|ADH|Antidiuretisch hormoon; hCG|hCG|Zwangerschapshormoon|Pregnancy hormone|Human chorionic gonadotropin; Calcitonine|Calcitonin; Parathormoon|Parathyroid hormone|PTH;
       Gastrine|Gastrin; Secretine|Secretin; Cholecystokinine|Cholecystokinin|CCK; Renine|Renin; Trijoodthyronine|Triiodothyronine|T3;
-      TSH|Thyroïdstimulerend hormoon; ACTH|Adrenocorticotroop hormoon; Somatostatine|Somatostatin; Inhibine|Inhibin; Relaxine|Relaxin` },
+      TSH|TSH|Thyroïdstimulerend hormoon|Thyroid-stimulating hormone; ACTH|Adrenocorticotroop hormoon; Somatostatine|Somatostatin; Inhibine|Inhibin; Relaxine|Relaxin` },
 
     { id: 'virus-diseases', lvl: 1, nl: 'Noem een ziekte die door een virus komt', en: 'Name a disease caused by a virus', a: `
       Griep|Flu|Influenza; COVID-19|COVID-19|Covid|Corona|Coronavirus|COVID; Verkoudheid|Common cold|Verkoudheid; Mazelen|Measles;
@@ -183,7 +183,7 @@
       William Gilbert|William Gilbert|Gilbert; Johann Heinrich Lambert|Johann Heinrich Lambert|Lambert; Ole Rømer|Ole Rømer|Ole Roemer|Rømer|Romer;
       Max Planck|Max Planck|Planck; Amedeo Avogadro|Amedeo Avogadro|Avogadro; Hendrik Lorentz|Hendrik Lorentz|Lorentz; Charles Richter|Charles Richter|Richter` },
 
-    { id: 'noble-gases', lvl: 2, nl: 'Noem een edelgas', en: 'Name a noble gas', a: `
+    { id: 'noble-gases', lvl: 3, nl: 'Noem een edelgas', en: 'Name a noble gas', a: `
       Helium; Neon; Argon; Krypton; Xenon; Radon; Oganesson` },
 
     { id: 'alkali-metals', lvl: 3, nl: 'Noem een alkalimetaal', en: 'Name an alkali metal', a: `
@@ -206,7 +206,7 @@
       Ozon|Ozone; Methaan|Methane; Helium; Neon; Waterstof|Hydrogen; Krypton; Xenon; Distikstofoxide|Nitrous oxide|Lachgas|N2O;
       Koolstofmonoxide|Carbon monoxide|CO|Koolmonoxide; Stikstofdioxide|Nitrogen dioxide|NO2; Zwaveldioxide|Sulfur dioxide|Sulphur dioxide|SO2; Radon; Ammoniak|Ammonia` },
 
-    { id: 'atmosphere', lvl: 2, nl: 'Noem een laag van de atmosfeer', en: 'Name a layer of the atmosphere', a: `
+    { id: 'atmosphere', lvl: 3, nl: 'Noem een laag van de atmosfeer', en: 'Name a layer of the atmosphere', a: `
       Ozonlaag|Ozone layer; Troposfeer|Troposphere; Stratosfeer|Stratosphere; Mesosfeer|Mesosphere; Thermosfeer|Thermosphere; Exosfeer|Exosphere;
       Ionosfeer|Ionosphere; Magnetosfeer|Magnetosphere; Tropopauze|Tropopause; Stratopauze|Stratopause; Mesopauze|Mesopause; Homosfeer|Homosphere;
       Heterosfeer|Heterosphere` },
@@ -262,7 +262,7 @@
       Bol|Bulb|Bloembol; Rank|Tendril; Xyleem|Xylem|Houtvaten; Floëem|Phloem|Bastvaten|Floeem; Bladgroen|Chlorophyll|Chlorofyl;
       Bladgroenkorrel|Chloroplast|Chloroplasten; Cambium; Wortelstok|Rhizome; Uitloper|Runner|Stolon; Kiem|Embryo|Kiemplant` },
 
-    { id: 'space-agencies', lvl: 2, nl: 'Noem een ruimtevaartagentschap van een land of groep landen (zoals NASA)', en: 'Name a space agency of a country or group of countries (like NASA)', a: `
+    { id: 'space-agencies', lvl: 3, nl: 'Noem een ruimtevaartagentschap van een land of groep landen (zoals NASA)', en: 'Name a space agency of a country or group of countries (like NASA)', a: `
       NASA; ESA|European Space Agency|Europees Ruimteagentschap|Europese Ruimtevaartorganisatie; Roscosmos; JAXA; ISRO|Indian Space Research Organisation;
       CNSA|China National Space Administration|Chinees ruimtevaartagentschap; CSA|Canadian Space Agency; CNES; DLR; ASI|Agenzia Spaziale Italiana;
       UK Space Agency|UK Space Agency|UKSA; KASA|Korea AeroSpace Administration|KARI; Israel Space Agency|ISA; UAE Space Agency|MBRSC;

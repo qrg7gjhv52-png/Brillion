@@ -61,7 +61,7 @@
       Juwelier|Jeweller|Jeweler; Goudsmid|Goldsmith; Smid|Blacksmith; Bloemist|Florist; Slotenmaker|Locksmith; Dakwerker|Roofer;
       Vuilnisman|Bin man|Garbage collector; Conducteur|Conductor|Treinbegeleider; Machinist|Train driver; Taxichauffeur|Taxi driver;
       Barman|Bartender|Barvrouw; Sommelier; Barista; Pizzabakker|Pizza maker; Patissier|Pastry chef|Banketbakker; Chocolatier;
-      Diplomaat|Diplomat; Politicus|Politician; Minister; Ambassadeur|Ambassador; Detective|Detective|Speurder; Bodyguard|Lijfwacht;
+      Diplomaat|Diplomat; Politicus|Politician; Minister; Ambassadeur|Ambassador; Detective|Detective|Speurder; Bodyguard|Bodyguard|Lijfwacht;
       Beveiliger|Security guard|Bewaker; Cipier|Prison guard|Gevangenisbewaker; Douanier|Customs officer; Archeoloog|Archaeologist;
       Historicus|Historian; Bioloog|Biologist; Chemicus|Chemist|Scheikundige; Natuurkundige|Physicist|Fysicus; Wiskundige|Mathematician;
       Astronoom|Astronomer; Meteoroloog|Meteorologist|Weerman|Weervrouw; Geoloog|Geologist; Economist|Economist|Econoom; Handelsingenieur|Business engineer;
@@ -158,7 +158,7 @@
       Oktoberfest; Bastille Day|Bastille Day|14 juli|Quatorze juillet; Guy Fawkes Night|Bonfire Night; Australia Day; Canada Day; Cinco de Mayo;
       Mardi Gras|Mardi Gras|Vette dinsdag|Shrove Tuesday; Pannenkoekendag|Pancake Day; Vasten|Lent|Vastentijd|Veertigdagentijd; Advent;
       Midzomer|Midsummer|Sint-Jan; Wintersolstitium|Winter solstice|Yule|Joelfeest; Loofhuttenfeest|Sukkot; Poerim|Purim; Vesak|Wesak|Boeddhadag;
-      Songkran; Obon; Hanami; Tet|Tết|Vietnamees Nieuwjaar; Nowruz|Perzisch Nieuwjaar; Navratri; Ganesh Chaturthi; Raksha Bandhan;
+      Songkran; Obon; Hanami; Tet|Tết|Vietnamees Nieuwjaar; Nowruz|Nowruz|Perzisch Nieuwjaar|Persian New Year; Navratri; Ganesh Chaturthi; Raksha Bandhan;
       Kwanzaa; Juneteenth; Memorial Day; Labor Day (VS)|Labor Day; Martin Luther King Day|MLK Day; Presidents' Day|Presidents Day;
       Dag van de Leerkracht|Teachers' Day|Lerarendag; Dag van de Aarde|Earth Day; Vrouwendag|International Women's Day|Internationale Vrouwendag;
       Werelddierendag|World Animal Day` },
@@ -283,7 +283,7 @@
       IJs|Ice cream|Roomijs; Chocolademousse|Chocolate mousse|Mousse; Tiramisu; Pannenkoeken|Pancakes|Pannenkoek|Crêpes|Crepes; Wafels|Waffles|Wafel;
       Taart|Cake; Pudding; Crème brûlée|Creme brulee; Fruitsalade|Fruit salad; Rijstpap|Rice pudding|Rijstpudding; Dame blanche|Dame blanche;
       Brownie|Brownie|Brownies; Cheesecake|Cheesecake|Kaastaart; Panna cotta; Appeltaart|Apple pie; Yoghurt|Yoghurt|Yogurt; Tarte tatin;
-      Profiteroles|Soesjes|Choux buns; Sorbet; Milkshake; Coupe; Bananensplit|Banana split; Moelleux|Lava cake|Fondant au chocolat|Chocolate fondant;
+      Profiteroles|Profiteroles|Soesjes|Choux buns; Sorbet; Milkshake; Coupe; Bananensplit|Banana split; Moelleux|Lava cake|Fondant au chocolat|Chocolate fondant;
       Clafoutis; Crumble|Crumble|Appelcrumble; Trifle; Pavlova; Baklava; Churros; Mochi; Gelato; Sabayon|Zabaglione; Île flottante|Floating island;
       Rode vruchten|Red berries|Bosvruchten; Aardbeien met slagroom|Strawberries and cream|Aardbeien; Flan|Flan|Karamelpudding|Crème caramel;
       Vlaai|Fruit tart|Fruittaart; Bavarois; Soufflé|Souffle; Parfait; Semifreddo; Granita; Frozen yoghurt|Frozen yogurt|Froyo;
@@ -306,7 +306,7 @@
       Ravigote; Gribiche; Rouille; Remoulade; Mole; Raita; Chutney|Mango chutney; Tkemali; Ajvar; Pistou; Salsa verde; Alfredo|Alfredo sauce;
       Puttanesca; Amatriciana; Cacio e pepe; Ragù|Ragu; Dijonnaise; Honing-mosterd|Honey mustard; Ranch|Ranch dressing; Caesar|Caesar dressing;
       Thousand Island|Thousand Island dressing; Blue cheese|Blue cheese dressing; Gochujang; Ssamjang; Tonkatsusaus|Tonkatsu sauce; Okonomiyakisaus|Okonomiyaki sauce;
-      Bulldog; Kewpie|Kewpie mayo; Zigeunersaus|Gypsy sauce|Zigeuner; Stroganoff|Stroganoffsaus; Diable|Sauce diable; Choron; Foyot` },
+      Bulldog; Kewpie|Kewpie mayo; Zigeunersaus|Gypsy sauce|Zigeuner; Stroganoffsaus|Stroganoff sauce|Stroganoff; Diable|Sauce diable; Choron; Foyot` },
 
     { id: 'breakfast', lvl: 1, nl: 'Noem iets dat je kan eten of drinken als ontbijt', en: 'Name something you can eat or drink for breakfast', a: `
       Boterham|Sandwich|Brood|Bread|Toast; Cornflakes|Cornflakes|Ontbijtgranen|Cereal; Ei|Egg|Eieren|Eggs; Koffie|Coffee; Thee|Tea; Melk|Milk;
@@ -318,7 +318,7 @@
       Avocado|Avocado toast|Avocadotoast; Bagel; Muffin; Wentelteefjes|French toast|Verloren brood; Worstjes|Sausages|Worstje; Bonen in tomatensaus|Baked beans;
       Tomaat|Tomato; Champignons|Mushrooms; Hashbrowns|Hash browns|Rösti; Ontbijtkoek|Gingerbread|Peperkoek|Kruidkoek; Beschuit|Rusk|Biscotte;
       Cracotte|Crispbread|Knäckebröd|Crackers; Kwark|Quark|Platte kaas|Plattekaas; Skyr; Chiapudding|Chia pudding; Açaibowl|Acai bowl|Açai;
-      Eggs Benedict|Eieren Benedict; Shakshuka; Full English breakfast|English breakfast; Black pudding|Bloedworst; Congee|Rijstepap|Rice porridge;
+      Eggs Benedict|Eieren Benedict; Shakshuka; Full English breakfast|English breakfast; Bloedworst|Black pudding; Congee|Congee|Rijstepap|Rice porridge;
       Miso-soep|Miso soup; Natto; Dosa; Idli; Paratha; Huevos rancheros; Chilaquiles; Arepa|Arepas; Pão de queijo; Tostada; Churros met chocolade|Churros; Rozijnenbrood|Raisin bread|Krentenbrood|Cramique; Suikerbrood|Sugar bread|Craquelin; Sandwich met zalm|Smoked salmon|Gerookte zalm;
       Grapefruit; Kiwi; Bessen|Berries; Kefir; Ontbijtdrank|Breakfast drink` },
 
@@ -367,10 +367,10 @@
       Suikerbrood|Sugar bread|Craquelin; Zuurdesembrood|Sourdough|Zuurdesem; Roggebrood|Rye bread; Focaccia; Bagel; Tortilla|Tortilla|Wrap;
       Hamburgerbroodje|Burger bun|Bun; Pain au chocolat|Chocoladebroodje; Brioche; Meergranenbrood|Multigrain bread; Speltbrood|Spelt bread;
       Maisbrood|Cornbread; Pumpernickel; Matze|Matzo|Matza; Chapati; Paratha; Roti; Lavash; Injera; Pretzel|Pretzel|Krakeling|Bretzel;
-      Kaiserbroodje|Kaiser roll; Sandwich|Sandwich|Sandwichbroodje|Zachte sandwich; Hotdogbroodje|Hot dog bun; Panini; Grissini|Soepstengels|Breadsticks;
+      Kaiserbroodje|Kaiser roll; Sandwich|Sandwich|Sandwichbroodje|Zachte sandwich; Hotdogbroodje|Hot dog bun; Panini; Grissini|Grissini|Soepstengels|Breadsticks;
       Knäckebröd|Crispbread; Beschuit|Rusk; Kerststol|Stollen|Stol; Paasbrood|Easter bread; Challa|Challah;
       Soda bread|Sodabrood; Scone|Scones; English muffin; Crumpet; Arepa; Pão de queijo; Pan de muerto; Pandesal; Melonpan|Melon pan;
-      Mantou; Baozi|Bao|Bapao; Panettone; Pandoro; Fougasse; Pain de campagne|Boerenbrood|Landbrood; Waldkornbrood|Waldkorn; Tijgerbrood|Tiger bread|Tijgerbol;
+      Mantou; Baozi|Bao|Bapao; Panettone; Pandoro; Fougasse; Pain de campagne|Pain de campagne|Boerenbrood|Landbrood|Country bread; Waldkornbrood|Waldkorn; Tijgerbrood|Tiger bread|Tijgerbol;
       Piccolo; Fladenbrood|Flatbread|Turks brood|Turkish bread|Pide; Simit; Khachapuri; Zemelenbrood|Bran bread;
       Glutenvrij brood|Gluten-free bread; Desembrood|Leaven bread; Hoornbrood|Horn bread; Ontbijtkoek|Breakfast cake|Peperkoek|Gingerbread; Bâtard|Batard; Boule; Miche; Couronne` },
 
@@ -496,7 +496,7 @@
       Tom en Jerry|Tom and Jerry|Tom|Jerry; Pikachu; Shrek; Goofy; Minnie Mouse|Minnie; Scooby-Doo|Scooby Doo; Bart Simpson|Bart; Patrick Ster|Patrick Star|Patrick;
       Winnie de Poeh|Winnie the Pooh|Poeh; Pluto; Dora|Dora the Explorer; Peppa Pig|Peppa; Woody; Buzz Lightyear|Buzz; Nemo; Elsa; Olaf; Simba; Garfield;
       Snoopy; Charlie Brown; Popeye; Tweety; Daffy Duck; Road Runner|Roadrunner; Wile E. Coyote|Coyote; Speedy Gonzales; Porky Pig; Pink Panther|Roze Panter;
-      Fred Flintstone|Fred Flintstone|Flintstones; Smurf|Smurfen|Smurfs|Grote Smurf|Papa Smurf; Gargamel; Kuifje|Tintin; Bobbie|Snowy; Asterix; Obelix;
+      Fred Flintstone|Fred Flintstone|Flintstones; Smurfen|Smurfs|Smurf|Grote Smurf|Papa Smurf; Gargamel; Kuifje|Tintin; Bobbie|Snowy; Asterix; Obelix;
       Lucky Luke; Suske|Suske en Wiske; Wiske; Lambik; Jommeke; Nero; Kiekeboe; Marsupilami; Guust Flater|Gaston Lagaffe; Dumbo; Pinokkio|Pinocchio;
       Stitch|Lilo en Stitch; Aladdin; Genie|Geest; Ariel; Mulan; Moana|Vaiana; Rapunzel; Hercules; Tarzan; Belle; Assepoester|Cinderella; Sneeuwwitje|Snow White;
       Sully; Mike Wazowski|Mike; Lightning McQueen|Bliksem McQueen; Ratatouille|Remy; Wall-E; Marge Simpson|Marge; Lisa Simpson|Lisa; Maggie Simpson|Maggie;
@@ -543,23 +543,23 @@
       Vinzwemmen|Finswimming; Onderwaterrugby|Underwater rugby; Onderwaterhockey|Underwater hockey; Kanopolo|Canoe polo; Drakenbootvaren|Dragon boat racing;
       Open water zwemmen|Open water swimming|Marathonzwemmen; Triatlon|Triathlon; Vrijduiken|Freediving|Apneu; Klifduiken|Cliff diving; Motorbootracen|Powerboat racing;
       Parasailen|Parasailing; Flyboarden|Flyboarding; Kneeboarden|Kneeboarding; Skimboarden|Skimboarding; Hydrofoil|Foiling|Wingfoilen|Wing foiling; Canyoning; Ijszwemmen|Ice swimming|Winterzwemmen; Reddend zwemmen|Lifesaving sport; Aquajogging|Aqua jogging|Aquagym|Aqua aerobics;
-      Vissen|Fishing|Sportvissen; Speervissen|Spearfishing; Kanoslalom|Canoe slalom; Coastal rowing|Kustroeien; Waterbasketbal|Water basketball` },
+      Vissen|Fishing|Sportvissen; Speervissen|Spearfishing; Kanoslalom|Canoe slalom; Kustroeien|Coastal rowing; Waterbasketbal|Water basketball` },
 
     { id: 'winter-sports', lvl: 1, nl: 'Noem een wintersport', en: 'Name a winter sport', a: `
       Skiën|Skiing; Snowboarden|Snowboarding; Schaatsen|Ice skating|Skating; IJshockey|Ice hockey|Hockey op ijs; Kunstschaatsen|Figure skating;
       Langlaufen|Cross-country skiing|Langlauf; Schansspringen|Ski jumping; Bobsleeën|Bobsleigh|Bobslee; Rodelen|Luge|Slee; Curling; Biatlon|Biathlon;
       Shorttrack|Short track|Short track speed skating; Skeleton; Freestyle skiën|Freestyle skiing; Noordse combinatie|Nordic combined; Alpineskiën|Alpine skiing|Afdaling|Downhill;
-      Slalom; Reuzenslalom|Giant slalom; Super-G; Moguls|Bultskiën; Skicross|Ski cross; Snowboardcross; Halfpipe; Slopestyle; Big air; Langebaanschaatsen|Long track speed skating|Hardrijden;
+      Slalom; Reuzenslalom|Giant slalom; Super-G; Bultskiën|Moguls; Skicross|Ski cross; Snowboardcross; Halfpipe; Slopestyle; Big air; Langebaanschaatsen|Long track speed skating|Hardrijden;
       Sledehondenrennen|Sled dog racing|Hondensleeën; Sneeuwscooter|Snowmobiling|Sneeuwscooterrijden; Toerskiën|Ski touring|Ski mountaineering|Skialpinisme;
       Telemark; IJsklimmen|Ice climbing; Sneeuwschoenwandelen|Snowshoeing|Sneeuwschoenen; IJsvissen|Ice fishing; Bandy; Kiteskiën|Snowkiting; Skibob;
-      Ijsspeedway|Ice speedway; IJszeilen|Ice yachting|Ice sailing; Eisstockschießen|Ice stock sport; Ski-orienteering|Ski-oriëntatieloop; Ijsdansen|Ice dancing;
-      Paarrijden|Pair skating; Elfstedentocht|Elfstedentocht; Monoski|Monoskiing; Snowtubing|Bandjesglijden; Sledgehockey|Para ice hockey` },
+      Ijsspeedway|Ice speedway; IJszeilen|Ice yachting|Ice sailing; Eisstockschießen|Ice stock sport; Ski-oriëntatieloop|Ski orienteering|Ski-orienteering; Ijsdansen|Ice dancing;
+      Paarrijden|Pair skating; Elfstedentocht|Elfstedentocht; Monoski|Monoskiing; Bandjesglijden|Snowtubing; Sledgehockey|Para ice hockey` },
 
     { id: 'racket-sports', lvl: 2, nl: 'Noem een sport die je met een racket, bat of slagplank speelt', en: 'Name a sport played with a racket, bat or paddle', a: `
       Tennis; Badminton; Tafeltennis|Table tennis|Pingpong|Ping-pong; Padel; Squash; Honkbal|Baseball; Cricket; Softbal|Softball; Hockey|Field hockey;
       IJshockey|Ice hockey; Golf; Pickleball; Racquetball; Beachtennis|Beach tennis; Strandtennis|Matkot|Frescobol; Speedminton|Crossminton;
       Lacrosse; Hurling; Polo; Pelota|Basque pelota|Jai alai|Pelota; Rounders|Slagbal; Platform tennis|Paddle tennis;
-      Real tennis|Kaatstennis|Jeu de paume; Rackets; Floorball|Unihockey|Floorball; Croquet;
+      Kaatstennis|Real tennis|Jeu de paume; Rackets; Floorball|Unihockey|Floorball; Croquet;
       Biljart|Billiards|Snooker|Pool; Bandy; Shinty; Camogie; Teqball; Tamburello; Stoolball; Pesäpallo|Finnish baseball; Lapta; Vigoro` }
   ]);
 })(typeof window !== 'undefined' ? window : globalThis);

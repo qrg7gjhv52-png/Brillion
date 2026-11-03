@@ -17,7 +17,7 @@
       Edward Heath|Edward Heath|Ted Heath|Heath; Anthony Eden|Anthony Eden|Eden; Harold Macmillan|Harold Macmillan|Macmillan;
       James Callaghan|James Callaghan|Jim Callaghan|Callaghan; Alec Douglas-Home|Alec Douglas-Home|Douglas-Home|Alec Douglas Home` },
 
-    { id: 'german-chancellors', lvl: 2, nl: 'Noem een bondskanselier van Duitsland (sinds 1949)', en: 'Name a Chancellor of Germany (since 1949)', a: `
+    { id: 'german-chancellors', lvl: 3, nl: 'Noem een bondskanselier van Duitsland (sinds 1949)', en: 'Name a Chancellor of Germany (since 1949)', a: `
       Angela Merkel|Angela Merkel|Merkel; Olaf Scholz|Olaf Scholz|Scholz; Helmut Kohl|Helmut Kohl|Kohl; Konrad Adenauer|Konrad Adenauer|Adenauer;
       Friedrich Merz|Friedrich Merz|Merz; Gerhard Schröder|Gerhard Schröder|Schröder|Gerhard Schroder|Schroder|Schroeder;
       Willy Brandt|Willy Brandt|Brandt; Helmut Schmidt|Helmut Schmidt|Schmidt; Ludwig Erhard|Ludwig Erhard|Erhard;
@@ -29,7 +29,7 @@
       François Mitterrand|François Mitterrand|Francois Mitterrand|Mitterrand; Georges Pompidou|Georges Pompidou|Pompidou;
       Valéry Giscard d'Estaing|Valéry Giscard d'Estaing|Valery Giscard d'Estaing|Giscard d'Estaing|Giscard; Alain Poher|Alain Poher|Poher` },
 
-    { id: 'us-vice-presidents', lvl: 2, nl: 'Noem een vicepresident van de Verenigde Staten sinds 1960', en: 'Name a Vice President of the United States since 1960', a: `
+    { id: 'us-vice-presidents', lvl: 3, nl: 'Noem een vicepresident van de Verenigde Staten sinds 1960', en: 'Name a Vice President of the United States since 1960', a: `
       Kamala Harris|Kamala Harris|Harris; Joe Biden|Joe Biden|Biden; Mike Pence|Mike Pence|Pence; JD Vance|JD Vance|J. D. Vance|J.D. Vance|Vance;
       Dick Cheney|Dick Cheney|Cheney; Al Gore|Al Gore|Gore; Richard Nixon|Richard Nixon|Nixon; George H. W. Bush|George H. W. Bush|George Bush|Bush|George H.W. Bush;
       Lyndon B. Johnson|Lyndon B. Johnson|Lyndon Johnson|LBJ|Johnson; Dan Quayle|Dan Quayle|Quayle; Gerald Ford|Gerald Ford|Ford;
@@ -60,7 +60,7 @@
       Mao Zedong|Mao Zedong|Mao|Mao Tse-tung|Mao Tsetung; Xi Jinping|Xi Jinping|Xi; Deng Xiaoping|Deng Xiaoping|Deng;
       Jiang Zemin|Jiang Zemin|Jiang; Hu Jintao|Hu Jintao|Hu; Hua Guofeng|Hua Guofeng|Hua` },
 
-    { id: 'dutch-monarchs', lvl: 2, nl: 'Noem een koning of koningin van Nederland (sinds 1815)', en: 'Name a King or Queen of the Netherlands (since 1815)', a: `
+    { id: 'dutch-monarchs', lvl: 3, nl: 'Noem een koning of koningin van Nederland (sinds 1815)', en: 'Name a King or Queen of the Netherlands (since 1815)', a: `
       Willem-Alexander|Willem-Alexander|Willem Alexander|Koning Willem-Alexander; Beatrix|Beatrix|Koningin Beatrix; Juliana|Juliana|Koningin Juliana;
       Wilhelmina|Wilhelmina|Koningin Wilhelmina; Willem I|William I|Koning Willem I; Willem III|William III|Koning Willem III; Willem II|William II|Koning Willem II` },
 
@@ -94,14 +94,14 @@
       Shang|Shang|Shangdynastie; Sui|Sui|Suidynastie; Xia|Xia|Xiadynastie; Jin|Jin|Jindynastie; Liao; Westelijke Xia|Western Xia|Xi Xia;
       Noordelijke Wei|Northern Wei|Wei` },
 
-    { id: 'eu-institutions', lvl: 2, nl: 'Noem een officiële instelling van de Europese Unie', en: 'Name an official institution of the European Union', a: `
+    { id: 'eu-institutions', lvl: 3, nl: 'Noem een officiële instelling van de Europese Unie', en: 'Name an official institution of the European Union', a: `
       Europees Parlement|European Parliament|Parlement; Europese Commissie|European Commission|Commissie;
       Europese Centrale Bank|European Central Bank|ECB; Europese Raad|European Council;
       Raad van de Europese Unie|Council of the European Union|Raad van de EU|Raad van Ministers|Ministerraad|Council of the EU;
       Hof van Justitie van de Europese Unie|Court of Justice of the European Union|Europees Hof van Justitie|Hof van Justitie|European Court of Justice|CJEU|HvJ;
       Europese Rekenkamer|European Court of Auditors|Rekenkamer` },
 
-    { id: 'un-bodies', lvl: 2, nl: 'Noem een orgaan of organisatie van de Verenigde Naties (bv. UNICEF)', en: 'Name a body or organisation of the United Nations (e.g. UNICEF)', a: `
+    { id: 'un-bodies', lvl: 3, nl: 'Noem een orgaan of organisatie van de Verenigde Naties (bv. UNICEF)', en: 'Name a body or organisation of the United Nations (e.g. UNICEF)', a: `
       UNICEF; Wereldgezondheidsorganisatie|World Health Organization|WHO|Wereldgezondheidsorganisatie; UNESCO; Veiligheidsraad|Security Council|VN-Veiligheidsraad;
       Algemene Vergadering|General Assembly|VN-Algemene Vergadering; UNHCR|UNHCR|VN-Vluchtelingenorganisatie|Vluchtelingenorganisatie;
       Wereldvoedselprogramma|World Food Programme|WFP; Internationaal Gerechtshof|International Court of Justice|ICJ;

@@ -10,7 +10,7 @@
 
   /* ── Instellingen van het spel ───────────────────────────── */
   B.CONFIG = {
-    version: '2.1.0',
+    version: '2.2.0',
     perRound: 8,            // vragen per ronde
     seconds: 20,            // seconden per vraag
     launch: '2026-11-02',   // dag van Beklimming #1
@@ -27,7 +27,8 @@
     { id: 'language', icon: '🔤', nl: 'Taal',                    en: 'Language' },
     { id: 'sport',    icon: '⚽', nl: 'Sport',                   en: 'Sports' },
     { id: 'culture',  icon: '🎭', nl: 'Cultuur',                 en: 'Culture' },
-    { id: 'life',     icon: '🏠', nl: 'Alledaags',               en: 'Everyday life' }
+    { id: 'life',     icon: '🏠', nl: 'Alledaags',               en: 'Everyday life' },
+    { id: 'letters',  icon: '🔠', nl: 'Letterspel',              en: 'Letter games' }
   ];
   B.catById = {};
   B.CATEGORIES.forEach(c => (B.catById[c.id] = c));
@@ -184,6 +185,49 @@
   const wordsOf = text => String(text).split(/[\s\-–—\/,:;()'’.&+!?*]+/).map(w => B.normalize(w)).filter(w => w.length >= 4 && !STOP.has(w) && !/^\d+$/.test(w));
 
   /* ── Vragen inlezen ──────────────────────────────────────── */
+  /* ── Letterspel ──────────────────────────────────────────────
+     Een vraag kan een letterregel hebben, bv. "begint met een B".
+     Elke taal heeft een eigen lijst. De klassen (Gewoon … 1 in a Brillion)
+     komen van de antwoorden waarvan de naam in jouw taal past. Past enkel een
+     andere naam (Groot-Brittannië bij een G, Butterfly bij een B)? Dan telt
+     dat ook, met de klasse die bij zijn plaats in de lijst hoort.
+     De naam die je typt, moet zelf altijd passen. */
+  B.letters = function (text) {
+    let s = String(text == null ? '' : text).toLowerCase().trim();
+    s = s.normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+         .replace(/ß/g, 'ss').replace(/æ/g, 'ae').replace(/œ/g, 'oe').replace(/ø/g, 'o').replace(/ł/g, 'l');
+    const words = s.split(/[^a-z]+/).filter(Boolean);
+    while (words.length > 1 && ['de', 'het', 'een', 'the', 'a', 'an'].includes(words[0])) words.shift();
+    return words.join('');
+  };
+  B.RULES = {
+    starts: (w, x) => w.startsWith(x),
+    contains: (w, x) => w.includes(x),
+    ends: (w, x) => w.endsWith(x),
+    len: (w, n) => w.length === n,
+    double: w => /([a-z])\1/.test(w)
+  };
+  B.ruleOk = (rule, text) => { const w = B.letters(text); return !!w && !!B.RULES[rule.type] && B.RULES[rule.type](w, rule.v); };
+  /* Past de gewone naam van dit antwoord in deze taal bij de regel? */
+  B.ruleFits = (names, rule, lang) => B.ruleOk(rule, lang === 'en' ? names[1] || names[0] : names[0]);
+  /* De lijst van een letterspel in één taal:
+     main  = antwoorden waarvan de gewone naam past (die bepalen de klassen)
+     extra = antwoorden waarvan enkel een andere naam past, met hun plaats (pos)
+             tussen de gewone antwoorden; de passende naam komt vooraan */
+  B.ruleList = function (raw, rule, lang) {
+    const main = [], extra = [];
+    raw.forEach(names => {
+      if (B.ruleFits(names, rule, lang)) { main.push(names); return; }
+      const nl = names[0], en = names[1] || names[0];
+      const order = (lang === 'en' ? [en, nl] : [nl, en]).concat(names.slice(2));
+      const fit = order.find(n => n && B.ruleOk(rule, n));
+      if (!fit) return;
+      const rest = names.slice(2).filter(n => n && n !== fit);
+      extra.push({ names: lang === 'en' ? [nl, fit, en].concat(rest) : [fit, en, nl].concat(rest), pos: main.length });
+    });
+    return { main, extra };
+  };
+
   B.questions = [];
   B.byId = {};
   B.globalKeys = new Map(); // sleutel → aantal vragen waarin die voorkomt
@@ -201,41 +245,81 @@
   /* Vragen toevoegen. Elke vraag: { id, lvl, nl, en, a } waarbij lvl de moeilijkheid
      is (1 = makkelijk, 2 = gemiddeld, 3 = moeilijk) en a een tekst of een lijst van
      [NL, EN, aliassen...], gesorteerd van vaak genoemd naar zeldzaam. */
+  /* Lijst van namen → antwoorden (met klasse en meters) + zoektabellen om na te kijken.
+     tierPos/tierN (enkel bij een letterspel): de plaats en lijstlengte waarmee de klasse
+     berekend wordt. */
+  function buildAnswers(raw, tierPos, tierN) {
+    const answers = [];
+    const keyMap = new Map();
+    const tokenMap = new Map(); // los woord → antwoorden waarin het voorkomt
+    raw.forEach(names => {
+      const nl = names[0];
+      const en = names[1] ? names[1] : nl;
+      const all = [nl, en].concat(names.slice(2));
+      const entry = { nl, en, rank: answers.length, keys: [], names: all.filter(Boolean) };
+      all.forEach((name, i) => {
+        if (!name) return;
+        const key = B.normalize(name);
+        if (!key) return;
+        if (!entry.keys.includes(key)) entry.keys.push(key);
+        if (!keyMap.has(key)) keyMap.set(key, { entry, via: i === 0 ? 'nl' : i === 1 ? 'en' : 'alias', phon: B.phonetic(key) });
+        wordsOf(name).forEach(w => {
+          if (!tokenMap.has(w)) tokenMap.set(w, new Set());
+          tokenMap.get(w).add(entry);
+        });
+      });
+      answers.push(entry);
+    });
+    answers.forEach((e, i) => {
+      e.tier = tierPos ? B.tierForRank(Math.min(tierPos[i], tierN - 1), tierN) : B.tierForRank(e.rank, answers.length);
+      e.score = B.TIERS[e.tier].meters;   // "score" = zoveel meter klim je met dit antwoord
+    });
+    return { answers, keyMap, tokenMap };
+  }
+
   B.addQuestions = function (cat, list) {
     list.forEach(def => {
       const raw = typeof def.a === 'string' ? B.parseAnswers(def.a) : def.a;
-      const answers = [];
-      const keyMap = new Map();
-      const tokenMap = new Map(); // los woord → antwoorden waarin het voorkomt
-      raw.forEach(names => {
-        const nl = names[0];
-        const en = names[1] ? names[1] : nl;
-        const entry = { nl, en, rank: answers.length, keys: [] };
-        const all = [nl, en].concat(names.slice(2));
-        all.forEach((name, i) => {
-          if (!name) return;
-          const key = B.normalize(name);
-          if (!key) return;
-          if (!entry.keys.includes(key)) entry.keys.push(key);
-          if (!keyMap.has(key)) keyMap.set(key, { entry, via: i === 0 ? 'nl' : i === 1 ? 'en' : 'alias', phon: B.phonetic(key) });
-          wordsOf(name).forEach(w => {
-            if (!tokenMap.has(w)) tokenMap.set(w, new Set());
-            tokenMap.get(w).add(entry);
-          });
-        });
-        answers.push(entry);
-      });
-      answers.forEach(e => {
-        e.tier = B.tierForRank(e.rank, answers.length);
-        e.score = B.TIERS[e.tier].meters;   // "score" = zoveel meter klim je met dit antwoord
-      });
       const lvl = [1, 2, 3].includes(def.lvl) ? def.lvl : 2;
-      const q = { id: cat + '-' + def.id, cat, lvl, lvlGiven: lvl === def.lvl, nl: def.nl, en: def.en, answers, keyMap, tokenMap };
+      const q = { id: cat + '-' + def.id, cat, lvl, lvlGiven: lvl === def.lvl, nl: def.nl, en: def.en };
+      let keys;
+      if (def.rule) {
+        // Letterspel: een lijst per taal. q.answers geeft altijd de lijst van de taal waarin je speelt.
+        const make = lang => {
+          const { main, extra } = B.ruleList(raw, def.rule, lang);
+          const pos = main.map((_, i) => i).concat(extra.map(x => x.pos));
+          const built = buildAnswers(main.concat(extra.map(x => x.names)), pos, Math.max(1, main.length));
+          built.answers.slice(main.length).forEach(e => (e.extra = true));   // telt via een andere naam
+          return built;
+        };
+        const L = { nl: make('nl'), en: make('en') };
+        const cur = () => L[B.lang === 'en' ? 'en' : 'nl'];
+        Object.defineProperty(q, 'answers', { get: () => cur().answers, enumerable: true });
+        Object.defineProperty(q, 'keyMap', { get: () => cur().keyMap });
+        Object.defineProperty(q, 'tokenMap', { get: () => cur().tokenMap });
+        q.byLang = L;
+        q.rule = def.rule;
+        q.base = def.base || '';
+        // alle namen uit de volledige lijst: zo weten we dat "Olifant" wel een dier is, maar niet met een B
+        q.baseNames = new Set();
+        raw.forEach(names => names.forEach(n => { const k = n && B.normalize(n); if (k) q.baseNames.add(k); }));
+        keys = new Set([...L.nl.keyMap.keys(), ...L.en.keyMap.keys()]);
+      } else {
+        Object.assign(q, buildAnswers(raw));
+        keys = new Set(q.keyMap.keys());
+      }
       if (B.byId[q.id]) console.warn('Dubbele vraag-id:', q.id);
       B.questions.push(q);
       B.byId[q.id] = q;
-      new Set(keyMap.keys()).forEach(k => B.globalKeys.set(k, (B.globalKeys.get(k) || 0) + 1));
+      keys.forEach(k => B.globalKeys.set(k, (B.globalKeys.get(k) || 0) + 1));
     });
+  };
+
+  /* Het antwoord op plaats "rank" (bij een letterspel: in de lijst van de taal waarin je speelde) */
+  B.entryAt = function (q, rank, lang) {
+    if (!q || rank == null || rank < 0) return null;
+    const list = q.byLang ? q.byLang[(lang || B.lang) === 'en' ? 'en' : 'nl'].answers : q.answers;
+    return list[rank] || null;
   };
 
   B.totalAnswers = () => B.questions.reduce((s, q) => s + q.answers.length, 0);
@@ -254,9 +338,12 @@
       return { ok: true, entry: hit.entry, typo: false, translated, suggestions: [] };
     };
 
+    // Letterspel: een bestaand antwoord dat niet past bij de regel ("Frankrijk" bij "begint met B")
+    const ruleFail = entry => ({ ok: false, ruleFail: true, entry: entry || null, suggestions: [] });
+
     // 1. precies juist (of een gekende alternatieve naam)
     const exact = q.keyMap.get(key);
-    if (exact) return result(exact);
+    if (exact) return q.rule && !B.ruleOk(q.rule, input) ? ruleFail(exact.entry) : result(exact);
 
     // 2. enkelvoud / meervoud
     const variants = [];
@@ -267,8 +354,9 @@
     variants.push(key + 's', key + 'en', key + 'es', key + 'n');
     for (const v of variants) {
       const hit = q.keyMap.get(v);
-      if (hit) return result(hit);
+      if (hit) return q.rule && !B.ruleOk(q.rule, input) ? ruleFail(hit.entry) : result(hit);
     }
+    if (q.baseNames && [key].concat(variants).some(x => q.baseNames.has(x))) return ruleFail(null);
 
     // 3. is het een echt bestaand antwoord van een ándere vraag? Dan is het fout,
     //    en stellen we niets voor dat er toevallig op lijkt.
@@ -364,12 +452,56 @@
     return `${d.getUTCFullYear()}-${pad(d.getUTCMonth() + 1)}-${pad(d.getUTCDate())}`;
   };
 
+  /* ── Vragen die te veel op elkaar lijken ─────────────────────
+     Twee vragen "botsen" als minstens de helft van de antwoorden van de
+     kleinste vraag ook bij de andere vraag hoort (bv. "Noem een land in
+     Europa" en "Noem een EU-land"). Die komen nooit samen in één ronde. */
+  const keySets = new WeakMap();
+  const conflictCache = new Map();
+  const allKeys = q => {
+    if (!keySets.has(q)) { const set = new Set(); q.answers.forEach(e => e.keys.forEach(k => set.add(k))); keySets.set(q, set); }
+    return keySets.get(q);
+  };
+  B.conflict = function (a, b) {
+    if (!a || !b) return false;
+    if (a.id === b.id) return true;
+    if (a.base && a.base === b.base) return true;   // twee letterspellen met dezelfde lijst (bv. twee keer landen)
+    const id = a.id < b.id ? a.id + '|' + b.id : b.id + '|' + a.id;
+    if (conflictCache.has(id)) return conflictCache.get(id);
+    const [small, big] = a.answers.length <= b.answers.length ? [a, b] : [b, a];
+    const bigKeys = allKeys(big);
+    let shared = 0;
+    small.answers.forEach(e => { if (e.keys.some(k => bigKeys.has(k))) shared++; });
+    const res = shared / Math.max(1, small.answers.length) >= 0.5;
+    conflictCache.set(id, res);
+    return res;
+  };
+  /* Kies uit een gesorteerde lijst kandidaten: geen dubbele vragen, geen botsingen,
+     hoogstens 2 per categorie (als dat lukt). */
+  function pickFrom(sorted, count, { perCatMax = 2, taken = [] } = {}) {
+    const picked = [];
+    const clash = q => taken.concat(picked).some(p => B.conflict(p, q));
+    const catCount = c => taken.concat(picked).filter(p => p.cat === c).length;
+    const steps = [
+      q => catCount(q.cat) < perCatMax && !clash(q),
+      q => !clash(q),
+      q => !taken.concat(picked).some(p => p.id === q.id)
+    ];
+    for (const ok of steps) {
+      for (const q of sorted) {
+        if (picked.length >= count) return picked;
+        if (picked.includes(q) || taken.includes(q)) continue;
+        if (ok(q)) picked.push(q);
+      }
+    }
+    return picked;
+  }
+
   /* ── Planning van de dagelijkse beklimming ───────────────── *
-     Per moeilijkheid krijgen alle vragen één vaste volgorde, waarin elke
-     categorie gelijkmatig verspreid zit. Elke dag neemt de volgende
-     vragen uit die volgordes: 3 makkelijke, 3 gemiddelde en 2 moeilijke.
-     Zo komt een vraag pas terug als alle andere vragen van dat niveau
-     geweest zijn (bij ±80 vragen per niveau: na 25 dagen of meer). */
+     De planning staat vast in data/schedule.js (gemaakt door
+     tools/make-schedule.mjs), zodat ze niet verandert als er vragen
+     bijkomen. Voor dagen verder dan die planning rekent het spel zelf:
+     per moeilijkheid krijgen alle vragen één vaste volgorde. */
   let orderCache = null;
   B.levelOrder = function (lvl) {
     if (!orderCache || orderCache.n !== B.questions.length) orderCache = { n: B.questions.length, byLvl: {} };
@@ -387,25 +519,51 @@
     orderCache.byLvl[lvl] = placed.map(p => p.id);
     return orderCache.byLvl[lvl];
   };
-  B.dailyQuestionIds = function (day) {
-    const mix = B.DAILY_MIX;
-    const per = {}, used = {};
+  /* Zonder vaste planning: vraag k van niveau l op dag d, zonder botsingen */
+  function computedDay(day) {
+    const mix = B.DAILY_MIX, per = {}, used = {}, picked = [];
     mix.forEach(l => (per[l] = (per[l] || 0) + 1));
-    return mix.map(l => {
-      const order = B.levelOrder(l);
-      const n = order.length;
-      if (!n) return null;
-      const k = used[l] = (used[l] || 0) + 1;
-      return order[((((day - 1) * per[l] + k - 1) % n) + n) % n];
-    }).filter(Boolean);
+    mix.forEach(l => {
+      const order = B.levelOrder(l), n = order.length;
+      if (!n) return;
+      for (let tries = 0; tries < n; tries++) {
+        const k = used[l] = (used[l] || 0) + 1;
+        const q = B.byId[order[((((day - 1) * per[l] + k - 1) % n) + n) % n]];
+        if (q && !picked.some(p => p.id === q.id || B.conflict(p, q))) { picked.push(q); break; }
+      }
+    });
+    return picked;
+  }
+  let scheduleCache = null;
+  function scheduledDay(day) {
+    const S = B.SCHEDULE;
+    if (!S) return null;
+    if (!scheduleCache) {
+      const ids = S.ids.split(' ');
+      scheduleCache = S.days.split(';').map(d => d.split(',').map(x => ids[parseInt(x, 36)]));
+    }
+    const list = scheduleCache[day - S.first];
+    return list ? list.map(id => B.byId[id]).filter(Boolean) : null;
+  }
+  B.dailyQuestionIds = function (day) {
+    let qs = scheduledDay(day);
+    if (!qs) qs = computedDay(day);
+    // Ontbreekt er een vraag (bv. weggehaald)? Dan aanvullen, zonder dubbels of botsingen.
+    if (qs.length < B.CONFIG.perRound) {
+      const extra = computedDay(day).concat(B.questions);
+      qs = qs.concat(pickFrom(extra, B.CONFIG.perRound - qs.length, { taken: qs, perCatMax: 8 }));
+    }
+    const seen = new Set();
+    return qs.filter(q => (seen.has(q.id) ? false : seen.add(q.id))).map(q => q.id).slice(0, B.CONFIG.perRound);
   };
 
   /* ── Vragen kiezen voor Onbeperkt en Per categorie ───────── *
      Eerst vragen die je nog nooit zag, dan de vragen die je het langst
      geleden zag. Vragen van de dagelijkse beklimming van vandaag en de
      komende dagen schuiven achteraan, zodat je ze niet dubbel krijgt.
-     lvl = 1, 2 of 3 (Onbeperkt); zonder lvl: alle niveaus, van makkelijk
-     naar moeilijk (Per categorie). */
+     Nooit twee keer dezelfde vraag, nooit twee vragen die te veel op
+     elkaar lijken. lvl = 1, 2 of 3 (Onbeperkt); zonder lvl: alle
+     niveaus, van makkelijk naar moeilijk (Per categorie). */
   B.pickQuestions = function ({ cat = null, lvl = 0, seen = {}, count = B.CONFIG.perRound, today = B.dayNumber() } = {}) {
     const exclude = new Set(B.dailyQuestionIds(today));
     const upcoming = new Set();
@@ -416,17 +574,7 @@
     const now = Date.now();
     const keyed = pool.map(q => ({ q, k: Math.max(seen[q.id] || 0, upcoming.has(q.id) ? now : 0), r: Math.random() }));
     keyed.sort((a, b) => a.k - b.k || a.r - b.r);
-    const picked = [], perCat = {};
-    for (const x of keyed) {
-      if (picked.length >= count) break;
-      if (!cat && (perCat[x.q.cat] || 0) >= 2) continue;
-      picked.push(x.q);
-      perCat[x.q.cat] = (perCat[x.q.cat] || 0) + 1;
-    }
-    for (const x of keyed) {
-      if (picked.length >= count) break;
-      if (!picked.includes(x.q)) picked.push(x.q);
-    }
+    const picked = pickFrom(keyed.map(x => x.q), count, { perCatMax: cat ? 8 : 2 });
     const mixed = B.shuffle(picked, Math.random);
     if (!lvl) mixed.sort((a, b) => a.lvl - b.lvl);   // per categorie: steeds moeilijker
     return mixed.map(q => q.id);

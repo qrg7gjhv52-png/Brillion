@@ -52,6 +52,13 @@
   const levelOf = id => B.LEVELS.find(l => l.id === id);
   const levelName = id => { const l = levelOf(id); return l ? l[B.lang] : ''; };
   const levelTag = id => { const l = levelOf(id); return l ? `<span class="lvl-tag l${l.id}"><span aria-hidden="true">${l.icon}</span> ${esc(l[B.lang])}</span>` : ''; };
+  /* Letterspel: een tegeltje met de letter (of het aantal letters) */
+  const ruleTile = rule => {
+    const label = rule.type === 'len' ? String(rule.v) : rule.type === 'double' ? 'AA' : String(rule.v).toUpperCase();
+    return `<span class="rule-tile" aria-hidden="true">${esc(label)}</span>`;
+  };
+  const ruleFailText = (rule, input) => t({ starts: 'ruleStarts', contains: 'ruleContains', ends: 'ruleEnds', len: 'ruleLen', double: 'ruleDouble' }[rule.type],
+    { a: input, x: rule.type === 'len' ? rule.v : String(rule.v || '').toUpperCase() });
   /* 5 balkjes, zoals bij signaalsterkte: hoe hoger de klasse, hoe meer balkjes */
   const ladderHTML = tier => `<span class="ladder t${tier}" aria-hidden="true">${[0, 1, 2, 3, 4].map(i => `<span${i <= tier ? ' class="on"' : ''}></span>`).join('')}</span>`;
 
@@ -309,7 +316,11 @@
   let timerRAF = null;
   let lastRound = null;    // de laatst afgewerkte ronde (voor het eindscherm)
 
+  let lastStart = -Infinity;
   function startRound(mode, opts = {}) {
+    const nowT = performance.now();
+    if (nowT - lastStart < 800) return;   // dubbele tik: niet twee rondes na elkaar starten
+    lastStart = nowT;
     B.Sound.unlock();
     const today = B.dayNumber();
     let ids, day = 0, cat = '';
@@ -321,6 +332,7 @@
       lvl = [1, 2, 3].includes(opts.lvl) ? opts.lvl : B.state.level;
       ids = B.pickQuestions({ lvl, seen: B.state.seen });
     }
+    ids = [...new Set(ids)];   // een vraag komt nooit twee keer in dezelfde ronde
     // de berg van die dag (onbeperkt en per categorie: de berg van vandaag)
     const seed = day || today;
     G = { mode, day, cat, lvl, ids, idx: 0, results: [], total: 0, alt: 0, qStart: 0, answered: false, seed, pending: null };
@@ -360,7 +372,7 @@
       </div>
       <div class="stage game-stage" id="game-stage"></div>
       <div class="card qcard" id="g-card">
-        <div class="qmeta"><span class="cat-chip" id="g-cat"></span><span id="g-lvl"></span><span class="qnum" id="g-num"></span></div>
+        <div class="qmeta"><span class="cat-chip" id="g-cat"></span><span id="g-lvl"></span><span id="g-rule"></span><span class="qnum" id="g-num"></span></div>
         <h2 class="qtext" id="g-q"></h2>
         <div id="g-play">
           <div class="timer"><div class="timer-track"><div class="timer-fill" id="g-timer"></div></div><span class="timer-secs" id="g-secs">${B.CONFIG.seconds}</span></div>
@@ -389,6 +401,7 @@
     const c = B.catById[q.cat];
     $('g-cat').innerHTML = `<span aria-hidden="true">${c.icon}</span>${esc(c[B.lang])}`;
     $('g-lvl').innerHTML = levelTag(q.lvl);
+    $('g-rule').innerHTML = q.rule ? ruleTile(q.rule) : '';
     $('g-num').textContent = t('question', { i: G.idx + 1, n: G.ids.length });
     $('g-q').textContent = qText(q);
     $('g-input').placeholder = t('placeholder');
@@ -460,6 +473,8 @@
     const timeLeft = Math.max(0, remainingMs() / 1000);
     if (!input) { commit(q, { q: q.id, input: '', ok: false, rank: -1, score: 0, tier: -1, timeUp: true, timeLeft: 0 }); return; }
     const res = B.check(q, input, B.lang);
+    // 0. letterspel: bestaat wel, maar past niet bij de letter
+    if (res.ruleFail) { commit(q, { q: q.id, input, ok: false, rank: -1, score: 0, tier: -1, timeLeft, ruleFail: true }); return; }
     // 1. juist (of juist in de andere taal)
     if (res.ok) { commit(q, okResult(q, input, res.entry, { translated: res.translated }, timeLeft)); return; }
     // 2. lijkt op een juist antwoord: vragen "Bedoelde je…?" (de klok loopt door)
@@ -481,11 +496,14 @@
   function openSuggest(input, list, quiet) {
     G.pending = { input, list };
     const key = B.normalize(input);
+    const cur = B.byId[G.ids[G.idx]];
+    // letterspel: altijd de naam tonen die bij de letter past
+    const label = e => (cur && cur.rule ? ansText(e) : bestName(e, key));
     const box = $('g-suggest');
     box.innerHTML = `
       <p class="suggest-q"><span aria-hidden="true">🤔</span> ${esc(t('suggestQ'))}</p>
       <div class="suggest-list">${list.map((e, i) =>
-        `<button class="suggest-btn" type="button" data-act="pick" data-i="${i}">${esc(bestName(e, key))}</button>`).join('')}</div>
+        `<button class="suggest-btn" type="button" data-act="pick" data-i="${i}">${esc(label(e))}</button>`).join('')}</div>
       <div class="suggest-no">
         <button class="link-btn" type="button" data-act="suggest-edit">${esc(t('suggestEdit'))}</button>
         <button class="link-btn subtle" type="button" data-act="suggest-keep">${esc(t('suggestKeep', { a: input }))}</button>
@@ -518,6 +536,7 @@
   /* Het antwoord is definitief: punten, klimmen of uitglijden */
   function commit(q, r) {
     stopTimer();
+    if (!r.lang) r.lang = B.lang;   // bij een letterspel hoort de plaats in de lijst bij deze taal
     G.pending = null;
     G.results.push(r);
     G.total += r.score;
@@ -560,7 +579,7 @@
     const last = G.idx >= G.ids.length - 1;
     let html = '';
     if (r.ok) {
-      const e = q.answers[r.rank];
+      const e = B.entryAt(q, r.rank, r.lang);
       const gain = B.altitudeFor(G.total) - B.altitudeFor(G.total - r.score);
       let note = '';
       if (r.typo) note = `${esc(t('corrected', { a: '' }))}<strong>${esc(ansText(e))}</strong> · ${esc(t('youTyped'))} “${esc(r.input)}”`;
@@ -572,11 +591,12 @@
       html = `<div class="result-top"><span class="result-tier tw">${t('timeUp')}</span><span class="gain slip">${esc(t('slipped'))}</span></div>
         <p class="result-note">${t('noAnswer')}</p>`;
     } else {
-      const late = r.lateRank >= 0 ? q.answers[r.lateRank] : null;
-      html = `<div class="result-top"><span class="result-tier tw">${late ? t('timeUp') : t('notOnList')}</span><span class="gain slip">${esc(t('slipped'))}</span></div>
+      const late = B.entryAt(q, r.lateRank, r.lang);
+      const ruleNote = r.ruleFail && q.rule ? ruleFailText(q.rule, r.input) : '';
+      html = `<div class="result-top"><span class="result-tier tw">${ruleNote ? t('ruleBadge') : late ? t('timeUp') : t('notOnList')}</span><span class="gain slip">${esc(t('slipped'))}</span></div>
         <div class="result-answer">“${esc(r.input)}”</div>
-        <p class="result-note">${late ? esc(t('lateConfirm', { a: ansText(late) })) : t('notOnListSub')}</p>
-        <div><button class="link-btn" type="button" data-act="report" id="g-report">${t('report')}</button></div>`;
+        <p class="result-note">${ruleNote ? esc(ruleNote) : late ? esc(t('lateConfirm', { a: ansText(late) })) : t('notOnListSub')}</p>
+        ${ruleNote ? '' : `<div><button class="link-btn" type="button" data-act="report" id="g-report">${t('report')}</button></div>`}`;   // past niet bij de letter = melden heeft geen zin
     }
     return `<div class="result">${html}
       <button class="btn primary big" type="button" data-act="next" id="g-next">${last ? t('finish') : t('next')}</button></div>`;
@@ -624,7 +644,7 @@
     return `<ol class="answers-list">${results.map(r => {
       const q = B.byId[r.q];
       if (!q) return '';
-      const e = r.ok ? q.answers[r.rank] : null;
+      const e = r.ok ? B.entryAt(q, r.rank, r.lang) : null;
       const shown = e ? esc(ansText(e)) : r.input ? `“${esc(r.input)}”` : '—';
       const badge = r.ok ? `<span class="tier-badge t${r.tier}">${esc(tierName(r.tier))}</span>` : `<span class="tier-badge tw">${r.input ? t('wrongShort') : t('timeUp')}</span>`;
       return `<li><span class="al-q">${esc(qText(q))}</span><span class="al-a">${shown}</span><span class="al-pts">${badge}${r.ok ? `+${fmt(r.score)} m` : ''}</span></li>`;
@@ -763,6 +783,7 @@
     openDialog(t('helpTitle'), `
       <div><h3>${t('help1t')}</h3><p>${t('help1')}</p></div>
       <div><h3>${t('help2t')}</h3><p>${t('help2')}</p><div class="tier-legend" style="margin-top:10px">${legend}</div></div>
+      <div><h3>${t('help9t')}</h3><p>${t('help9')}</p><p class="help-rule">${ruleTile({ type: 'starts', v: 'b' })}<span>${esc(t('helpRuleEx'))}</span></p></div>
       <div><h3>${t('help4t')}</h3><p>${t('help4')}</p><div class="peaks" style="margin-top:10px">${peaks}</div></div>
       <div><h3>${t('help8t')}</h3><p>${t('help8')}</p><div class="peaks levels" style="margin-top:10px">${levels}</div></div>
       <div><h3>${t('help7t')}</h3><p>${t('help7')}</p><div class="peaks" style="margin-top:10px">${zones}</div></div>

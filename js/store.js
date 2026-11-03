@@ -78,15 +78,17 @@
   };
 
   /* Een antwoord compact bewaren: [vraag, getypt, plaats in lijst (-1 = fout), meters, extra] */
-  const pack = r => [r.q, r.input || '', r.ok ? r.rank : -1, r.score || 0, (r.translated ? 1 : 0) | (r.typo ? 2 : 0) | (r.timeUp ? 4 : 0)];
+  const pack = r => [r.q, r.input || '', r.ok ? r.rank : -1, r.score || 0, (r.translated ? 1 : 0) | (r.typo ? 2 : 0) | (r.timeUp ? 4 : 0) | (r.lang === 'en' ? 8 : 0)];
   B.unpack = a => {
     const q = B.byId[a[0]];
     const ok = a[2] >= 0;
+    const lang = a[4] & 8 ? 'en' : 'nl';   // de taal waarin je speelde (belangrijk bij een letterspel)
     // klasse opnieuw bepalen uit de plaats in de lijst (zo kloppen ook oude rondes)
-    const tier = !ok ? -1 : q && a[2] < q.answers.length ? q.answers[a[2]].tier : B.tierOf(a[3]);
+    const e = ok ? B.entryAt(q, a[2], lang) : null;
+    const tier = !ok ? -1 : e ? e.tier : B.tierOf(a[3]);
     return {
       q: a[0], input: a[1], ok, rank: a[2], tier, score: ok ? B.TIERS[tier].meters : 0,
-      translated: !!(a[4] & 1), typo: !!(a[4] & 2), timeUp: !!(a[4] & 4)
+      translated: !!(a[4] & 1), typo: !!(a[4] & 2), timeUp: !!(a[4] & 4), lang
     };
   };
 
