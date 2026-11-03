@@ -28,12 +28,6 @@
       Maine; West Virginia|West Virginia|West-Virginia; Wyoming; Vermont; New Hampshire; Rhode Island; Delaware;
       South Dakota|South Dakota|Zuid-Dakota; North Dakota|North Dakota|Noord-Dakota` },
 
-    { id: 'us-capitals', lvl: 3, nl: 'Noem de hoofdstad van een staat van de Verenigde Staten', en: 'Name the capital of a US state', a: `
-      Boston; Atlanta; Honolulu; Phoenix; Denver; Austin; Nashville; Salt Lake City; Sacramento; Indianapolis; Columbus;
-      Oklahoma City; Richmond; Albany; Tallahassee; Baton Rouge; Juneau; Carson City; Santa Fe; Raleigh; Madison;
-      Saint Paul|Saint Paul|St. Paul|Sint-Paul; Providence; Hartford; Trenton; Harrisburg; Lansing; Springfield; Little Rock;
-      Des Moines; Lincoln; Jackson; Montgomery; Columbia; Annapolis; Olympia; Salem; Boise; Helena; Cheyenne; Topeka;
-      Frankfort; Jefferson City; Charleston; Augusta; Montpelier; Concord; Dover; Pierre; Bismarck` },
 
     { id: 'german-states', lvl: 3, nl: 'Noem een deelstaat van Duitsland', en: 'Name a German state', a: `
       Beieren|Bavaria|Bayern; Berlijn|Berlin; Hamburg; Noordrijn-Westfalen|North Rhine-Westphalia|Nordrhein-Westfalen|NRW;
@@ -50,40 +44,14 @@
       West-Vlaanderen|West Flanders|Flandre-Occidentale; Vlaams-Brabant|Flemish Brabant|Brabant flamand; Luik|Liège|Liege;
       Henegouwen|Hainaut; Namen|Namur; Luxemburg|Luxembourg|Belgisch Luxemburg|Province of Luxembourg; Waals-Brabant|Walloon Brabant|Brabant wallon` },
 
-    { id: 'canada-provinces', lvl: 3, nl: 'Noem een provincie of territorium van Canada', en: 'Name a Canadian province or territory', a: `
-      Quebec|Quebec|Québec; Ontario; Brits-Columbia|British Columbia|Britisch-Columbia; Alberta; Nova Scotia|Nova Scotia|Nieuw-Schotland;
-      Manitoba; Saskatchewan; Newfoundland en Labrador|Newfoundland and Labrador|Newfoundland|Labrador|Newfoundland & Labrador;
-      Yukon; New Brunswick|New Brunswick|Nieuw-Brunswijk; Prins Edwardeiland|Prince Edward Island|Prince Edward-eiland|PEI;
-      Northwest Territories|Northwest Territories|Noordwestelijke Territoria|Noordwest-Territoria; Nunavut` },
 
     { id: 'australia-states', lvl: 3, nl: 'Noem een staat of territorium van Australië', en: 'Name an Australian state or territory', a: `
       Nieuw-Zuid-Wales|New South Wales|NSW; Victoria; Queensland; West-Australië|Western Australia; Tasmanië|Tasmania;
       Zuid-Australië|South Australia; Noordelijk Territorium|Northern Territory;
       Australisch Hoofdstedelijk Territorium|Australian Capital Territory|ACT|Canberra-territorium` },
 
-    { id: 'french-regions', lvl: 3, nl: 'Noem een regio van Frankrijk (de 13 op het vasteland of de 5 overzeese)', en: 'Name a region of France (the 13 on the mainland or the 5 overseas)', a: `
-      Île-de-France|Ile-de-France|Ile de France; Bretagne|Brittany; Normandië|Normandy|Normandie; Corsica|Corsica|Corse|Korsika;
-      Provence-Alpes-Côte d'Azur|Provence-Alpes-Cote d'Azur|PACA|Provence-Alpes-Côte d'Azur; Occitanie|Occitania|Occitanië;
-      Nouvelle-Aquitaine|Nouvelle-Aquitaine|Nouvelle Aquitaine|Nieuw-Aquitanië; Hauts-de-France|Hauts-de-France|Hauts de France;
-      Grand Est|Grand Est|Grand-Est; Auvergne-Rhône-Alpes|Auvergne-Rhone-Alpes|Auvergne-Rhône-Alpes;
-      Pays de la Loire|Pays de la Loire|Pays-de-la-Loire; Bourgogne-Franche-Comté|Bourgogne-Franche-Comte|Bourgondië-Franche-Comté;
-      Centre-Val de Loire|Centre-Val de Loire|Centre-Val-de-Loire; Guadeloupe; Martinique; Réunion|Reunion|La Réunion|La Reunion;
-      Frans-Guyana|French Guiana|Guyane|Frans Guyana; Mayotte` },
 
-    { id: 'spanish-regions', lvl: 3, nl: 'Noem een autonome regio van Spanje (Ceuta en Melilla tellen mee)', en: 'Name an autonomous region of Spain (Ceuta and Melilla count)', a: `
-      Catalonië|Catalonia|Cataluña|Catalunya|Cataluna; Andalusië|Andalusia|Andalucía|Andalucia; Madrid|Madrid|Comunidad de Madrid|Community of Madrid;
-      Valencia|Valencian Community|Valenciaanse Gemeenschap|Comunidad Valenciana; Baskenland|Basque Country|País Vasco|Pais Vasco|Euskadi;
-      Galicië|Galicia; Canarische Eilanden|Canary Islands|Canarias|Canarische eilanden; Balearen|Balearic Islands|Balearische Eilanden|Islas Baleares;
-      Asturië|Asturias; Navarra|Navarre; Aragón|Aragon; Murcia; Cantabrië|Cantabria; Extremadura;
-      Castilië en León|Castile and León|Castilla y León|Castile and Leon|Castilla y Leon; Castilië-La Mancha|Castilla-La Mancha|Castile-La Mancha;
-      La Rioja|La Rioja|Rioja; Ceuta; Melilla` },
 
-    { id: 'italian-regions', lvl: 3, nl: 'Noem een regio van Italië', en: 'Name a region of Italy', a: `
-      Toscane|Tuscany|Toscana; Sicilië|Sicily|Sicilia; Sardinië|Sardinia|Sardegna; Lombardije|Lombardy|Lombardia; Veneto|Veneto|Venetië;
-      Lazio|Lazio|Latium; Campanië|Campania; Piëmont|Piedmont|Piemonte; Ligurië|Liguria; Emilia-Romagna|Emilia-Romagna|Emilia Romagna;
-      Apulië|Apulia|Puglia; Calabrië|Calabria; Umbrië|Umbria; Trentino-Zuid-Tirol|Trentino-Alto Adige|Trentino-South Tyrol|Zuid-Tirol|South Tyrol|Trentino;
-      Friuli-Venezia Giulia|Friuli-Venezia Giulia|Friuli Venezia Giulia|Friuli; Abruzzen|Abruzzo; Marche|Marche|Marken;
-      Valle d'Aosta|Aosta Valley|Aostadal|Valle d'Aosta; Basilicata; Molise` },
 
     { id: 'deserts', lvl: 1, nl: 'Noem een woestijn', en: 'Name a desert', a: `
       Sahara; Gobi|Gobi|Gobiwoestijn; Kalahari|Kalahari|Kalahariwoestijn; Atacama|Atacama|Atacamawoestijn; Namib|Namib|Namibwoestijn;
@@ -188,21 +156,5 @@
       Mount Everest|Mount Everest|Everest|Chomolungma|Sagarmatha; Kilimanjaro|Kilimanjaro|Kibo; Mont Blanc; Aconcagua;
       Denali|Denali|Mount McKinley|McKinley; Elbroes|Mount Elbrus|Elbrus; Vinson|Vinson Massif|Mount Vinson|Vinsonmassief;
       Puncak Jaya|Puncak Jaya|Carstensz Pyramid|Carstenszpiramide|Carstensz; Kosciuszko|Mount Kosciuszko|Mount Kosciusko|Kosciusko` },
-
-    { id: 'straits', lvl: 3, nl: 'Noem een zeestraat (een smalle doorgang tussen twee zeeën)', en: 'Name a strait (a narrow passage between two seas)', a: `
-      Straat van Gibraltar|Strait of Gibraltar|Gibraltar; Bosporus|Bosphorus; Het Kanaal|English Channel|Kanaal|La Manche|Engels Kanaal;
-      Nauw van Calais|Strait of Dover|Straat van Dover|Pas de Calais|Dover; Beringstraat|Bering Strait|Bering; Straat van Hormuz|Strait of Hormuz|Hormuz;
-      Straat Magellaan|Strait of Magellan|Straat van Magellaan|Magellaan; Dardanellen|Dardanelles; Straat van Messina|Strait of Messina|Messina;
-      Straat Malakka|Strait of Malacca|Malakka; Sont|Øresund|Oresund|The Sound; Skagerrak; Kattegat; Bab-el-Mandeb|Bab el-Mandeb|Bab al-Mandab;
-      Drake Passage|Drake Passage|Straat Drake|Drakestraat; Straat van Taiwan|Taiwan Strait|Straat Formosa; Straat Korea|Korea Strait|Straat van Korea;
-      Cookstraat|Cook Strait; Bassstraat|Bass Strait|Straat Bass; Straat Torres|Torres Strait; Straat Davis|Davis Strait; Straat Denemarken|Denmark Strait;
-      Straat Hudson|Hudson Strait; Straat van Florida|Straits of Florida|Florida Strait; Straat Sunda|Sunda Strait; Straat Lombok|Lombok Strait;
-      Straat Makassar|Makassar Strait; Straat van Bonifacio|Strait of Bonifacio; Straat van Otranto|Strait of Otranto; Straat van Kertsj|Kerch Strait;
-      Straat La Pérouse|La Pérouse Strait|La Perouse Strait|Straat Soja; Straat Tsugaru|Tsugaru Strait; Straat Palk|Palk Strait;
-      Kanaal van Mozambique|Mozambique Channel|Straat Mozambique; Grote Belt|Great Belt|Storebælt; Kleine Belt|Little Belt|Lillebælt;
-      Noordelijk Kanaal|North Channel; Sint-Georgekanaal|St George's Channel|Saint George's Channel; Straat van Yucatán|Yucatan Channel|Straat Yucatan;
-      Straat van Juan de Fuca|Strait of Juan de Fuca; Straat Georgia|Strait of Georgia; Straat Mackinac|Straits of Mackinac;
-      Straat van Tiran|Straits of Tiran; Straat van Sicilië|Strait of Sicily|Kanaal van Sicilië; Straat Karimata|Karimata Strait;
-      Straat Singapore|Singapore Strait; Straat Belle Isle|Strait of Belle Isle; Straat Nares|Nares Strait; Straat Tatarije|Strait of Tartary` }
-  ]);
+]);
 })(typeof window !== 'undefined' ? window : globalThis);

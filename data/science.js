@@ -96,12 +96,6 @@
       Stokesosaurus; Coelurus; Ornitholestes; Tanycolagreus; Juravenator; Scipionyx; Atlasaurus; Vulcanodon;
       Massospondylus; Melanorosaurus; Riojasaurus; Lufengosaurus; Anchisaurus; Thecodontosaurus; Europasaurus; Ampelosaurus;
       Rapetosaurus; Isisaurus; Puertasaurus; Futalognkosaurus; Spinophorosaurus; Bajadasaurus; Brachytrachelopan` },
-    { id: 'si-units', lvl: 3, nl: 'Noem een SI-eenheid (basiseenheid of afgeleide eenheid)', en: 'Name an SI unit (base or derived)', a: `
-      Meter|Metre|Meter|m; Kilogram|Kilogram|kg; Seconde|Second|s; Ampère|Ampere|A; Kelvin|Kelvin|K; Newton|Newton|N; Joule|Joule|J;
-      Watt|Watt|W; Volt|Volt|V; Mol|Mole|Mol; Candela|Candela|cd; Pascal|Pascal|Pa; Hertz|Hertz|Hz; Ohm; Coulomb|Coulomb|C;
-      Graad Celsius|Degree Celsius|Celsius; Tesla|Tesla|T; Farad|Farad|F; Weber|Weber|Wb; Henry|Henry|H; Siemens;
-      Lumen|Lumen|lm; Lux|Lux|lx; Becquerel|Becquerel|Bq; Gray|Gray|Gy; Sievert|Sievert|Sv; Radiaal|Radian|rad; Steradiaal|Steradian|sr;
-      Katal|Katal|kat` },
     { id: 'zodiac', lvl: 1, nl: 'Noem een sterrenbeeld van de dierenriem', en: 'Name a sign of the zodiac', a: `
       Leeuw|Leo; Schorpioen|Scorpio|Scorpion; Ram|Aries; Stier|Taurus; Tweelingen|Gemini|Tweeling; Kreeft|Cancer; Maagd|Virgo;
       Weegschaal|Libra; Boogschutter|Sagittarius; Steenbok|Capricorn|Capricornus; Waterman|Aquarius; Vissen|Pisces|Vis;
@@ -136,19 +130,6 @@
       PureScript; Reason|ReasonML; Idris; Agda; Coq|Rocq; Lean; Raku|Perl 6; Wolfram Language|Wolfram Language|Mathematica|Wolfram;
       LabVIEW; Brainfuck; Whitespace; LOLCODE; Befunge; Malbolge; Q#|Q#|Q sharp; GDScript; Processing; Arduino; CUDA; OpenCL;
       GLSL; HLSL; Pony; Odin; Vala; Hare; Fortress; Chapel; Dylan; Rexx; Lustre; Ballerina; Red; Rebol` },
-    { id: 'clouds', lvl: 3, nl: 'Noem een soort wolk', en: 'Name a type of cloud', a: `
-      Cumulus|Cumulus|Stapelwolk; Cirrus|Cirrus|Vederwolk|Veerwolk; Stratus|Stratus|Laagwolk; Cumulonimbus|Cumulonimbus|Onweerswolk|Buienwolk|Thundercloud;
-      Nimbostratus|Nimbostratus|Regenwolk|Rain cloud; Altocumulus|Altocumulus|Schapenwolkjes|Schaapjeswolk; Stratocumulus; Altostratus;
-      Cirrostratus; Cirrocumulus; Lenticularis|Lenticular cloud|Lenswolk|Lensvormige wolk; Mammatus|Mammatus|Mammatuswolken;
-      Mist|Fog|Nevel; Kelvin-Helmholtzwolk|Kelvin-Helmholtz cloud|Kelvin-Helmholtz; Lichtende nachtwolken|Noctilucent clouds|Noctilucent;
-      Parelmoerwolken|Nacreous clouds|Parelmoerwolk|Polar stratospheric clouds; Plankwolk|Shelf cloud|Boogwolk|Arcus;
-      Muurwolk|Wall cloud; Rolwolk|Roll cloud|Volutus; Pileus|Pileus|Kapwolk|Cap cloud; Vlagwolk|Banner cloud|Banierwolk;
-      Condensstreep|Contrail|Vliegtuigstreep|Condensatiestreep; Castellanus; Floccus; Fractus; Humilis; Mediocris;
-      Congestus|Cumulus congestus; Calvus; Capillatus; Incus|Incus|Aambeeldwolk|Anvil cloud; Velum; Virga|Virga|Valstrepen;
-      Asperitas|Asperitas|Undulatus asperatus; Fluctus; Cavum|Fallstreak hole|Gatwolk|Hole punch cloud;
-      Pyrocumulus|Pyrocumulus|Vuurwolk|Flammagenitus; Homogenitus; Cauda|Tail cloud; Murus; Tuba|Tuba|Trechterwolk|Funnel cloud;
-      Uncinus; Spissatus; Nebulosus; Undulatus; Radiatus; Lacunosus; Duplicatus; Translucidus; Opacus; Perlucidus;
-      Praecipitatio; Silvagenitus; Orografische wolk|Orographic cloud; Föhnmuur|Foehn wall|Föhnwolk` },
     { id: 'primes', lvl: 2, nl: 'Noem een priemgetal kleiner dan 100', en: 'Name a prime number below 100', a: `
       7|7|zeven|seven; 3|3|drie|three; 5|5|vijf|five; 2|2|twee|two; 11|11|elf|eleven; 13|13|dertien|thirteen;
       17|17|zeventien|seventeen; 19|19|negentien|nineteen; 23; 29; 31; 37; 41; 43; 47; 53; 59; 61; 67; 71; 73; 79; 83; 89; 97` }

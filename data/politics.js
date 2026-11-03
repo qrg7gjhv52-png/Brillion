@@ -36,18 +36,7 @@
       Walter Mondale|Walter Mondale|Mondale; Nelson Rockefeller|Nelson Rockefeller|Rockefeller; Spiro Agnew|Spiro Agnew|Agnew;
       Hubert Humphrey|Hubert Humphrey|Humphrey` },
 
-    { id: 'un-secretaries', lvl: 3, nl: 'Noem een secretaris-generaal van de Verenigde Naties', en: 'Name a Secretary-General of the United Nations', a: `
-      Kofi Annan|Kofi Annan|Annan; António Guterres|António Guterres|Antonio Guterres|Guterres; Ban Ki-moon|Ban Ki-moon|Ban Ki moon|Ban;
-      Boutros Boutros-Ghali|Boutros Boutros-Ghali|Boutros-Ghali|Boutros Ghali; Kurt Waldheim|Kurt Waldheim|Waldheim;
-      Dag Hammarskjöld|Dag Hammarskjöld|Dag Hammarskjold|Hammarskjöld|Hammarskjold; Javier Pérez de Cuéllar|Javier Pérez de Cuéllar|Javier Perez de Cuellar|Pérez de Cuéllar|Perez de Cuellar;
-      U Thant|U Thant|Thant; Trygve Lie|Trygve Lie|Lie` },
 
-    { id: 'ec-presidents', lvl: 3, nl: 'Noem een voorzitter van de Europese Commissie', en: 'Name a President of the European Commission', a: `
-      Ursula von der Leyen|Ursula von der Leyen|Von der Leyen; Jean-Claude Juncker|Jean-Claude Juncker|Juncker; José Manuel Barroso|José Manuel Barroso|Jose Manuel Barroso|Barroso;
-      Jacques Delors|Jacques Delors|Delors; Romano Prodi|Romano Prodi|Prodi; Jacques Santer|Jacques Santer|Santer; Walter Hallstein|Walter Hallstein|Hallstein;
-      Roy Jenkins|Roy Jenkins|Jenkins; Gaston Thorn|Gaston Thorn|Thorn; Jean Rey|Jean Rey|Rey; Sicco Mansholt|Sicco Mansholt|Mansholt;
-      François-Xavier Ortoli|François-Xavier Ortoli|Francois-Xavier Ortoli|Ortoli; Franco Maria Malfatti|Franco Maria Malfatti|Malfatti;
-      Manuel Marín|Manuel Marín|Manuel Marin|Marín|Marin` },
 
     { id: 'soviet-russian-leaders', lvl: 2, nl: 'Noem een leider van de Sovjet-Unie of van Rusland (sinds 1917)', en: 'Name a leader of the Soviet Union or of Russia (since 1917)', a: `
       Vladimir Poetin|Vladimir Putin|Poetin|Putin|Vladimir Poutine; Jozef Stalin|Joseph Stalin|Stalin|Josef Stalin; Vladimir Lenin|Vladimir Lenin|Lenin;
@@ -56,9 +45,6 @@
       Dmitri Medvedev|Dmitry Medvedev|Medvedev|Dmitri Medvedev; Joeri Andropov|Yuri Andropov|Andropov; Konstantin Tsjernenko|Konstantin Chernenko|Tsjernenko|Chernenko;
       Georgi Malenkov|Georgy Malenkov|Malenkov; Aleksandr Kerenski|Alexander Kerensky|Kerenski|Kerensky` },
 
-    { id: 'chinese-leaders', lvl: 3, nl: 'Noem een leider van de Volksrepubliek China', en: "Name a leader of the People's Republic of China", a: `
-      Mao Zedong|Mao Zedong|Mao|Mao Tse-tung|Mao Tsetung; Xi Jinping|Xi Jinping|Xi; Deng Xiaoping|Deng Xiaoping|Deng;
-      Jiang Zemin|Jiang Zemin|Jiang; Hu Jintao|Hu Jintao|Hu; Hua Guofeng|Hua Guofeng|Hua` },
 
     { id: 'dutch-monarchs', lvl: 3, nl: 'Noem een koning of koningin van Nederland (sinds 1815)', en: 'Name a King or Queen of the Netherlands (since 1815)', a: `
       Willem-Alexander|Willem-Alexander|Willem Alexander|Koning Willem-Alexander; Beatrix|Beatrix|Koningin Beatrix; Juliana|Juliana|Koningin Juliana;
@@ -70,51 +56,12 @@
       George V|George V|Georg V; Edward VII|Edward VII|Eduard VII; George III|George III|Georg III; George IV|George IV|Georg IV;
       William IV|William IV|Willem IV` },
 
-    { id: 'us-banknotes', lvl: 3, nl: 'Noem een Amerikaanse president die op een dollarbiljet staat (biljetten die nu nog gemaakt worden)', en: 'Name a US President who appears on a dollar bill (notes still printed today)', a: `
-      George Washington|George Washington|Washington; Abraham Lincoln|Abraham Lincoln|Lincoln; Andrew Jackson|Andrew Jackson|Jackson;
-      Ulysses S. Grant|Ulysses S. Grant|Grant|Ulysses Grant; Thomas Jefferson|Thomas Jefferson|Jefferson` },
 
-    { id: 'confederate-states', lvl: 3, nl: 'Noem een staat die in de Amerikaanse Burgeroorlog bij de Confederatie (het Zuiden) hoorde', en: 'Name a state that belonged to the Confederacy (the South) in the American Civil War', a: `
-      Texas; Virginia; Georgia|Georgia|Georgië; Alabama; South Carolina|South Carolina|Zuid-Carolina; Mississippi; Louisiana; Tennessee;
-      North Carolina|North Carolina|Noord-Carolina; Florida; Arkansas; Kentucky; Missouri` },
 
-    { id: 'thirteen-colonies', lvl: 3, nl: 'Noem een van de 13 kolonies die in 1776 de onafhankelijkheid van de VS uitriepen', en: 'Name one of the 13 colonies that declared US independence in 1776', a: `
-      Virginia; Massachusetts; New York; Pennsylvania|Pennsylvania|Pennsylvanië; Georgia|Georgia|Georgië; New Jersey;
-      North Carolina|North Carolina|Noord-Carolina; South Carolina|South Carolina|Zuid-Carolina; Maryland; Connecticut;
-      New Hampshire; Rhode Island; Delaware` },
 
-    { id: 'roman-kings', lvl: 3, nl: 'Noem een van de zeven koningen van het oude Rome', en: 'Name one of the seven kings of ancient Rome', a: `
-      Romulus; Tarquinius Superbus|Tarquinius Superbus|Tarquin the Proud|Tarquinius de Hoogmoedige|Superbus; Numa Pompilius|Numa Pompilius|Numa;
-      Servius Tullius|Servius Tullius|Servius; Tarquinius Priscus|Tarquinius Priscus|Tarquin the Elder|Priscus;
-      Tullus Hostilius|Tullus Hostilius|Tullus; Ancus Marcius|Ancus Marcius|Ancus` },
 
-    { id: 'chinese-dynasties', lvl: 3, nl: 'Noem een Chinese keizersdynastie', en: 'Name a Chinese imperial dynasty', a: `
-      Ming|Ming|Mingdynastie; Qing|Qing|Ch'ing|Mantsjoe-dynastie|Manchu|Qingdynastie; Han|Han|Handynastie; Tang|Tang|Tangdynastie;
-      Song|Song|Sung|Songdynastie; Qin|Qin|Ch'in|Qindynastie; Yuan|Yuan|Mongoolse dynastie|Yuandynastie; Zhou|Zhou|Chou|Zhoudynastie;
-      Shang|Shang|Shangdynastie; Sui|Sui|Suidynastie; Xia|Xia|Xiadynastie; Jin|Jin|Jindynastie; Liao; Westelijke Xia|Western Xia|Xi Xia;
-      Noordelijke Wei|Northern Wei|Wei` },
 
-    { id: 'eu-institutions', lvl: 3, nl: 'Noem een officiële instelling van de Europese Unie', en: 'Name an official institution of the European Union', a: `
-      Europees Parlement|European Parliament|Parlement; Europese Commissie|European Commission|Commissie;
-      Europese Centrale Bank|European Central Bank|ECB; Europese Raad|European Council;
-      Raad van de Europese Unie|Council of the European Union|Raad van de EU|Raad van Ministers|Ministerraad|Council of the EU;
-      Hof van Justitie van de Europese Unie|Court of Justice of the European Union|Europees Hof van Justitie|Hof van Justitie|European Court of Justice|CJEU|HvJ;
-      Europese Rekenkamer|European Court of Auditors|Rekenkamer` },
 
-    { id: 'un-bodies', lvl: 3, nl: 'Noem een orgaan of organisatie van de Verenigde Naties (bv. UNICEF)', en: 'Name a body or organisation of the United Nations (e.g. UNICEF)', a: `
-      UNICEF; Wereldgezondheidsorganisatie|World Health Organization|WHO|Wereldgezondheidsorganisatie; UNESCO; Veiligheidsraad|Security Council|VN-Veiligheidsraad;
-      Algemene Vergadering|General Assembly|VN-Algemene Vergadering; UNHCR|UNHCR|VN-Vluchtelingenorganisatie|Vluchtelingenorganisatie;
-      Wereldvoedselprogramma|World Food Programme|WFP; Internationaal Gerechtshof|International Court of Justice|ICJ;
-      Internationaal Monetair Fonds|International Monetary Fund|IMF; Wereldbank|World Bank; FAO|FAO|Voedsel- en Landbouworganisatie|Food and Agriculture Organization;
-      Internationale Arbeidsorganisatie|International Labour Organization|ILO|IAO; UNDP|UNDP|VN-Ontwikkelingsprogramma;
-      UNEP|UNEP|VN-Milieuprogramma|UN Environment Programme; Internationaal Atoomenergieagentschap|International Atomic Energy Agency|IAEA|IAEA;
-      UNAIDS; UNFPA; UN Women|UN Women|VN-Vrouwen; UNRWA; UN-Habitat|UN-Habitat|UN Habitat; OCHA; UNCTAD;
-      Economische en Sociale Raad|Economic and Social Council|ECOSOC; Secretariaat|Secretariat|VN-Secretariaat; Trustschapsraad|Trusteeship Council;
-      Wereldpostunie|Universal Postal Union|UPU; Internationale Telecommunicatie-unie|International Telecommunication Union|ITU;
-      Wereld Meteorologische Organisatie|World Meteorological Organization|WMO; Internationale Burgerluchtvaartorganisatie|International Civil Aviation Organization|ICAO;
-      Internationale Maritieme Organisatie|International Maritime Organization|IMO; Wereldorganisatie voor de Intellectuele Eigendom|World Intellectual Property Organization|WIPO;
-      IFAD|IFAD|Internationaal Fonds voor Landbouwontwikkeling; UNIDO; Wereldtoerismeorganisatie|UN Tourism|UNWTO|World Tourism Organization;
-      UNODC; Mensenrechtenraad|Human Rights Council|VN-Mensenrechtenraad; UNU|Universiteit van de Verenigde Naties|United Nations University` },
 
     { id: 'ancient-civilisations', lvl: 1, nl: 'Noem een volk of beschaving uit de oudheid (bv. de Egyptenaren)', en: 'Name a people or civilisation of the ancient world (e.g. the Egyptians)', a: `
       Romeinen|Romans|Rome|Romeinse Rijk|Roman Empire; Grieken|Greeks|Oude Grieken|Ancient Greece|Griekenland; Egyptenaren|Egyptians|Oude Egypte|Ancient Egypt|Egypte;
@@ -152,14 +99,5 @@
       Alexandra David-Néel|Alexandra David-Neel|David-Néel; Nikolaj Prsjevalski|Nikolai Przhevalsky|Prsjevalski|Przhevalsky; Xuanzang; Pytheas;
       Hanno de Zeevaarder|Hanno the Navigator|Hanno; Bartholomew Gosnold|Gosnold` },
 
-    { id: 'royal-houses', lvl: 3, nl: 'Noem een vorstenhuis (dynastie) dat nu regeert in Europa', en: 'Name a royal house (dynasty) that reigns in Europe today', a: `
-      Windsor|Windsor|Huis Windsor|House of Windsor; Oranje-Nassau|Orange-Nassau|Huis Oranje-Nassau|Oranje; Bourbon|Bourbon|Huis Bourbon|Borbón|Bourbon-Anjou;
-      Saksen-Coburg|Saxe-Coburg|Saksen-Coburg-Gotha|Saxe-Coburg and Gotha|Huis België|House of Belgium; Grimaldi|Grimaldi|Huis Grimaldi;
-      Bernadotte|Bernadotte|Huis Bernadotte; Glücksburg|Glücksburg|Glucksburg|Sleeswijk-Holstein-Sonderburg-Glücksburg|Schleswig-Holstein-Sonderburg-Glücksburg|Huis Glücksburg|Monpezat;
-      Liechtenstein|Liechtenstein|Huis Liechtenstein|House of Liechtenstein; Nassau-Weilburg|Nassau-Weilburg|Luxemburg-Nassau|Bourbon-Parma|Huis Nassau-Weilburg` },
-
-    { id: 'us-historic-capitals', lvl: 3, nl: 'Noem een stad waar het Amerikaanse Congres ooit zetelde als hoofdstad (sinds 1774)', en: 'Name a city that served as the seat of the US Congress (since 1774)', a: `
-      Washington|Washington|Washington D.C.|Washington DC; Philadelphia; New York|New York|New York City; Baltimore; Princeton; Annapolis;
-      Trenton; Lancaster; York` }
-  ]);
+]);
 })(typeof window !== 'undefined' ? window : globalThis);

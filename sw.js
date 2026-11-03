@@ -4,13 +4,13 @@
    Werkwijze: eerst uit het geheugen tonen (snel), en op de achtergrond
    de nieuwste versie ophalen voor de volgende keer.
    ───────────────────────────────────────────────────────────── */
-const CACHE = 'brillion-app-5';   // nieuw nummer = alles opnieuw ophalen
+const CACHE = 'brillion-app-6';   // nieuw nummer = alles opnieuw ophalen
 const FONTS = 'brillion-fonts';
 const FILES = [
   './', 'index.html', 'css/style.css', 'manifest.webmanifest',
   'js/i18n.js', 'js/core.js', 'js/store.js', 'js/audio.js', 'js/fx.js', 'js/app.js',
   'data/countries.js', 'data/earth.js', 'data/history.js', 'data/politics.js', 'data/science.js',
-  'data/body.js', 'data/nature.js', 'data/language.js', 'data/sport.js', 'data/culture.js', 'data/everyday.js', 'data/letters.js', 'data/schedule.js',
+  'data/body.js', 'data/nature.js', 'data/language.js', 'data/sport.js', 'data/culture.js', 'data/everyday.js', 'data/open-life.js', 'data/open-food.js', 'data/open-more.js', 'data/letters.js', 'data/schedule.js',
   'icons/icon.svg', 'icons/icon-192.png', 'icons/icon-512.png', 'icons/apple-touch-icon.png'
 ];
 

@@ -381,6 +381,7 @@
               autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" maxlength="60">
             <button class="btn primary" type="submit" id="g-submit"></button>
           </form>
+          <p class="try-msg" id="g-try" hidden></p>
           <div class="suggest" id="g-suggest" hidden></div>
         </div>
         <div id="g-result" hidden></div>
@@ -420,11 +421,13 @@
     if (!q) { G.idx++; if (G.idx >= G.ids.length) return finish(); return showQuestion(); }
     if (!G.qStart) G.qStart = Date.now();
     G.answered = false;
+    G.tries = [];            // foute pogingen bij deze vraag
     B.markSeen(q.id);
     persist();
     $('g-play').hidden = false;
     $('g-result').hidden = true;
     hideSuggest();
+    $('g-try').hidden = true;
     $('g-card').classList.remove('hurry');
     $('g-input').value = '';
     updateGameTexts();
@@ -471,17 +474,38 @@
     // Enter terwijl "Bedoelde je…?" openstaat (met dezelfde tekst) = het eerste voorstel kiezen
     if (!auto && G.pending && G.pending.input === input) { pick(0); return; }
     const timeLeft = Math.max(0, remainingMs() / 1000);
-    if (!input) { commit(q, { q: q.id, input: '', ok: false, rank: -1, score: 0, tier: -1, timeUp: true, timeLeft: 0 }); return; }
+    const tries = (G.tries || []).slice();
+    // tijd op zonder iets in het vak: uitgegleden
+    if (!input) { commit(q, { q: q.id, input: '', ok: false, rank: -1, score: 0, tier: -1, timeUp: true, timeLeft: 0, tries }); return; }
     const res = B.check(q, input, B.lang);
-    // 0. letterspel: bestaat wel, maar past niet bij de letter
-    if (res.ruleFail) { commit(q, { q: q.id, input, ok: false, rank: -1, score: 0, tier: -1, timeLeft, ruleFail: true }); return; }
-    // 1. juist (of juist in de andere taal)
+    // 1. juist (of juist in de andere taal) — ook als de tijd net op is
     if (res.ok) { commit(q, okResult(q, input, res.entry, { translated: res.translated }, timeLeft)); return; }
     // 2. lijkt op een juist antwoord: vragen "Bedoelde je…?" (de klok loopt door)
-    if (!auto && res.suggestions.length) { openSuggest(input, res.suggestions, false); return; }
-    // 3. fout (of de tijd was op voor je een voorstel koos)
-    const late = res.suggestions[0] || null;
-    commit(q, { q: q.id, input, ok: false, rank: -1, score: 0, tier: -1, timeLeft, lateRank: late ? late.rank : -1 });
+    if (!auto && !res.ruleFail && res.suggestions.length) { openSuggest(input, res.suggestions, false); return; }
+    // 3. tijd op met een fout of niet bevestigd antwoord: uitgegleden
+    if (auto) {
+      const late = res.suggestions[0] || null;
+      commit(q, { q: q.id, input, ok: false, rank: -1, score: 0, tier: -1, timeUp: true, timeLeft: 0, ruleFail: !!res.ruleFail, lateRank: late ? late.rank : -1, tries });
+      return;
+    }
+    // 4. fout: zoals bij Krillion kan je dit niet doorgeven. Opnieuw proberen tot de tijd op is!
+    wrongTry(q, input, res.ruleFail ? ruleFailText(q.rule, input) : t('tryNotOnList', { a: input }), !res.ruleFail);
+  }
+
+  /* Een fout antwoord: schudden, melding, en het vak klaar voor een nieuwe poging */
+  function wrongTry(q, input, msg, canReport) {
+    if (!G.tries.includes(input)) G.tries.push(input);
+    hideSuggest();
+    const box = $('g-try');
+    box.innerHTML = `<span>${esc(msg)} <strong>${esc(t('tryAgain'))}</strong></span>` +
+      (canReport ? ` <button class="link-btn" type="button" data-act="report-try" data-a="${esc(input)}">${esc(t('report'))}</button>` : '');
+    box.hidden = false;
+    box.classList.remove('flash'); void box.offsetWidth; box.classList.add('flash');
+    B.Sound.nope();
+    const inputEl = $('g-input');
+    shake(inputEl);
+    inputEl.focus({ preventScroll: true });
+    inputEl.select();   // typen vervangt meteen je vorige poging
   }
 
   /* De naam tonen in de taal die het best lijkt op wat je typte */
@@ -587,16 +611,19 @@
       html = `<div class="result-top"><span class="result-class"><span class="result-tier t${r.tier}">${esc(tierName(r.tier))}</span>${ladderHTML(r.tier)}</span><span class="gain">+${fmt(gain)} m</span></div>
         <div class="result-answer">${esc(ansText(e))}</div>
         ${note ? `<p class="result-note">${note}</p>` : ''}`;
-    } else if (!r.input) {
-      html = `<div class="result-top"><span class="result-tier tw">${t('timeUp')}</span><span class="gain slip">${esc(t('slipped'))}</span></div>
-        <p class="result-note">${t('noAnswer')}</p>`;
     } else {
+      // tijd op zonder goed antwoord (of een oude ronde met een fout antwoord)
       const late = B.entryAt(q, r.lateRank, r.lang);
+      const tried = (r.tries || []).filter(x => x !== r.input).concat(r.input ? [r.input] : []);
       const ruleNote = r.ruleFail && q.rule ? ruleFailText(q.rule, r.input) : '';
-      html = `<div class="result-top"><span class="result-tier tw">${ruleNote ? t('ruleBadge') : late ? t('timeUp') : t('notOnList')}</span><span class="gain slip">${esc(t('slipped'))}</span></div>
-        <div class="result-answer">“${esc(r.input)}”</div>
-        <p class="result-note">${ruleNote ? esc(ruleNote) : late ? esc(t('lateConfirm', { a: ansText(late) })) : t('notOnListSub')}</p>
-        ${ruleNote ? '' : `<div><button class="link-btn" type="button" data-act="report" id="g-report">${t('report')}</button></div>`}`;   // past niet bij de letter = melden heeft geen zin
+      const note = late ? esc(t('lateConfirm', { a: ansText(late) })) : ruleNote ? esc(ruleNote)
+        : tried.length ? esc(t('triedList', { a: tried.join(', ') })) : r.timeUp ? t('noAnswer') : t('notOnListSub');
+      // een paar goede antwoorden tonen: zo leer je iets bij
+      const ex = q.answers.filter(e => !e.extra).slice(0, 3).map(e => ansText(e));
+      html = `<div class="result-top"><span class="result-tier tw">${r.timeUp ? t('timeUp') : t('notOnList')}</span><span class="gain slip">${esc(t('slipped'))}</span></div>
+        <p class="result-note">${note}</p>
+        ${ex.length ? `<p class="result-note">${esc(t('examples', { a: '' }))}<strong>${esc(ex.join(', '))}</strong></p>` : ''}
+        ${r.input && !r.ruleFail && !late ? `<div><button class="link-btn" type="button" data-act="report" id="g-report">${t('report')}</button></div>` : ''}`;
     }
     return `<div class="result">${html}
       <button class="btn primary big" type="button" data-act="next" id="g-next">${last ? t('finish') : t('next')}</button></div>`;
@@ -935,7 +962,18 @@
       case 'suggest-keep': {
         if (!G || G.answered || !G.pending) break;
         const q = B.byId[G.ids[G.idx]];
-        commit(q, { q: q.id, input: G.pending.input, ok: false, rank: -1, score: 0, tier: -1, timeLeft: Math.max(0, remainingMs() / 1000) });
+        const input = G.pending.input;
+        wrongTry(q, input, t('tryNotOnList', { a: input }), true);
+        break;
+      }
+      case 'report-try': {
+        if (!G || G.answered) break;
+        const earned = B.addReport(B.byId[G.ids[G.idx]], el.dataset.a || '');
+        el.textContent = t('reported');
+        el.disabled = true;
+        earned.forEach(b => badgeToast(b));
+        const i = $('g-input');
+        if (i) i.focus({ preventScroll: true });
         break;
       }
       case 'next': if (performance.now() - resultAt > 450) nextQuestion(); break;

@@ -7,14 +7,14 @@ In het Nederlands én het Engels (taalknop rechtsboven).
 
 | Onderdeel | Hoe |
 |---|---|
-| Ronde | 8 vragen, 20 seconden per vraag, 1 antwoord per vraag |
-| Klassen | Gewoon → Ongewoon → Zeldzaam → Episch → **1 in a Brillion**. Elke klasse is 20% van de lijst (van vaak genoemd naar zeldzaam) en laat je +250 / +500 / +750 / +1.000 / +1.250 m klimmen |
+| Ronde | 8 vragen, 20 seconden per vraag. Staat je antwoord niet in de lijst? Dan kan je het niet doorgeven (zoals bij Krillion): het vak schudt en je probeert opnieuw tot de tijd op is |
+| Klassen | Gewoon → Ongewoon → Zeldzaam → Episch → **1 in a Brillion**. De 50 bekendste antwoorden worden in 5 even grote klassen verdeeld (van vaak genoemd naar zeldzaam); alles daarna is meteen 1 in a Brillion. Een klasse laat je +250 / +500 / +750 / +1.000 / +1.250 m klimmen |
 | Moeilijkheid | elke vraag is makkelijk, gemiddeld of moeilijk. Bij **Onbeperkt** kies je zelf; de **dagelijkse beklimming** wordt moeilijker naarmate je hoger klimt (vraag 1–4 makkelijk, 5–7 gemiddeld, 8 moeilijk); **Per categorie** gaat ook van makkelijk naar moeilijk |
 | Einde | je hoogte in meter + de berg die je haalde (Kemmelberg … Mount Everest op 8.849 m: haal je met vooral Episch en 1 in a Brillion) |
-| Letterspel | 250 vragen zoals *Noem een dier dat begint met een B* of *Noem een land met een Z in de naam*. Het tegeltje naast de vraag toont de letter. Een goed antwoord dat niet bij de letter past, telt niet (“Past niet”) |
-| Nakijken | tikfout, klankfout of maar een deel van de naam? → **Bedoelde je…?** en jij kiest (de klok loopt door). Engels ↔ Nederlands wordt vertaald |
+| Letterspel | 155 vragen zoals *Noem een dier dat begint met een B* of *Noem een land met een Z in de naam*. Het tegeltje naast de vraag toont de letter. Een goed antwoord dat niet bij de letter past, telt niet (“Past niet”) |
+| Nakijken | tikfout, klankfout, het begin van de naam (*Kopenh*), meervoud of verkleinwoord (*peren*, *tomaatjes*)? → **Bedoelde je…?** of meteen goed. Engels ↔ Nederlands wordt vertaald |
 | Klimmen | de berg vult het hele scherm en de camera klimt live mee: bos → alpenweide → rotsen → gletsjer → eeuwige sneeuw → death zone, door de wolken, langs bordjes van echte bergen. Hoe zeldzamer je antwoord, hoe langer de klim (Legendarisch = slow-motion) |
-| Fout antwoord | de klimmer glijdt uit, 0 punten + knop **Meld het** als je denkt dat het toch klopt |
+| Tijd op | de klimmer glijdt uit en je ziet een paar goede antwoorden. Klopt je antwoord volgens jou toch? **Meld het** |
 | Einde | vlag planten op je top, daarna zoomt de camera uit over de hele berg met je route en je 8 stops |
 | Modi | Dagelijkse beklimming (1 poging, met archief), Onbeperkt, Per categorie |
 | Extra | reeks (streak), records, geschiedenis, 20 badges, delen als emoji-blokjes |
@@ -84,7 +84,7 @@ brillion/
 │   ├── audio.js          ← geluidjes, voetstappen, ijsbijl en wind
 │   ├── fx.js             ← de klimwereld (berg, camera, weer) en de sneeuw-confetti
 │   └── app.js            ← de schermen en het spelverloop
-├── data/                 ← 533 vragen in 10 categorieën (algemene kennis, alledaagse vragen, 250 letterspellen)
+├── data/                 ← 484 vragen in 10 categorieën (algemene kennis, ±150 alledaagse open vragen, 155 letterspellen)
 │   └── schedule.js       ← vaste dagplanning (gemaakt door make-schedule)
 ├── sw.js + manifest      ← werkt als app en offline
 ├── icons/                ← app-icoontjes

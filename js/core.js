@@ -10,7 +10,8 @@
 
   /* ── Instellingen van het spel ───────────────────────────── */
   B.CONFIG = {
-    version: '2.2.0',
+    version: '2.3.0',
+    tierCap: 50,          // de 50 bekendste antwoorden bepalen de klassen
     perRound: 8,            // vragen per ronde
     seconds: 20,            // seconden per vraag
     launch: '2026-11-02',   // dag van Beklimming #1
@@ -164,6 +165,7 @@
      "Tsjaikofski" en "Tsjaikovski" → "tjaikofski", "Philippijnen" = "Filipijnen". */
   B.phonetic = function (key) {
     return String(key)
+      .replace(/^y(?=[aeiou])/, 'j').replace(/qu/g, 'kw').replace(/ow/g, 'au')
       .replace(/tsch|tsj|tch/g, 'tj').replace(/sch/g, 'sk').replace(/ph/g, 'f')
       .replace(/sh|sj/g, 'sj').replace(/ck|qu|q/g, 'k')
       .replace(/c(?=[eiy])/g, 's').replace(/c/g, 'k')
@@ -271,7 +273,10 @@
       answers.push(entry);
     });
     answers.forEach((e, i) => {
-      e.tier = tierPos ? B.tierForRank(Math.min(tierPos[i], tierN - 1), tierN) : B.tierForRank(e.rank, answers.length);
+      // Enkel de bekendste antwoorden (B.CONFIG.tierCap) worden over de 5 klassen verdeeld.
+      // Alles daarna is meteen "1 in a Brillion": zo moet je geen obscure namen kennen om hoog te scoren.
+      const n = Math.min(tierPos ? tierN : answers.length, B.CONFIG.tierCap);
+      e.tier = B.tierForRank(tierPos ? tierPos[i] : e.rank, n);
       e.score = B.TIERS[e.tier].meters;   // "score" = zoveel meter klim je met dit antwoord
     });
     return { answers, keyMap, tokenMap };
@@ -324,6 +329,31 @@
 
   B.totalAnswers = () => B.questions.reduce((s, q) => s + q.answers.length, 0);
 
+  /* Andere vormen van hetzelfde woord: meervoud, enkelvoud en verkleinwoord.
+     "Aardbeien" → aardbei, "peren" → peer, "katten" → kat, "tomaatjes" → tomaat,
+     "cherries" → cherry. Enkel als zo'n vorm precies een antwoord is, telt het. */
+  B.variants = function (key) {
+    const v = [];
+    if (key.length > 4) {
+      if (key.endsWith('s')) v.push(key.slice(0, -1));
+      if (key.endsWith('en') || key.endsWith('es')) v.push(key.slice(0, -2));
+      ['etjes', 'etje', 'tjes', 'tje', 'pjes', 'pje', 'jes', 'je'].forEach(suf => {
+        if (key.endsWith(suf) && key.length - suf.length >= 3) v.push(key.slice(0, -suf.length));
+      });
+      if (key.endsWith('ies')) v.push(key.slice(0, -3) + 'y');
+      if (key.endsWith('ves')) v.push(key.slice(0, -3) + 'f', key.slice(0, -3) + 'fe');
+      if (key.endsWith('en')) {
+        const stem = key.slice(0, -2);
+        v.push(stem.replace(/([aeou])([^aeiouy])$/, '$1$1$2'));   // peren → peer, bomen → boom
+        v.push(stem.replace(/([^aeiouy])\1$/, '$1'));             // katten → kat
+        v.push(stem.replace(/v$/, 'f'), stem.replace(/z$/, 's'));   // duiven → duif, huizen → huis
+      }
+      if (key.endsWith('eren')) v.push(key.slice(0, -4));        // kinderen → kind, eieren → ei
+    }
+    v.push(key + 's', key + 'en', key + 'es', key + 'n');
+    return [...new Set(v)].filter(x => x && x !== key);
+  };
+
   /* ── Een antwoord nakijken ───────────────────────────────── *
      Juist (ook in de andere taal, of enkelvoud/meervoud) → meteen goed.
      Bijna juist → tot 3 voorstellen ("Bedoelde je …?"), de speler kiest. */
@@ -345,13 +375,8 @@
     const exact = q.keyMap.get(key);
     if (exact) return q.rule && !B.ruleOk(q.rule, input) ? ruleFail(exact.entry) : result(exact);
 
-    // 2. enkelvoud / meervoud
-    const variants = [];
-    if (key.length > 4) {
-      if (key.endsWith('s')) variants.push(key.slice(0, -1));
-      if (key.endsWith('en') || key.endsWith('es')) variants.push(key.slice(0, -2));
-    }
-    variants.push(key + 's', key + 'en', key + 'es', key + 'n');
+    // 2. enkelvoud / meervoud / verkleinwoord
+    const variants = B.variants(key);
     for (const v of variants) {
       const hit = q.keyMap.get(v);
       if (hit) return q.rule && !B.ruleOk(q.rule, input) ? ruleFail(hit.entry) : result(hit);
@@ -387,16 +412,30 @@
       if (key.length >= 4) {
         if (hit.phon === phon) add(hit.entry, 0.5);
         else if (phon.length >= 5 && Math.abs(hit.phon.length - phon.length) <= 1 && editDistance(phon, hit.phon, 1) <= 1) add(hit.entry, 1.5);
+        else if (phon.length >= 9 && editDistance(phon, hit.phon, 2) <= 2) add(hit.entry, 2.2);
+      }
+      // c. maar het begin van de naam ("Kopenh" → Kopenhagen), eventueel met 1 tikfout
+      if (key.length >= 4 && k.length > key.length && key.length >= k.length * 0.5) {
+        if (k.startsWith(key)) add(hit.entry, 1.2);
+        else if (key.length >= 6 && editDistance(key, k.slice(0, key.length), 1) <= 1) add(hit.entry, 1.8);
       }
     }
-    // c. een deel van de naam ("Bosnië" → Bosnië en Herzegovina, "Hazard" → Eden Hazard)
+    // d. een andere vorm van het woord met een tikfout ("aardbeijen", "tomaatjes")
+    for (const v of B.variants(key)) {
+      if (v.length < 4) continue;
+      for (const [k, hit] of q.keyMap) {
+        if (Math.abs(k.length - v.length) <= 1 && editDistance(v, k, 1) <= 1) add(hit.entry, 1.4);
+      }
+    }
+    // e. een deel van de naam ("Bosnië" → Bosnië en Herzegovina, "Hazard" → Eden Hazard), ook met tikfouten
     const words = wordsOf(input);
     if (words.length) {
       const sets = words.map(w => {
         const set = new Set(q.tokenMap.get(w) || []);
-        if (w.length >= 6) {
+        if (w.length >= 5) {
+          const max = w.length >= 9 ? 2 : 1;
           for (const [t, entries] of q.tokenMap) {
-            if (Math.abs(t.length - w.length) <= 1 && editDistance(w, t, 1) <= 1) entries.forEach(e => set.add(e));
+            if (Math.abs(t.length - w.length) <= max && editDistance(w, t, max) <= max) entries.forEach(e => set.add(e));
           }
         }
         return set;

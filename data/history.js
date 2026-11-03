@@ -60,30 +60,6 @@
       Leto; Metis; Dione; Maia; Eris; Peitho; Ananke; Chronos; Eileithyia; Hygieia; Panakeia|Panacea; Ploutos|Plutus; Kairos; Momos|Momus;
       Phanes; Kalliope|Calliope; Kleio|Clio; Erato; Euterpe; Melpomene; Polyhymnia; Terpsichore; Thalia; Urania; Klotho|Clotho;
       Lachesis; Atropos; Aglaia|Aglaea; Euphrosyne; Herakles|Heracles; Psyche` },
-    { id: 'egyptian-gods', lvl: 3, nl: 'Noem een god of godin uit het oude Egypte', en: 'Name a god or goddess of ancient Egypt', a: `
-      Ra|Ra|Re; Osiris; Isis; Anubis; Horus; Seth|Set; Thoth|Thoth|Thot|Djehuti; Amon|Amun|Amon-Ra|Amun-Ra; Bastet|Bastet|Bast; Sobek;
-      Hathor; Ptah; Aton|Aten; Nut; Geb; Sjoe|Shu; Tefnut; Nephthys; Maat|Ma'at; Sekhmet|Sekhmet|Sachmet; Chnoem|Khnum; Chonsoe|Khonsu; Montu;
-      Min; Mut; Neith; Taweret|Taweret|Taueret; Bes; Apophis|Apophis|Apep; Atum|Atum|Atoem; Amaunet; Hapi; Heket|Heqet; Meretseger; Nekhbet;
-      Wadjet; Serket|Selket; Imhotep; Aker; Ammit|Ammut; Anuket|Anukis; Satet|Satis; Seshat; Sopdu; Wepwawet; Chepri|Khepri; Renenutet;
-      Mafdet; Meskhenet; Hu; Sia; Heh|Huh; Nun; Shezmu; Mehen; Babi; Resjef|Reshep|Resheph; Serapis; Harpocrates|Harpokrates; Iah|Aah;
-      Kebechet; Qetesh; Menhit; Pakhet; Tatenen` },
-    { id: 'norse-gods', lvl: 3, nl: 'Noem een god of godin uit de Noordse mythologie', en: 'Name a god or goddess from Norse mythology', a: `
-      Odin|Odin|Wodan|Wotan|Woden; Thor|Thor|Donar; Loki; Freya|Freyja|Freya; Frigg|Frigg|Frigga; Baldr|Baldur|Balder; Tyr|Tyr|Týr;
-      Heimdall|Heimdall|Heimdallr; Freyr|Frey|Freyr; Njord|Njörðr|Njord; Idun|Iðunn|Idunn|Iduna; Bragi; Hel|Hel|Hela; Skadi|Skaði;
-      Sif; Vidar|Víðarr; Vali|Váli; Ullr|Ullr|Ull; Forseti; Hodr|Höðr|Hod; Hermod|Hermóðr; Eir; Sigyn; Gefjon|Gefjun|Gefion; Nanna;
-      Saga; Var; Vor|Vör; Syn; Hlin; Snotra; Gna; Fulla; Lofn; Sjofn|Sjöfn; Mimir|Mímir; Aegir|Ægir; Ran|Rán; Kvasir; Hoenir|Hœnir;
-      Jord|Jörð|Fjörgyn; Sol|Sól|Sunna; Mani|Máni; Nott|Nótt; Dagr; Ymir; Surtr|Surt` },
-    { id: 'philosophers', lvl: 3, nl: 'Noem een filosoof uit de Griekse of Romeinse oudheid', en: 'Name a philosopher from ancient Greece or Rome', a: `
-      Socrates|Socrates|Sokrates; Plato|Plato|Platoon|Platon; Aristoteles|Aristotle; Pythagoras; Diogenes; Epicurus|Epicurus|Epikouros;
-      Heraclitus|Heraclitus|Herakleitos; Democritus|Democritus|Demokritos; Thales|Thales|Thales van Milete; Seneca; Marcus Aurelius;
-      Zeno van Citium|Zeno of Citium|Zeno; Zeno van Elea|Zeno of Elea; Parmenides; Epictetus|Epictetus|Epiktetos; Cicero; Plotinus|Plotinus|Plotinos;
-      Anaximander; Anaximenes; Empedocles|Empedocles|Empedokles; Anaxagoras; Protagoras; Gorgias; Hypatia; Lucretius; Pyrrho|Pyrrho|Pyrrhon;
-      Antisthenes; Aristippus|Aristippus|Aristippos; Chrysippus|Chrysippus|Chrysippos; Cleanthes|Cleanthes|Kleanthes; Xenophanes;
-      Leucippus|Leucippus|Leukippos; Theophrastus|Theophrastus|Theophrastos; Thrasymachus; Porphyrius|Porphyry; Proclus|Proclus|Proklos;
-      Boethius; Augustinus|Augustine|Augustinus van Hippo; Plutarchus|Plutarch; Xenophon; Iamblichus; Posidonius; Panaetius; Carneades;
-      Arcesilaus; Philo van Alexandrië|Philo of Alexandria|Philo; Sextus Empiricus; Diogenes Laërtius|Diogenes Laertius; Crates|Crates of Thebes;
-      Hipparchia; Euclides van Megara|Euclid of Megara; Speusippus; Xenocrates; Hippias; Prodicus; Antiphon; Critias; Archytas; Philolaus;
-      Alcmaeon; Melissus; Musonius Rufus; Philodemus; Lucianus|Lucian; Galenus|Galen` },
     { id: 'moonwalkers', lvl: 3, nl: 'Noem een astronaut die op de maan liep', en: 'Name an astronaut who walked on the Moon', a: `
       Neil Armstrong|Neil Armstrong|Armstrong; Buzz Aldrin|Buzz Aldrin|Aldrin|Edwin Aldrin; Alan Shepard|Alan Shepard|Shepard;
       Pete Conrad|Pete Conrad|Conrad|Charles Conrad; Eugene Cernan|Gene Cernan|Cernan; Alan Bean|Alan Bean|Bean; Edgar Mitchell|Edgar Mitchell|Mitchell;
@@ -91,30 +67,5 @@
       Charles Duke|Charles Duke|Charlie Duke|Duke; Harrison Schmitt|Harrison Schmitt|Jack Schmitt|Schmitt` },
     { id: 'kings', lvl: 2, nl: 'Noem een koning der Belgen', en: 'Name a King of the Belgians', a: `
       Filip|Philippe|Philip|Filip I; Boudewijn|Baudouin|Boudewijn I; Albert II|Albert II|Albert; Leopold II|Leopold II|Léopold II|Leopold;
-      Albert I|Albert I|Koning-Ridder|Knight King; Leopold I|Leopold I|Léopold I; Leopold III|Leopold III|Léopold III` },
-    { id: 'stock-exchanges', lvl: 3, nl: 'Noem een aandelenbeurs', en: 'Name a stock exchange', a: `
-      New York Stock Exchange|New York Stock Exchange|NYSE|Wall Street|Beurs van New York; Nasdaq|Nasdaq|NASDAQ;
-      Euronext Brussel|Euronext Brussels|Beurs van Brussel|Brussels Stock Exchange|Euronext|BEL20; London Stock Exchange|London Stock Exchange|LSE|Beurs van Londen;
-      Euronext Amsterdam|Euronext Amsterdam|Beurs van Amsterdam|AEX; Euronext Parijs|Euronext Paris|Beurs van Parijs|Paris Bourse|CAC 40;
-      Frankfurter Wertpapierbörse|Frankfurt Stock Exchange|Beurs van Frankfurt|Deutsche Börse|DAX; Tokyo Stock Exchange|Tokyo Stock Exchange|Beurs van Tokio|Nikkei;
-      Shanghai Stock Exchange|Shanghai Stock Exchange|Beurs van Shanghai; Hong Kong Stock Exchange|Hong Kong Stock Exchange|HKEX|Beurs van Hongkong|Hang Seng;
-      Shenzhen Stock Exchange; Bombay Stock Exchange|Bombay Stock Exchange|BSE|Beurs van Mumbai; National Stock Exchange of India|National Stock Exchange of India|NSE;
-      Toronto Stock Exchange|Toronto Stock Exchange|TSX; Australian Securities Exchange|Australian Securities Exchange|ASX; SIX Swiss Exchange|SIX Swiss Exchange|Beurs van Zürich;
-      Nasdaq Stockholm|Nasdaq Stockholm|Beurs van Stockholm; Nasdaq Copenhagen|Nasdaq Copenhagen|Beurs van Kopenhagen; Nasdaq Helsinki|Nasdaq Helsinki|Beurs van Helsinki;
-      Euronext Oslo|Oslo Stock Exchange|Oslo Børs|Beurs van Oslo; Bolsa de Madrid|Madrid Stock Exchange|Beurs van Madrid|BME;
-      Borsa Italiana|Borsa Italiana|Euronext Milan|Beurs van Milaan; Euronext Lissabon|Euronext Lisbon|Beurs van Lissabon;
-      Euronext Dublin|Euronext Dublin|Irish Stock Exchange|Beurs van Dublin; Wiener Börse|Vienna Stock Exchange|Beurs van Wenen;
-      Beurs van Warschau|Warsaw Stock Exchange|GPW; Beurs van Praag|Prague Stock Exchange; Beurs van Boedapest|Budapest Stock Exchange;
-      Beurs van Athene|Athens Stock Exchange; Borsa Istanbul|Borsa Istanbul|Beurs van Istanbul; Moscow Exchange|Moscow Exchange|MOEX|Beurs van Moskou;
-      Tel Aviv Stock Exchange|Tel Aviv Stock Exchange|TASE; B3|B3|Bovespa|Beurs van São Paulo; Bolsa Mexicana|Mexican Stock Exchange|BMV|Beurs van Mexico;
-      Bolsa de Santiago|Santiago Stock Exchange; Bolsa de Buenos Aires|Buenos Aires Stock Exchange|BYMA; Bolsa de Lima|Lima Stock Exchange|BVL;
-      Johannesburg Stock Exchange|Johannesburg Stock Exchange|JSE|Beurs van Johannesburg; Egyptian Exchange|Egyptian Exchange|EGX;
-      Nigerian Exchange|Nigerian Exchange|NGX|Nigerian Stock Exchange; Nairobi Securities Exchange; Bourse de Casablanca|Casablanca Stock Exchange;
-      Tadawul|Saudi Exchange|Tadawul; Dubai Financial Market|Dubai Financial Market|DFM; Abu Dhabi Securities Exchange|Abu Dhabi Securities Exchange|ADX;
-      Qatar Stock Exchange; Korea Exchange|Korea Exchange|KRX|KOSPI; Taiwan Stock Exchange|Taiwan Stock Exchange|TWSE; Singapore Exchange|Singapore Exchange|SGX;
-      Bursa Malaysia; Stock Exchange of Thailand|Stock Exchange of Thailand|SET; Philippine Stock Exchange|Philippine Stock Exchange|PSE;
-      Indonesia Stock Exchange|Indonesia Stock Exchange|IDX; Ho Chi Minh Stock Exchange|Ho Chi Minh Stock Exchange|HOSE; Pakistan Stock Exchange|Pakistan Stock Exchange|PSX;
-      Chicago Mercantile Exchange|Chicago Mercantile Exchange|CME; Cboe|Cboe|Chicago Board Options Exchange; Chicago Board of Trade|Chicago Board of Trade|CBOT;
-      London Metal Exchange|London Metal Exchange|LME; Beurs van Antwerpen|Antwerp Exchange|Antwerpse Beurs|Antwerp bourse` }
-  ]);
+      Albert I|Albert I|Koning-Ridder|Knight King; Leopold I|Leopold I|Léopold I; Leopold III|Leopold III|Léopold III` },]);
 })(typeof window !== 'undefined' ? window : globalThis);

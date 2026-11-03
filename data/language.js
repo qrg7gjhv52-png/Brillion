@@ -31,20 +31,6 @@
       Kaapverdisch Creools|Cape Verdean Creole; Chavacano` },
     { id: 'dutch-official', lvl: 2, nl: 'Noem een land waar Nederlands een officiële taal is', en: 'Name a country where Dutch is an official language', a: `
       Nederland|Netherlands|Holland; België|Belgium; Suriname; Aruba; Curaçao|Curacao; Sint Maarten|Sint Maarten|Sint-Maarten` },
-    { id: 'scripts', lvl: 3, nl: 'Noem een schrift of alfabet', en: 'Name a writing system or alphabet', a: `
-      Latijns alfabet|Latin alphabet|Latijns|Latin|Romeins alfabet; Grieks alfabet|Greek alphabet|Grieks|Greek; Cyrillisch|Cyrillic|Cyrillisch alfabet;
-      Arabisch schrift|Arabic script|Arabisch|Arabic; Hebreeuws alfabet|Hebrew alphabet|Hebreeuws|Hebrew;
-      Chinese karakters|Chinese characters|Hanzi|Chinees schrift|Chinees|Chinese; Hiragana; Katakana; Kanji; Hangul|Hangul|Hangeul|Koreaans schrift;
-      Hiërogliefen|Egyptian hieroglyphs|Hieroglyphs|Hierogliefen; Spijkerschrift|Cuneiform; Braille|Braille|Brailleschrift;
-      Runen|Runes|Futhark|Runenschrift; Devanagari; Thais schrift|Thai script|Thai; Armeens alfabet|Armenian alphabet|Armeens|Armenian;
-      Georgisch alfabet|Georgian alphabet|Georgisch|Georgian|Mkhedruli; Ge'ez|Ge'ez|Ethiopisch schrift|Ethiopic; Tamil; Bengaals schrift|Bengali script|Bengali|Bangla;
-      Gujarati; Gurmukhi; Kannada; Malayalam; Telugu; Odia|Odia|Oriya; Sinhala|Sinhala|Singalees; Tibetaans schrift|Tibetan script|Tibetaans;
-      Mongools schrift|Mongolian script; Birmaans schrift|Burmese script|Myanmar script; Khmer; Lao|Lao script|Laotiaans; Ogham;
-      Lineair A|Linear A; Lineair B|Linear B; Brahmi; Kharoshthi; Fenicisch alfabet|Phoenician alphabet|Fenicisch|Phoenician; Aramees|Aramaic;
-      Syrisch|Syriac; Thaana; N'Ko|NKo; Tifinagh; Vai; Cherokee|Cherokee syllabary; Canadese syllabische schriften|Canadian Aboriginal syllabics;
-      Gotisch alfabet|Gothic alphabet; Glagolitisch|Glagolitic; Koptisch|Coptic; Etruskisch alfabet|Etruscan alphabet; Mayaschrift|Maya script|Maya glyphs;
-      Rongorongo; Javaans schrift|Javanese script; Balinees schrift|Balinese script; Baybayin; Ol Chiki; Stenografie|Shorthand|Steno;
-      Bopomofo|Bopomofo|Zhuyin; Pinyin; Hiëratisch|Hieratic; Demotisch|Demotic` },
     { id: 'punctuation', lvl: 1, nl: 'Noem een leesteken', en: 'Name a punctuation mark', a: `
       Punt|Full stop|Period; Komma|Comma; Vraagteken|Question mark; Uitroepteken|Exclamation mark|Exclamation point; Dubbele punt|Colon;
       Puntkomma|Semicolon; Aanhalingstekens|Quotation marks|Quotes|Aanhalingsteken; Apostrof|Apostrophe|Weglatingsteken;
@@ -53,10 +39,6 @@
       Sterretje|Asterisk; Interrobang; Omgekeerd vraagteken|Inverted question mark; Omgekeerd uitroepteken|Inverted exclamation mark;
       Guillemets|Guillemets|Franse aanhalingstekens; Backslash|Backslash|Omgekeerde schuine streep; Alineateken|Pilcrow|Paragraph mark;
       Paragraafteken|Section sign; Verticale streep|Vertical bar|Pipe` },
-    { id: 'india', lvl: 3, nl: 'Noem een taal die in de grondwet van India erkend wordt', en: 'Name a language recognised in the Constitution of India', a: `
-      Hindi; Engels|English; Bengaals|Bengali|Bangla; Tamil; Urdu; Punjabi|Punjabi|Pandjabi; Telugu; Marathi; Gujarati; Sanskriet|Sanskrit;
-      Kannada; Malayalam; Odia|Odia|Oriya; Nepalees|Nepali; Kasjmiri|Kashmiri; Assamees|Assamese; Sindhi; Konkani; Maithili;
-      Manipuri|Manipuri|Meitei; Santali; Bodo; Dogri` },
     { id: 'germanic', lvl: 2, nl: 'Noem een Germaanse taal', en: 'Name a Germanic language', a: `
       Engels|English; Duits|German; Nederlands|Dutch; Zweeds|Swedish; Deens|Danish; Noors|Norwegian; IJslands|Icelandic; Afrikaans;
       Fries|Frisian|West-Fries|West Frisian; Luxemburgs|Luxembourgish|Letzeburgs; Jiddisch|Yiddish; Faeröers|Faroese; Schots|Scots;

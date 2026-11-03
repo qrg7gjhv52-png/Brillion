@@ -304,8 +304,6 @@ Tuvalu # oc I M K @ 1 Funafuti`;
       a: pick(['Zweden', 'Finland', 'Duitsland', 'Polen', 'Denemarken', 'Rusland', 'Estland', 'Letland', 'Litouwen']) },
     { id: 'black-sea', lvl: 2, nl: 'Noem een land dat aan de Zwarte Zee ligt', en: 'Name a country on the Black Sea',
       a: pick(['Turkije', 'Oekraïne', 'Rusland', 'Roemenië', 'Bulgarije', 'Georgië']) },
-    { id: 'caspian', lvl: 3, nl: 'Noem een land dat aan de Kaspische Zee ligt', en: 'Name a country on the Caspian Sea',
-      a: pick(['Rusland', 'Iran', 'Kazachstan', 'Azerbeidzjan', 'Turkmenistan']) },
     { id: 'equator', lvl: 3, nl: 'Noem een land waar de evenaar door loopt (over land of door de territoriale wateren)', en: 'Name a country the equator passes through (over land or through its waters)',
       a: pick(['Ecuador', 'Brazilië', 'Colombia', 'Kenia', 'Indonesië', 'Oeganda', 'Congo', 'Gabon', 'Somalië', 'Congo-Brazzaville', 'São Tomé en Principe', 'Kiribati', 'Maldiven']) },
     { id: 'french', lvl: 2, nl: 'Noem een land waar Frans een officiële taal is', en: 'Name a country where French is an official language',
@@ -327,12 +325,7 @@ Tuvalu # oc I M K @ 1 Funafuti`;
     { id: 'poland-borders', lvl: 2, nl: 'Noem een land dat aan Polen grenst', en: 'Name a country that borders Poland',
       a: pick(['Duitsland', 'Tsjechië', 'Oekraïne', 'Slowakije', 'Wit-Rusland', 'Litouwen', 'Rusland']) },
     { id: 'argentina-borders', lvl: 2, nl: 'Noem een land dat aan Argentinië grenst', en: 'Name a country that borders Argentina',
-      a: pick(['Chili', 'Brazilië', 'Uruguay', 'Bolivia', 'Paraguay']) },
-    { id: 'turkey-borders', lvl: 3, nl: 'Noem een land dat aan Turkije grenst', en: 'Name a country that borders Turkey',
-      a: pick(['Griekenland', 'Bulgarije', 'Syrië', 'Irak', 'Iran', 'Georgië', 'Armenië', 'Azerbeidzjan']) },
-    { id: 'iran-borders', lvl: 3, nl: 'Noem een land dat aan Iran grenst (over land)', en: 'Name a country that borders Iran (by land)',
-      a: pick(['Irak', 'Turkije', 'Afghanistan', 'Pakistan', 'Turkmenistan', 'Armenië', 'Azerbeidzjan']) }
-  ]);
+      a: pick(['Chili', 'Brazilië', 'Uruguay', 'Bolivia', 'Paraguay']) },]);
 
   /* Vragen uit andere categorieën die ook deze tabel gebruiken */
   B.addQuestions('earth', [
@@ -361,19 +354,6 @@ Tuvalu # oc I M K @ 1 Funafuti`;
       Mount Everest|Mount Everest|Everest|Chomolungma|Sagarmatha; K2|K2|Godwin-Austen|Chogori; Kangchenjunga|Kangchenjunga|Kanchenjunga;
       Lhotse; Makalu; Annapurna|Annapurna|Annapurna I; Cho Oyu; Nanga Parbat; Dhaulagiri|Dhaulagiri|Dhaulagiri I; Manaslu;
       Broad Peak; Gasherbrum I|Gasherbrum I|Hidden Peak; Gasherbrum II; Shishapangma|Shishapangma|Xixabangma` },
-    { id: 'alps', lvl: 3, nl: 'Noem een berg in de Alpen', en: 'Name a mountain in the Alps', a: `
-      Mont Blanc; Matterhorn|Matterhorn|Cervin|Cervino; Eiger; Jungfrau; Zugspitze; Mönch|Monch; Großglockner|Grossglockner|Glockner;
-      Monte Rosa|Monte Rosa|Dufourspitze; Titlis; Pilatus; Rigi; Säntis|Santis; Dom; Weisshorn; Gran Paradiso; Piz Bernina|Piz Bernina|Bernina;
-      Ortler; Wildspitze; Dachstein; Triglav; Marmolada; Drei Zinnen|Tre Cime di Lavaredo|Tre Cime; Watzmann; Großvenediger|Grossvenediger;
-      Grandes Jorasses; Aiguille du Midi; Aiguille Verte; Dent Blanche; Barre des Écrins|Barre des Ecrins|Écrins; La Meije|La Meije|Meije;
-      Monte Viso|Monviso|Monte Viso; Piz Palü|Piz Palu; Piz Buin; Lyskamm; Dent d'Hérens|Dent d'Herens; Breithorn; Allalinhorn; Alphubel;
-      Nadelhorn; Täschhorn|Taschhorn; Lenzspitze; Finsteraarhorn; Aletschhorn; Schreckhorn; Wetterhorn; Bietschhorn; Grand Combin;
-      Mont Dolent; Mont Blanc du Tacul; Mont Maudit; Dôme du Goûter|Dome du Gouter; Aiguille du Goûter|Aiguille du Gouter; Les Droites;
-      Dent du Géant|Dent du Geant; Mont Cenis; Piz Badile; Glärnisch|Glarnisch; Tödi|Todi; Dammastock; Sustenhorn; Oberalpstock; Piz Kesch;
-      Hochkönig|Hochkonig; Großes Wiesbachhorn|Grosses Wiesbachhorn|Wiesbachhorn; Ankogel; Parseierspitze; Similaun; Weißkugel|Weisskugel;
-      Hochalmspitze; Kitzsteinhorn; Hahnenkamm; Hoher Dachstein; Grigna; Monte Baldo; Cima Tosa; Civetta; Pelmo; Sassolungo|Langkofel;
-      Piz Boè|Piz Boe; Sella; Rosengarten|Catinaccio; Mont Pourri; Grande Casse; Dent de Morcles; Les Diablerets|Diablerets; Wildstrubel;
-      Balmhorn; Blüemlisalp|Bluemlisalp; Schilthorn; Niesen; Stockhorn; Brienzer Rothorn; Mythen|Grosser Mythen; Uri Rotstock` },
     { id: 'rhine', lvl: 1, nl: 'Noem een land waar de Rijn door of langs stroomt', en: 'Name a country the Rhine flows through or along',
       a: pick(['Duitsland', 'Nederland', 'Zwitserland', 'Frankrijk', 'Oostenrijk', 'Liechtenstein']) },
     { id: 'alps-countries', lvl: 1, nl: 'Noem een land waar een deel van de Alpen ligt', en: 'Name a country that has part of the Alps',
@@ -412,14 +392,7 @@ Tuvalu # oc I M K @ 1 Funafuti`;
     { id: 'ussr', lvl: 2, nl: 'Noem een land dat vroeger deel was van de Sovjet-Unie', en: 'Name a country that used to be part of the Soviet Union',
       a: pick(['Rusland', 'Oekraïne', 'Wit-Rusland', 'Kazachstan', 'Georgië', 'Estland', 'Letland', 'Litouwen', 'Armenië', 'Azerbeidzjan', 'Oezbekistan', 'Moldavië', 'Turkmenistan', 'Kirgizië', 'Tadzjikistan']) },
     { id: 'yugoslavia', lvl: 3, nl: 'Noem een land dat ontstond toen Joegoslavië uit elkaar viel', en: 'Name a country that emerged when Yugoslavia broke up',
-      a: pick(['Kroatië', 'Servië', 'Slovenië', 'Bosnië en Herzegovina', 'Montenegro', 'Noord-Macedonië', 'Kosovo']) },
-    { id: 'nato-founders', lvl: 3, nl: 'Noem een land dat in 1949 de NAVO mee oprichtte', en: 'Name a country that founded NATO in 1949',
-      a: pick(['Verenigde Staten', 'Verenigd Koninkrijk', 'Frankrijk', 'Canada', 'België', 'Nederland', 'Italië', 'Noorwegen', 'Denemarken', 'Luxemburg', 'Portugal', 'IJsland']) },
-    { id: 'euro-1999', lvl: 3, nl: 'Noem een van de 11 landen die in 1999 de euro invoerden', en: 'Name one of the 11 countries that introduced the euro in 1999',
-      a: pick(['Duitsland', 'Frankrijk', 'Italië', 'Spanje', 'Nederland', 'België', 'Oostenrijk', 'Portugal', 'Ierland', 'Finland', 'Luxemburg']) },
-    { id: 'arab-league', lvl: 3, nl: 'Noem een lid van de Arabische Liga', en: 'Name a member of the Arab League',
-      a: pick(['Saoedi-Arabië', 'Egypte', 'Marokko', 'Verenigde Arabische Emiraten', 'Irak', 'Syrië', 'Jordanië', 'Libanon', 'Qatar', 'Koeweit', 'Tunesië', 'Algerije', 'Libië', 'Oman', 'Bahrein', 'Jemen', 'Soedan', 'Palestina', 'Somalië', 'Mauritanië', 'Djibouti', 'Comoren']) }
-  ]);
+      a: pick(['Kroatië', 'Servië', 'Slovenië', 'Bosnië en Herzegovina', 'Montenegro', 'Noord-Macedonië', 'Kosovo']) },]);
   B.addQuestions('sport', [
     { id: 'winter-hosts', lvl: 2, nl: 'Noem een land dat ooit de Olympische Winterspelen organiseerde (t.e.m. 2026)', en: 'Name a country that has hosted the Winter Olympics (up to 2026)',
       a: pick(['Frankrijk', 'Italië', 'Verenigde Staten', 'Zwitserland', 'Noorwegen', 'Oostenrijk', 'Duitsland', 'Canada', 'Japan', 'Rusland', 'Zuid-Korea', 'China']).concat([['Joegoslavië', 'Yugoslavia', 'Bosnië en Herzegovina', 'Bosnia and Herzegovina', 'Bosnië', 'Sarajevo']]) }

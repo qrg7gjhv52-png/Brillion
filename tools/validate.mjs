@@ -134,9 +134,10 @@ const tests = [
   ['geo-europe', 'Duitsladn', 'suggest'], ['geo-landlocked', 'Oostenryk', 'suggest'], ['geo-asia', 'Filippijnen', 'suggest'],
   ['geo-south-america', 'Pru', 'suggest'], ['culture-composers', 'Tsjaikofski', 'suggest'], ['geo-africa', 'Mozambiek', 'suggest'],
   ['earth-us-states', 'Calfornia', 'suggest'], ['history-german-chancellors', 'Merkell', 'suggest'], ['science-noble-gases', 'Kripton', 'suggest'],
-  ['history-roman-kings', 'Tarquinius', 'suggest'],
+  ['geo-capital-europe', 'Kopenh', 'suggest'], ['nature-fruit', 'aardbeijen', 'suggest'], ['geo-europe', 'Zwitserlnd', 'suggest'],
+  ['nature-fruit', 'peren', 'ok'], ['nature-fruit', 'aardbeien', 'ok'], ['nature-vegetables', 'tomaatjes', 'ok'], ['life-jobs', 'bakkers', 'ok'],
   ['geo-landlocked', 'Australia', 'wrong'], ['geo-euro', 'Trinidad', 'wrong'], ['geo-europe', 'Noord', 'wrong'], ['geo-europe', 'xyz', 'wrong'],
-  ['science-energy-units', 'watt', 'wrong'], ['science-particles', 'proton', 'wrong'],
+  ['science-time-units', 'xyzzy', 'wrong'],
   // letterspel
   ['letters-animals-starts-b', 'beer', 'ok'], ['letters-animals-starts-b', 'Bear', 'ok'], ['letters-animals-starts-b', 'Beeer', 'suggest'],
   ['letters-animals-starts-b', 'Aap', 'rule'], ['letters-animals-starts-b', 'Vlinder', 'rule'], ['letters-animals-starts-b', 'xyz', 'wrong'],

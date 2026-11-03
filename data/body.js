@@ -58,13 +58,6 @@
       Insula|Insula|Eiland van Reil; Striatum; Substantia nigra; Motorische schors|Motor cortex; Visuele schors|Visual cortex;
       Grijze stof|Grey matter|Gray matter; Witte stof|White matter; Neuronen|Neurons|Zenuwcellen` },
 
-    { id: 'glands', lvl: 3, nl: 'Noem een klier in het menselijk lichaam', en: 'Name a gland in the human body', a: `
-      Schildklier|Thyroid|Thyroid gland; Zweetklier|Sweat gland|Zweetklieren; Speekselklier|Salivary gland|Speekselklieren; Alvleesklier|Pancreas;
-      Hypofyse|Pituitary gland|Pituitary|Hersenaanhangsel; Bijnier|Adrenal gland|Bijnieren; Traanklier|Lacrimal gland|Traanklieren;
-      Lymfeklier|Lymph node|Lymfeklieren|Lymfeknoop; Prostaat|Prostate; Teelbal|Testis|Testicle|Zaadbal|Testikel; Eierstok|Ovary|Eierstokken;
-      Lever|Liver; Talgklier|Sebaceous gland|Talgklieren; Melkklier|Mammary gland|Borstklier; Thymus|Thymus|Zwezerik;
-      Pijnappelklier|Pineal gland|Epifyse; Bijschildklier|Parathyroid gland|Bijschildklieren; Hypothalamus;
-      Klier van Bartholin|Bartholin's gland; Klier van Cowper|Bulbourethral gland|Cowper's gland; Maagklieren|Gastric glands` },
 
     { id: 'blood', lvl: 2, nl: 'Noem iets waaruit bloed bestaat', en: 'Name something blood is made of', a: `
       Rode bloedcellen|Red blood cells|Erytrocyten|Erythrocytes|Rode bloedlichaampjes; Witte bloedcellen|White blood cells|Leukocyten|Leukocytes|Witte bloedlichaampjes;
@@ -161,45 +154,14 @@
       Ounce|Ounce|oz; Karaat|Carat; Microgram|Microgram|mcg; Stone; Decagram|Decagram|dag; Centigram|Centigram|cg; Decigram|Decigram|dg;
       Dalton|Dalton|Atomaire massa-eenheid|Atomic mass unit|amu|u; Grain; Zonnemassa|Solar mass; Quintal|Centenaar|Centner|Kwintaal; Megaton|Megatonne|Kiloton` },
 
-    { id: 'energy-units', lvl: 3, nl: 'Noem een eenheid van energie (let op: watt is vermogen, geen energie)', en: 'Name a unit of energy (careful: the watt is power, not energy)', a: `
-      Joule|Joule|J; Calorie|Calorie|Kilocalorie|kcal|Calorieën|cal; Kilowattuur|Kilowatt-hour|kWh|Kilowatt hour; Kilojoule|Kilojoule|kJ;
-      Elektronvolt|Electronvolt|Electron volt|eV; Megajoule|MJ; Wattuur|Watt-hour|Wh; Wattseconde|Watt-second; BTU|British thermal unit;
-      Erg; Gigajoule|GJ; Megawattuur|Megawatt-hour|MWh; Therm; Ton TNT|Ton of TNT|Kiloton TNT|Megaton TNT|TNT-equivalent; Voetpond|Foot-pound;
-      Hartree; Rydberg; Toe|Ton olie-equivalent|Tonne of oil equivalent` },
 
-    { id: 'units-named-after-scientists', lvl: 3, nl: 'Noem een wetenschapper naar wie een meeteenheid genoemd is (bv. Newton)', en: 'Name a scientist after whom a unit is named (e.g. Newton)', a: `
-      Isaac Newton|Isaac Newton|Newton; James Watt|James Watt|Watt; Anders Celsius|Anders Celsius|Celsius; Alessandro Volta|Alessandro Volta|Volta;
-      Lord Kelvin|Lord Kelvin|Kelvin|William Thomson; André-Marie Ampère|André-Marie Ampère|Ampère|Ampere|Andre-Marie Ampere;
-      James Prescott Joule|James Prescott Joule|Joule|James Joule; Georg Ohm|Georg Ohm|Ohm|Georg Simon Ohm; Blaise Pascal|Blaise Pascal|Pascal;
-      Heinrich Hertz|Heinrich Hertz|Hertz; Nikola Tesla|Nikola Tesla|Tesla; Daniel Gabriel Fahrenheit|Daniel Gabriel Fahrenheit|Fahrenheit;
-      Charles-Augustin de Coulomb|Charles-Augustin de Coulomb|Coulomb; Michael Faraday|Michael Faraday|Faraday; Marie Curie|Marie Curie|Curie|Pierre Curie;
-      Wilhelm Röntgen|Wilhelm Röntgen|Röntgen|Roentgen|Rontgen; Henri Becquerel|Henri Becquerel|Becquerel; Rolf Sievert|Rolf Sievert|Sievert;
-      Louis Harold Gray|Louis Harold Gray|Gray; Carl Friedrich Gauss|Carl Friedrich Gauss|Gauss|Gauß; Wilhelm Weber|Wilhelm Weber|Weber;
-      Joseph Henry|Joseph Henry|Henry; Werner von Siemens|Werner von Siemens|Siemens; Anders Ångström|Anders Ångström|Ångström|Angstrom;
-      Alexander Graham Bell|Alexander Graham Bell|Graham Bell|Bell; James Clerk Maxwell|James Clerk Maxwell|Maxwell; John Dalton|John Dalton|Dalton;
-      Evangelista Torricelli|Evangelista Torricelli|Torricelli; Hans Christian Ørsted|Hans Christian Ørsted|Hans Christian Oersted|Ørsted|Oersted;
-      Enrico Fermi|Enrico Fermi|Fermi; Peter Debye|Peter Debye|Debye; René-Antoine Ferchault de Réaumur|Réaumur|Reaumur;
-      William Rankine|William Rankine|Rankine; Jean-Léonard-Marie Poiseuille|Poiseuille; George Gabriel Stokes|George Gabriel Stokes|Stokes;
-      William Gilbert|William Gilbert|Gilbert; Johann Heinrich Lambert|Johann Heinrich Lambert|Lambert; Ole Rømer|Ole Rømer|Ole Roemer|Rømer|Romer;
-      Max Planck|Max Planck|Planck; Amedeo Avogadro|Amedeo Avogadro|Avogadro; Hendrik Lorentz|Hendrik Lorentz|Lorentz; Charles Richter|Charles Richter|Richter` },
 
     { id: 'noble-gases', lvl: 3, nl: 'Noem een edelgas', en: 'Name a noble gas', a: `
       Helium; Neon; Argon; Krypton; Xenon; Radon; Oganesson` },
 
-    { id: 'alkali-metals', lvl: 3, nl: 'Noem een alkalimetaal', en: 'Name an alkali metal', a: `
-      Natrium|Sodium; Kalium|Potassium; Lithium; Cesium|Caesium|Cesium; Rubidium; Francium` },
 
-    { id: 'halogens', lvl: 3, nl: 'Noem een halogeen', en: 'Name a halogen', a: `
-      Chloor|Chlorine; Fluor|Fluorine; Jood|Iodine|Jodium; Broom|Bromine; Astaat|Astatine; Tenness|Tennessine` },
 
-    { id: 'elements-named-after-people', lvl: 3, nl: 'Noem een scheikundig element dat naar een persoon genoemd is', en: 'Name a chemical element named after a person', a: `
-      Einsteinium; Curium; Nobelium; Mendelevium; Fermium; Copernicium; Rutherfordium; Bohrium; Meitnerium; Roentgenium|Roentgenium|Röntgenium;
-      Seaborgium; Lawrencium; Gadolinium; Oganesson; Flerovium; Samarium` },
 
-    { id: 'carbon', lvl: 3, nl: 'Noem een vorm waarin koolstof voorkomt (bv. diamant)', en: 'Name a form in which carbon occurs (e.g. diamond)', a: `
-      Diamant|Diamond; Grafiet|Graphite; Steenkool|Coal; Grafeen|Graphene; Houtskool|Charcoal; Roet|Soot; Fullereen|Fullerene|Buckyball|Buckminsterfullereen|Buckminsterfullerene;
-      Koolstofnanobuis|Carbon nanotube|Nanobuis|Nanobuisjes; Amorfe koolstof|Amorphous carbon; Lonsdaleïet|Lonsdaleite|Lonsdaleiet; Glaskoolstof|Glassy carbon;
-      Carbyn|Carbyne; Aerografiet|Aerographite; Actieve kool|Activated carbon|Actief kool; Cokes|Coke; Koolstofvezel|Carbon fibre|Carbon fiber` },
 
     { id: 'air', lvl: 1, nl: 'Noem een gas dat in de lucht (de atmosfeer van de aarde) zit', en: "Name a gas found in the air (Earth's atmosphere)", a: `
       Zuurstof|Oxygen|O2; Stikstof|Nitrogen|N2; Koolstofdioxide|Carbon dioxide|CO2|Koolzuurgas|Kooldioxide; Argon; Waterdamp|Water vapour|Water vapor|Waterdamp;
@@ -243,16 +205,7 @@
     { id: 'quadrilaterals', lvl: 1, nl: 'Noem een vierhoek', en: 'Name a quadrilateral', a: `
       Vierkant|Square; Rechthoek|Rectangle; Ruit|Rhombus|Rhomb; Trapezium|Trapezium|Trapezoid; Parallellogram|Parallelogram; Vlieger|Kite|Deltoïde|Deltoid` },
 
-    { id: 'platonic-solids', lvl: 3, nl: 'Noem een regelmatig veelvlak (een Platonisch lichaam)', en: 'Name a regular polyhedron (a Platonic solid)', a: `
-      Kubus|Cube|Hexaëder|Hexahedron|Zesvlak; Tetraëder|Tetrahedron|Viervlak|Tetraeder; Octaëder|Octahedron|Achtvlak|Octaeder;
-      Dodecaëder|Dodecahedron|Twaalfvlak|Dodecaeder; Icosaëder|Icosahedron|Twintigvlak|Icosaeder` },
 
-    { id: 'geological-time', lvl: 3, nl: 'Noem een geologisch tijdperk (bv. het Jura)', en: 'Name a geological period or era (e.g. the Jurassic)', a: `
-      Jura|Jurassic; Krijt|Cretaceous; Trias|Triassic; IJstijd|Ice Age|Pleistoceen|Pleistocene; Carboon|Carboniferous; Cambrium|Cambrian;
-      Perm|Permian; Devoon|Devonian; Precambrium|Precambrian; Holoceen|Holocene; Siluur|Silurian; Ordovicium|Ordovician; Paleozoïcum|Paleozoic|Palaeozoic;
-      Mesozoïcum|Mesozoic; Cenozoïcum|Cenozoic|Kenozoïcum|Kaenozoïcum; Tertiair|Tertiary; Kwartair|Quaternary; Paleogeen|Paleogene; Neogeen|Neogene;
-      Ediacarium|Ediacaran; Eoceen|Eocene; Mioceen|Miocene; Plioceen|Pliocene; Oligoceen|Oligocene; Paleoceen|Paleocene; Antropoceen|Anthropocene;
-      Archaïcum|Archean|Archeïcum; Proterozoïcum|Proterozoic; Hadeïcum|Hadean` },
 
     { id: 'plant-parts', lvl: 1, nl: 'Noem een deel van een plant', en: 'Name a part of a plant', a: `
       Wortel|Root|Wortels; Stengel|Stem|Steel; Blad|Leaf|Bladeren|Blaadje; Bloem|Flower; Bloemblad|Petal|Kroonblad|Bloemblaadje; Zaad|Seed|Zaadje;
@@ -262,22 +215,11 @@
       Bol|Bulb|Bloembol; Rank|Tendril; Xyleem|Xylem|Houtvaten; Floëem|Phloem|Bastvaten|Floeem; Bladgroen|Chlorophyll|Chlorofyl;
       Bladgroenkorrel|Chloroplast|Chloroplasten; Cambium; Wortelstok|Rhizome; Uitloper|Runner|Stolon; Kiem|Embryo|Kiemplant` },
 
-    { id: 'space-agencies', lvl: 3, nl: 'Noem een ruimtevaartagentschap van een land of groep landen (zoals NASA)', en: 'Name a space agency of a country or group of countries (like NASA)', a: `
-      NASA; ESA|European Space Agency|Europees Ruimteagentschap|Europese Ruimtevaartorganisatie; Roscosmos; JAXA; ISRO|Indian Space Research Organisation;
-      CNSA|China National Space Administration|Chinees ruimtevaartagentschap; CSA|Canadian Space Agency; CNES; DLR; ASI|Agenzia Spaziale Italiana;
-      UK Space Agency|UK Space Agency|UKSA; KASA|Korea AeroSpace Administration|KARI; Israel Space Agency|ISA; UAE Space Agency|MBRSC;
-      Belspo|BELSPO; Australian Space Agency|ASA; AEB|Brazilian Space Agency|Agência Espacial Brasileira; NSO|Netherlands Space Office; SUPARCO;
-      Iranian Space Agency; CONAE; SANSA; Turkish Space Agency|TUA; Saudi Space Agency` },
 
     { id: 'nobel-prizes', lvl: 1, nl: 'Noem een categorie van de Nobelprijs', en: 'Name a Nobel Prize category', a: `
       Vrede|Peace|Nobelprijs voor de Vrede|Vredesprijs|Nobel Peace Prize; Literatuur|Literature; Natuurkunde|Physics|Fysica;
       Scheikunde|Chemistry|Chemie; Geneeskunde|Medicine|Fysiologie of Geneeskunde|Physiology or Medicine|Fysiologie; Economie|Economics|Economische wetenschappen` },
 
-    { id: 'particles', lvl: 3, nl: 'Noem een elementair deeltje (dus geen proton of neutron, want die bestaan uit quarks)', en: 'Name an elementary particle (so not a proton or neutron: those are made of quarks)', a: `
-      Elektron|Electron; Foton|Photon; Quark|Quark|Quarks; Neutrino|Neutrino|Neutrino's; Higgsboson|Higgs boson|Higgs|Higgsdeeltje|Higgs-deeltje;
-      Gluon; Muon; Positron; Up-quark|Up quark|Up; Down-quark|Down quark|Down; Tau|Tau|Tauon|Tau lepton; W-boson|W boson; Z-boson|Z boson;
-      Top-quark|Top quark|Top; Bottom-quark|Bottom quark|Bottom|Beauty; Charm-quark|Charm quark|Charm; Strange-quark|Strange quark|Strange;
-      Elektronneutrino|Electron neutrino; Muonneutrino|Muon neutrino; Tauneutrino|Tau neutrino; Graviton; Antiquark; Lepton|Lepton|Leptonen; Boson|Boson|Bosonen` },
 
     { id: 'primary-colours', lvl: 1, nl: 'Noem een primaire kleur (van verf, van licht of van drukwerk)', en: 'Name a primary colour (of paint, of light or of printing)', a: `
       Rood|Red; Blauw|Blue; Geel|Yellow; Groen|Green; Magenta; Cyaan|Cyan|Cyan` },
@@ -294,8 +236,5 @@
       Middenoor|Middle ear; Binnenoor|Inner ear; Buis van Eustachius|Eustachian tube; Gehoorzenuw|Auditory nerve|Cochlear nerve;
       Halfcirkelvormige kanalen|Semicircular canals; Gehoorbeentjes|Ossicles; Uitwendig oor|External ear; Ovaal venster|Oval window;
       Rond venster|Round window; Haarcellen|Hair cells; Labyrint|Labyrinth; Oorsmeerklieren|Ceruminous glands` },
-
-    { id: 'period-2', lvl: 3, nl: 'Noem een element uit de tweede rij (periode 2) van het periodiek systeem', en: 'Name an element in the second row (period 2) of the periodic table', a: `
-      Zuurstof|Oxygen|O; Koolstof|Carbon|C; Stikstof|Nitrogen|N; Lithium|Lithium|Li; Neon|Neon|Ne; Fluor|Fluorine|F; Boor|Boron|B; Beryllium|Beryllium|Be` }
-  ]);
+]);
 })(typeof window !== 'undefined' ? window : globalThis);

@@ -466,6 +466,16 @@ button.row:hover { border-color: var(--glacier); }
 .answer-form .btn { min-height: 54px; }
 
 /* "Bedoelde je…?" */
+.try-msg {
+  margin: 10px 0 0; padding: 10px 12px; border-radius: 12px;
+  background: color-mix(in srgb, var(--bad) 12%, transparent); color: var(--ink);
+  font-size: 15px; line-height: 1.4; overflow-wrap: anywhere;
+}
+.try-msg strong { color: var(--bad); }
+.try-msg .link-btn { font-size: 14px; }
+.try-msg.flash { animation: tryflash 0.35s ease-out; }
+@keyframes tryflash { from { transform: translateY(-4px); opacity: 0.3; } to { transform: none; opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { .try-msg.flash { animation: none; } }
 .suggest {
   display: flex; flex-direction: column; gap: 10px;
   padding: 14px; border-radius: 14px;

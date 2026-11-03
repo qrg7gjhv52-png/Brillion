@@ -175,26 +175,6 @@
       Winnie de Poeh|Winnie the Pooh; De Avonturen van Winnie de Poeh|The Many Adventures of Winnie the Pooh; Dinosaur|Dinosaur|Dinosaurus;
       Paniek op de Prairie|Home on the Range; Fantasia 2000; Saludos Amigos; De Drie Caballeros|The Three Caballeros;
       Make Mine Music; Fun and Fancy Free; Melody Time; De Avonturen van Ichabod en Meneer Pad|The Adventures of Ichabod and Mr. Toad|Ichabod` },
-    { id: 'tintin-albums', lvl: 3, nl: 'Noem een album van Kuifje', en: 'Name a Tintin album', a: `
-      Kuifje in Afrika|Tintin in the Congo|Kuifje in Congo; Kuifje in Tibet|Tintin in Tibet; Raket naar de maan|Destination Moon;
-      Mannen op de maan|Explorers on the Moon; De Zwarte Rotsen|The Black Island|Zwarte rotsen;
-      Het geheim van de Eenhoorn|The Secret of the Unicorn|Geheim van de Eenhoorn; De schat van Scharlaken Rackham|Red Rackham's Treasure;
-      Kuifje in Amerika|Tintin in America; De sigaren van de farao|Cigars of the Pharaoh; De Blauwe Lotus|The Blue Lotus|Blauwe lotus;
-      De krab met de gulden scharen|The Crab with the Golden Claws; Kuifje in het land van de Sovjets|Tintin in the Land of the Soviets|Land van de Sovjets;
-      De 7 kristallen bollen|The Seven Crystal Balls|De zeven kristallen bollen; De Zonnetempel|Prisoners of the Sun;
-      Het zwarte goud|Land of Black Gold; De geheimzinnige ster|The Shooting Star; De scepter van Ottokar|King Ottokar's Sceptre;
-      Het gebroken oor|The Broken Ear; De zaak Zonnebloem|The Calculus Affair; Cokes in voorraad|The Red Sea Sharks;
-      De juwelen van Bianca Castafiore|The Castafiore Emerald; Vlucht 714 naar Sydney|Flight 714 to Sydney|Vlucht 714;
-      Kuifje en de Picaro's|Tintin and the Picaros|Picaros; Kuifje en de Alfa-kunst|Tintin and Alph-Art|Alfa-kunst|Alph-Art` },
-    { id: 'chess-champions', lvl: 3, nl: 'Noem een wereldkampioen schaken (open toernooi, t.e.m. 2025)', en: 'Name a world chess champion (open title, up to 2025)', a: `
-      Magnus Carlsen|Magnus Carlsen|Carlsen; Garri Kasparov|Garry Kasparov|Kasparov; Bobby Fischer|Bobby Fischer|Fischer;
-      Anatoli Karpov|Anatoly Karpov|Karpov; Viswanathan Anand|Viswanathan Anand|Anand|Vishy Anand; Gukesh Dommaraju|Gukesh D|Gukesh|D. Gukesh;
-      Ding Liren|Ding Liren|Ding; Vladimir Kramnik|Vladimir Kramnik|Kramnik; Michail Tal|Mikhail Tal|Tal; Boris Spasski|Boris Spassky|Spasski|Spassky;
-      Max Euwe|Max Euwe|Euwe; José Raúl Capablanca|Jose Raul Capablanca|Capablanca; Emanuel Lasker|Emanuel Lasker|Lasker;
-      Aleksandr Aljechin|Alexander Alekhine|Aljechin|Alekhine; Michail Botvinnik|Mikhail Botvinnik|Botvinnik;
-      Tigran Petrosjan|Tigran Petrosian|Petrosjan|Petrosian; Vasili Smyslov|Vasily Smyslov|Smyslov; Wilhelm Steinitz|Wilhelm Steinitz|Steinitz;
-      Veselin Topalov|Veselin Topalov|Topalov; Roeslan Ponomarjov|Ruslan Ponomariov|Ponomarjov|Ponomariov;
-      Aleksandr Chalifman|Alexander Khalifman|Khalifman|Chalifman; Roestam Kasimdzjanov|Rustam Kasimdzhanov|Kasimdzhanov|Kasimdzjanov` },
     { id: 'car-brands', lvl: 1, nl: 'Noem een automerk', en: 'Name a car brand', a: `
       Volkswagen|Volkswagen|VW; BMW; Mercedes-Benz|Mercedes-Benz|Mercedes; Audi; Toyota; Ford; Tesla; Ferrari; Porsche; Peugeot; Renault;
       Opel; Lamborghini; Fiat; Volvo; Citroën|Citroen; Honda; Nissan; Kia; Hyundai; Škoda|Skoda; Seat; Mazda; Jaguar; Land Rover;

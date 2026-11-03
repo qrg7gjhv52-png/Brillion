@@ -24,10 +24,12 @@ const B = sandbox.Brillion;
 
 const CAPS = { countries: 24, capitals: 18, animals: 30, birds: 10, fruit: 11, vegetables: 10, jobs: 16, body: 13, instruments: 11, sports: 15,
   elements: 10, clothing: 8, kitchen: 8, transport: 8, tools: 6, furniture: 5, usstates: 6, flowers: 8, trees: 5, colours: 8, desserts: 6,
-  sauces: 6, cheeses: 7, herbs: 5, hobbies: 7, dinosaurs: 6, cartoons: 7, superheroes: 6, creatures: 6, rivers: 6, emotions: 5, dogs: 8, pasta: 3 };
+  sauces: 0, cheeses: 0, herbs: 0, hobbies: 7, dinosaurs: 0, cartoons: 7, superheroes: 6, creatures: 0, rivers: 0, emotions: 5, dogs: 8, pasta: 0 };
+// 0 = geen letterspellen met deze lijst (te veel onbekende namen)
+['elements', 'usstates', 'trees'].forEach(b => { CAPS[b] = 0; });
 const abc = 'abcdefghijklmnoprstuvwz'.split('');
 const cands = [];
-for (const base of Object.keys(B.LETTER_BASES)) {
+for (const base of Object.keys(B.LETTER_BASES).filter(b => CAPS[b] !== 0)) {
   const list = B.LETTER_BASES[base][3]();
   // "makkelijk" = hoeveel van de bekendste antwoorden van de lijst passen
   // Elke taal telt apart (in het Nederlands moet de Nederlandse naam passen).
@@ -45,6 +47,7 @@ for (const base of Object.keys(B.LETTER_BASES)) {
     const r = evalRule({ type, v });
     if (r.n < (type === 'starts' || type === 'len' ? 8 : 10)) return;   // in beide talen genoeg antwoorden
     if (type !== 'starts' && r.nMax > list.length * 0.35) return;   // te makkelijk
+    if (r.famous < 1.5) return;                                       // minstens 2 heel bekende antwoorden moeten passen
     const ease = r.famous + 0.3 * r.known - (type === 'starts' ? 0 : type === 'contains' ? 1 : 1.5);
     cands.push({ base, type, v, n: r.n, ease, score: pref + Math.min(r.famous, 8) + Math.min(r.n, 40) / 10 });
   };

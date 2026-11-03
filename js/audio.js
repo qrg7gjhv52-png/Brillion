@@ -134,6 +134,13 @@
       burst(c, { start: 0.02, dur: 0.42, type: 'bandpass', freq: 1400, sweepTo: 300, q: 0.9, vol: 0.07 });
     },
 
+    /* Niet in de lijst (je mag opnieuw proberen): een kort, zacht "nee-nee" */
+    nope() {
+      const c = ready(); if (!c) return;
+      tone(c, 196, 0, 0.09, 'square', 0.045);
+      tone(c, 185, 0.11, 0.12, 'square', 0.045);
+    },
+
     /* "Bedoelde je…?": een vragend toontje */
     suggest() {
       const c = ready(); if (!c) return;
